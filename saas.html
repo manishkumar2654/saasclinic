@@ -187,26 +187,35 @@
   <canvas id="pulseCanvas"></canvas>
 
   <!-- Left + Right background (HOME-like) -->
-  <div class="bg-video-layer">
-    <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-      <video autoplay muted loop playsinline preload="metadata" class="bg-video absolute inset-0 h-full w-full object-cover">
-        <source src="./images/heartbeat.mp4" type="video/mp4" />
-      </video>
-      <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+<div class="bg-video-layer">
+  <!-- LEFT (desktop same, mobile hide) -->
+  <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden hidden sm:block">
+    <video autoplay muted loop playsinline preload="metadata"
+      class="bg-video absolute inset-0 h-full w-full object-cover">
+      <source src="./images/heartbeat.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0"
+      style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
     </div>
-
-    <!-- ✅ Right side: heartpump.webp -->
-    <div class="fixed inset-y-0 right-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-      <img
-        src="./images/heartpump.webp"
-        alt="Heart Pump"
-        class="bg-video absolute inset-0 h-full w-full object-cover"
-      />
-      <div class="absolute inset-0" style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
-    </div>
-
-    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));"></div>
   </div>
+
+  <!-- RIGHT (mobile full cover, desktop same) -->
+  <div class="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto w-full sm:w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+    <img
+      src="./images/heartpump.webp"
+      alt="Heart Pump"
+      class="bg-video absolute inset-0 h-full w-full object-cover"
+    />
+
+    <div class="absolute inset-0"
+      style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
+    </div>
+  </div>
+
+  <div class="absolute inset-0"
+    style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));">
+  </div>
+</div>
 
  <!--////////////////////////////////////// Navbar start ////////////////////////-->
 <!-- Navbar inject -->

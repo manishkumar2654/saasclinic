@@ -176,25 +176,35 @@
   <canvas id="pulseCanvas"></canvas>
 
   <!-- Left + Right background (LEFT video + RIGHT heartpump.webp image) -->
-  <div class="bg-video-layer">
-    <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-      <video autoplay muted loop playsinline preload="metadata" class="bg-video absolute inset-0 h-full w-full object-cover">
-        <source src="./images/heartbeat.mp4" type="video/mp4" />
-      </video>
-      <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+<div class="bg-video-layer">
+  <!-- LEFT (desktop same, mobile hide) -->
+  <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden hidden sm:block">
+    <video autoplay muted loop playsinline preload="metadata"
+      class="bg-video absolute inset-0 h-full w-full object-cover">
+      <source src="./images/heartbeat.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0"
+      style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
     </div>
-
-    <div class="fixed inset-y-0 right-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-      <img
-        src="./images/heartpump.webp"
-        alt="Heart Pump"
-        class="bg-video absolute inset-0 h-full w-full object-cover"
-      />
-      <div class="absolute inset-0" style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
-    </div>
-
-    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));"></div>
   </div>
+
+  <!-- RIGHT (mobile full cover, desktop same) -->
+  <div class="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto w-full sm:w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+    <img
+      src="./images/heartpump.webp"
+      alt="Heart Pump"
+      class="bg-video absolute inset-0 h-full w-full object-cover"
+    />
+
+    <div class="absolute inset-0"
+      style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
+    </div>
+  </div>
+
+  <div class="absolute inset-0"
+    style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));">
+  </div>
+</div>
 
  <!--////////////////////////////////////// Navbar start ////////////////////////-->
 <!-- Navbar inject -->
@@ -256,7 +266,7 @@
           </p>
 
           <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base max-w-2xl">
-            (Dummy) Dr. Kirti Kadian focuses on pulmonary rehabilitation, sleep-related issues, and compassionate care.
+             Dr. Kirti Kadian focuses on pulmonary rehabilitation, sleep-related issues, and compassionate care.
             Patient education, recovery plans and consistent follow-ups are part of the workflow.
           </p>
 
@@ -313,18 +323,18 @@
           <p class="text-xs font-semibold text-slate-500">ABOUT</p>
           <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Care & Rehabilitation Focus</h2>
           <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-            (Dummy) Dr. Kirti Kadian emphasizes pulmonary rehabilitation & recovery-based planning.
+             Dr. Kirti Kadian emphasizes pulmonary rehabilitation & recovery-based planning.
             Sleep concerns and chronic respiratory conditions are managed with step-by-step guidance and consistent follow-ups.
           </p>
 
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
               <p class="text-sm font-extrabold text-slate-900">Rehab Expertise</p>
-              <p class="mt-1 text-xs text-slate-600">(Dummy) Exercises + endurance building plans.</p>
+              <p class="mt-1 text-xs text-slate-600"> Exercises + endurance building plans.</p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
               <p class="text-sm font-extrabold text-slate-900">Compassionate Care</p>
-              <p class="mt-1 text-xs text-slate-600">(Dummy) Patient comfort & clarity first.</p>
+              <p class="mt-1 text-xs text-slate-600"> Patient comfort & clarity first.</p>
             </div>
           </div>
         </div>
@@ -336,7 +346,7 @@
               <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> MD, DM Pulmonary Critical Care & Sleep Medicine</li>
               <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Ex. Senior Resident – PGIMER Rohtak</li>
               <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Pulmonary Rehabilitation Expert</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow (dummy)</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow </li>
             </ul>
           </div>
         </div>
@@ -354,19 +364,19 @@
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Recovery plans & endurance improvement.</p>
+          <p class="mt-2 text-xs text-slate-600"> Recovery plans & endurance improvement.</p>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) PSG guidance + CPAP support.</p>
+          <p class="mt-2 text-xs text-slate-600"> PSG guidance + CPAP support.</p>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Critical Care</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Advanced respiratory care planning.</p>
+          <p class="mt-2 text-xs text-slate-600"> Advanced respiratory care planning.</p>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Patient Education</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Clear steps, routine and follow-ups.</p>
+          <p class="mt-2 text-xs text-slate-600"> Clear steps, routine and follow-ups.</p>
         </div>
       </div>
     </div>
@@ -381,27 +391,27 @@
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Consultation</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Symptoms review + plan.</p>
+          <p class="mt-2 text-xs text-slate-600"> Symptoms review + plan.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Rehab Session Plan</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Breathing exercises & recovery routine.</p>
+          <p class="mt-2 text-xs text-slate-600"> Breathing exercises & recovery routine.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Sleep Care Support</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) CPAP comfort & follow-up guidance.</p>
+          <p class="mt-2 text-xs text-slate-600"> CPAP comfort & follow-up guidance.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Lifestyle Guidance</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Routine + recovery plan suggestions.</p>
+          <p class="mt-2 text-xs text-slate-600"> Routine + recovery plan suggestions.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Report Explanation</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Step-by-step guidance on results.</p>
+          <p class="mt-2 text-xs text-slate-600"> Step-by-step guidance on results.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Follow-up Scheduling</p>
-          <p class="mt-2 text-xs text-slate-600">(Dummy) Reminders & progress tracking.</p>
+          <p class="mt-2 text-xs text-slate-600"> Reminders & progress tracking.</p>
         </div>
       </div>
     </div>

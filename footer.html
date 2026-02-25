@@ -1,6 +1,7 @@
-<!-- footer.html (ONLY FOOTER MARKUP) -->
+<!-- footer.html (FULL RESPONSIVE FOOTER) -->
 <footer class="relative border-t border-slate-200/70 bg-white/55 backdrop-blur-xl supports-[backdrop-filter]:bg-white/45">
-  <!-- soft glow background -->
+  
+  <!-- Soft Glow Background -->
   <div class="pointer-events-none absolute inset-0 overflow-hidden">
     <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
     <div class="absolute -right-28 -bottom-28 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
@@ -8,17 +9,16 @@
 
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-8">
 
-    <!-- Top Grid -->
-    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+    <!-- Responsive Grid -->
+    <div class="grid grid-cols-2 gap-10 md:grid-cols-2 lg:grid-cols-4">
 
       <!-- Brand -->
-      <div>
+      <div class="col-span-2 lg:col-span-1">
         <div class="flex items-center gap-3">
-          <div
-            class="h-12 w-12 rounded-xl bg-white/80 border border-slate-200/70 shadow-sm flex items-center justify-center">
+          <div class="h-12 w-12 rounded-xl bg-white/80 border border-slate-200/70 shadow-sm flex items-center justify-center">
             <span class="font-extrabold text-slate-900">SC</span>
           </div>
-          <div class="min-w-0">
+          <div>
             <h3 class="text-lg font-extrabold text-slate-900">Saas Clinic</h3>
             <p class="text-xs text-slate-600">Because We Respect Life</p>
           </div>
@@ -31,20 +31,14 @@
 
         <!-- Social -->
         <div class="flex gap-3 mt-6">
-          <a href="#"
-             class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center
-                    hover:bg-emerald-50 hover:border-emerald-200 transition">
-            <span class="text-slate-700 font-bold">F</span>
+          <a href="#" class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-200 transition">
+            <span class="font-bold text-slate-700">F</span>
           </a>
-          <a href="#"
-             class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center
-                    hover:bg-emerald-50 hover:border-emerald-200 transition">
-            <span class="text-slate-700 font-bold">I</span>
+          <a href="#" class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-200 transition">
+            <span class="font-bold text-slate-700">I</span>
           </a>
-          <a href="#"
-             class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center
-                    hover:bg-emerald-50 hover:border-emerald-200 transition">
-            <span class="text-slate-700 font-bold">L</span>
+          <a href="#" class="h-10 w-10 rounded-full border border-slate-200 bg-white/75 shadow-sm flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-200 transition">
+            <span class="font-bold text-slate-700">L</span>
           </a>
         </div>
       </div>
@@ -94,14 +88,20 @@
           </p>
 
           <p>
-            📞 <a href="tel:+910000000000" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">+91 00000 00000</a>
+            📞 
+            <a href="tel:+910000000000" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
+              +91 00000 00000
+            </a>
           </p>
 
           <p>
-            ✉️ <a href="mailto:info@saasclinic.com" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">info@saasclinic.com</a>
+            ✉️ 
+            <a href="mailto:info@saasclinic.com" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
+              info@saasclinic.com
+            </a>
           </p>
 
-          <p class="text-slate-600">
+          <p>
             🕒 Morning: 10:00 AM – 2:00 PM <br />
             Evening: 6:00 PM – 8:00 PM
           </p>
@@ -110,7 +110,7 @@
 
     </div>
 
-    <!-- Divider -->
+    <!-- Bottom Divider -->
     <div class="border-t border-slate-200/70 mt-12 pt-6 text-center text-sm text-slate-500">
       © 2025 Saas Clinic. All rights reserved. Designed with ❤️ for better healthcare.
     </div>
