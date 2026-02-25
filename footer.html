@@ -75,45 +75,58 @@
         </ul>
       </div>
 
-      <!-- Contact -->
-      <div>
-        <h4 class="text-sm font-extrabold uppercase tracking-wide text-emerald-700">
-          Contact Info
-        </h4>
+      <!-- Contact (✅ FIXED: full width on mobile + spread details) -->
+    <!-- Contact (CENTERED RESPONSIVE) -->
+<div class="col-span-2 md:col-span-2 lg:col-span-1 text-center lg:text-left">
+  <h4 class="text-sm font-extrabold uppercase tracking-wide text-emerald-700">
+    Contact Info
+  </h4>
 
-        <div class="mt-6 space-y-4 text-sm text-slate-600">
-          <p>
-            Parul Hospital, Multi Speciality Centre <br />
-            City Name, State, India
-          </p>
+  <!-- Responsive Spread + Center -->
+  <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 text-sm text-slate-600 justify-items-center lg:justify-items-start">
 
-          <p>
-            📞 
-            <a href="tel:+910000000000" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
-              +91 00000 00000
-            </a>
-          </p>
+    <p class="sm:col-span-2 lg:col-span-1">
+      Parul Hospital, Multi Speciality Centre <br />
+      City Name, State, India
+    </p>
 
-          <p>
-            ✉️ 
-            <a href="mailto:info@saasclinic.com" class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
-              info@saasclinic.com
-            </a>
-          </p>
+    <p>
+      📞
+      <a href="tel:+910000000000"
+        class="ml-1 font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        +91 00000 00000
+      </a>
+    </p>
 
-          <p>
-            🕒 Morning: 10:00 AM – 2:00 PM <br />
-            Evening: 6:00 PM – 8:00 PM
-          </p>
-        </div>
-      </div>
+    <p class="break-words">
+      <a href="mailto:info@saasclinic.com"
+        class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        info@saasclinic.com
+      </a>
+    </p>
+
+    <p class="sm:col-span-2 lg:col-span-1">
+      Morning: 10:00 AM – 2:00 PM <br />
+      Evening: 6:00 PM – 8:00 PM
+    </p>
+
+  </div>
+</div>
 
     </div>
 
     <!-- Bottom Divider -->
-    <div class="border-t border-slate-200/70 mt-12 pt-6 text-center text-sm text-slate-500">
-      © 2025 Saas Clinic. All rights reserved. Designed with ❤️ for better healthcare.
-    </div>
+   <div class="border-t border-slate-200/70 mt-12 pt-6 text-center text-sm text-slate-500">
+  <br class="sm:hidden" />
+  
+  Design by 
+  <a href="https://skyinfogroup.com/" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="font-semibold text-emerald-700 hover:text-emerald-800 transition">
+     Sky Info
+  </a>
+</div>
 
   </div>
 </footer>
