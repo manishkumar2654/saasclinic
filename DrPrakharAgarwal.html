@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Prakhar Agarwal • Saas Clinic</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      /* ✅ LIGHT premium tokens */
+      --bg-0:#F7F8FB;
+      --bg-1:#F3F5FA;
+      --bg-2:#EEF2F8;
+
+      --card: rgba(255,255,255,0.70);
+      --card-strong: rgba(255,255,255,0.82);
+      --card-soft: rgba(255,255,255,0.60);
+
+      --border: rgba(15,23,42,0.10);
+      --border-soft: rgba(15,23,42,0.07);
+
+      --text: rgba(15,23,42,0.94);
+      --text-soft: rgba(15,23,42,0.70);
+
+      --shadow:
+        0 24px 70px -40px rgba(15,23,42,0.24),
+        0 10px 28px -18px rgba(15,23,42,0.14);
+
+      --overlay: rgba(255,255,255,0.62);
+
+      --v-op:0.60;
+      --v-blur:0.35px;
+
+      /* Pulse App (subtle) */
+      --pulse-opacity:0.16;
+      --pulse-grid: rgba(2,132,199,0.055);
+      --pulse-line: rgba(20,184,166,0.55);
+      --pulse-glow: rgba(20,184,166,0.16);
+    }
+
+    body{
+      background:
+        radial-gradient(1100px 760px at 18% 14%, rgba(2,132,199,0.10), transparent 58%),
+        radial-gradient(1000px 700px at 82% 18%, rgba(16,185,129,0.08), transparent 60%),
+        radial-gradient(950px 650px at 55% 86%, rgba(99,102,241,0.07), transparent 62%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-0));
+      color: var(--text);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+      .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
+    }
+
+    /* Page load */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .85s cubic-bezier(.2,.8,.2,1) both; }
+    .delay-1 { animation-delay: .08s; }
+    .delay-2 { animation-delay: .16s; }
+    .delay-3 { animation-delay: .24s; }
+    .delay-4 { animation-delay: .32s; }
+    .delay-5 { animation-delay: .40s; }
+    .delay-6 { animation-delay: .48s; }
+    .delay-7 { animation-delay: .56s; }
+    .delay-8 { animation-delay: .64s; }
+
+    /* Button shine */
+    .btn-shine { position: relative; overflow: hidden; isolation:isolate; }
+    .btn-shine::after{
+      content:"";
+      position:absolute;
+      top:-40%;
+      left:-120%;
+      width: 70%;
+      height: 180%;
+      transform: skewX(-18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      opacity: 0;
+      transition: left .7s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+      pointer-events:none;
+    }
+    .btn-shine:hover::after{ left: 140%; opacity: 1; }
+
+    /* Soft glow */
+    .glow-hover{
+      transition: box-shadow .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1);
+      will-change: transform;
+    }
+    .glow-hover:hover{ box-shadow: 0 20px 55px -35px rgba(15,23,42,.45); }
+
+    /* Badge shimmer */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer {
+      background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.65) 45%, rgba(255,255,255,0) 90%);
+      background-size: 200% 100%;
+    }
+    .motion-safe\:shimmer:hover { animation: shimmer 1.15s ease-in-out; }
+
+    /* Glass */
+    .glass{
+      background:var(--card);
+      border-color:var(--border);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .glass-strong{
+      background:var(--card-strong);
+      border-color:var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+    .glass-soft{
+      background:var(--card-soft);
+      border-color:var(--border-soft);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    /* Floating glow particles */
+    .particle-layer{ pointer-events:none; position:fixed; inset:0; z-index:-6; overflow:hidden; }
+    .floaty{
+      position:absolute; width:22rem; height:22rem; border-radius:9999px;
+      filter:blur(44px); opacity:.14; transform:translateZ(0);
+      animation:drift 14s ease-in-out infinite; will-change:transform, opacity;
+      mix-blend-mode: multiply;
+    }
+    .floaty.small{ width:14rem; height:14rem; opacity:.12; filter:blur(38px); animation-duration:16s; }
+    .floaty.tiny{ width:10rem; height:10rem; opacity:.10; filter:blur(32px); animation-duration:18s; }
+    @keyframes drift{
+      0%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
+      50%{ transform:translate3d(18px,-22px,0) scale(1.04); opacity:.16; }
+      100%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
+    }
+
+    /* Left/Right background */
+    .bg-video-layer{ pointer-events:none; position:fixed; inset:0; z-index:-10; overflow:hidden; }
+    .bg-video{
+      will-change:transform;
+      transform:translateZ(0);
+      opacity:var(--v-op);
+      filter:blur(var(--v-blur)) saturate(0.95) contrast(0.98);
+    }
+
+    /* Pulse canvas */
+    #pulseCanvas{
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      z-index:-8;
+      opacity:var(--pulse-opacity);
+    }
+
+    /* Text helpers */
+    .t-soft{ color: var(--text-soft); }
+    .t-main{ color: var(--text); }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+  <!-- Floating glow particles -->
+  <div class="particle-layer">
+    <div class="floaty" style="left:-6rem; top:10%; background: rgba(2,132,199,0.22);"></div>
+    <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;"></div>
+    <div class="floaty tiny" style="left:18%; bottom:-5rem; background: rgba(99,102,241,0.16); animation-delay:-7s;"></div>
+    <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;"></div>
+  </div>
+
+  <!-- Pulse -->
+  <canvas id="pulseCanvas"></canvas>
+
+  <!-- Left + Right background (LEFT video + RIGHT heartpump.webp) -->
+  <div class="bg-video-layer">
+    <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+      <video autoplay muted loop playsinline preload="metadata" class="bg-video absolute inset-0 h-full w-full object-cover">
+        <source src="./images/heartbeat.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+    </div>
+
+    <div class="fixed inset-y-0 right-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+      <img
+        src="./images/heartpump.webp"
+        alt="Heart Pump"
+        class="bg-video absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="absolute inset-0" style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+    </div>
+
+    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));"></div>
+  </div>
+
+  <!--////////////////////////////////////// Navbar start ////////////////////////-->
+<!-- Navbar inject -->
+  <div id="navbar-container"></div>
+
+  <script type="module">
+    import { initNavbar } from "./nav.js";
+    fetch("./nav.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("navbar-container").innerHTML = html;
+        initNavbar();
+      });
+  </script>
+
+  <!-- ✅ offset for fixed navbar -->
+  <main class="pt-20">
+
+    <!-- Hero / Slider placeholder -->
+ 
+  <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
+
+  <!--==================== HERO ====================-->
+  <section class="relative overflow-hidden fade-up delay-1">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-28 -left-28 h-96 w-96 rounded-full bg-emerald-500/12 blur-3xl"></div>
+      <div class="absolute -bottom-36 right-0 h-[30rem] w-[30rem] rounded-full bg-blue-500/10 blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+
+        <!-- Photo -->
+        <div class="lg:col-span-5 fade-up delay-2">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition-all duration-500 ease-out hover:-translate-y-1">
+            <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal"
+                 class="h-[360px] w-full object-cover opacity-95 sm:h-[420px] transition-transform duration-700 ease-out group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="lg:col-span-7 fade-up delay-3">
+          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 shimmer motion-safe:shimmer glass-soft">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Doctor Profile
+          </p>
+
+          <h1 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
+            Dr. Prakhar Agarwal
+          </h1>
+
+          <p class="mt-2 text-sm font-semibold text-emerald-700">
+            DM Pulmonary Critical Care & Sleep Medicine, MD, DNB, MNAMS, DAA (CMC Vellore)
+          </p>
+
+          <p class="mt-4 text-sm leading-relaxed t-soft sm:text-base max-w-2xl">
+            (From card) Allergy Specialist • Ex. Senior Resident – AIIMS Delhi.
+            (Dummy) Patient-first approach, clear explanations, modern diagnostics & advanced care planning.
+          </p>
+
+          <!-- Quick details -->
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
+              <p class="text-xs font-semibold text-slate-500">Designation</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">Pulmonary, Critical Care & Sleep Specialist</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
+              <p class="text-xs font-semibold text-slate-500">Experience</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">Ex. Senior Resident – AIIMS Delhi</p>
+            </div>
+          </div>
+
+          <!-- Timings -->
+          <div class="mt-6 rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/70">
+            <p class="text-xs font-semibold text-slate-500">Available Timings</p>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
+                <p class="text-sm font-extrabold text-slate-900">Morning</p>
+                <p class="mt-1 text-sm text-slate-700">10:00 AM – 2:00 PM</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
+                <p class="text-sm font-extrabold text-slate-900">Evening</p>
+                <p class="mt-1 text-sm text-slate-700">6:00 PM – 8:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a href="#book"
+              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-slate-800 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15">
+              Book Now →
+            </a>
+            <a href="tel:+910000000000"
+              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/15">
+              Call for Appointment
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==================== ABOUT ====================-->
+  <section id="about" class="py-12 sm:py-16 fade-up delay-2">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-start">
+        <div class="lg:col-span-7">
+          <p class="text-xs font-semibold text-slate-500">ABOUT</p>
+          <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Approach to Care</h2>
+          <p class="mt-4 text-sm leading-relaxed t-soft sm:text-base">
+            (Dummy) Dr. Prakhar Agarwal focuses on accurate diagnosis, patient education and step-by-step treatment planning.
+            Chronic respiratory issues, sleep disorders and allergy-related concerns are managed with a structured, friendly process.
+          </p>
+
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
+              <p class="text-sm font-extrabold text-slate-900">Clear Explanation</p>
+              <p class="mt-1 text-xs text-slate-600">Simple language me reports & plan (dummy).</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
+              <p class="text-sm font-extrabold text-slate-900">Evidence-based Care</p>
+              <p class="mt-1 text-xs text-slate-600">Modern diagnostics & protocols (dummy).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:bg-white/70">
+            <p class="text-xs font-semibold text-slate-500">KEY HIGHLIGHTS</p>
+            <ul class="mt-4 space-y-3 text-sm text-slate-700">
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Pulmonary Critical Care & Sleep Medicine</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Allergy Specialist (from card)</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Ex. Senior Resident – AIIMS Delhi</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow (dummy)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== SPECIALIZATIONS ====================-->
+  <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-3">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-semibold text-slate-500">SPECIALIZATIONS</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Areas of Expertise</h2>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Lung disorders diagnosis & management.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Critical Care</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Advanced respiratory support planning.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) PSG, CPAP guidance & follow-ups.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Allergy Care</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Allergy testing & prevention strategies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== SERVICES ====================-->
+  <section class="py-12 sm:py-16 fade-up delay-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-semibold text-slate-500">SERVICES</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">What you can book</h2>
+
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Consultation</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Symptoms review + plan + follow-up schedule.</p>
+        </div>
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Lung Function Test</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Complete evaluation with report explanation.</p>
+        </div>
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Sleep Study Guidance</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) PSG process + CPAP support.</p>
+        </div>
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Allergy Evaluation</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Trigger identification + prevention plan.</p>
+        </div>
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Rehab Plan</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Breathing exercises and recovery routine.</p>
+        </div>
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Emergency Respiratory Care</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Urgent support & guidance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== REVIEWS ====================-->
+  <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-semibold text-slate-500">REVIEWS</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Patient feedback (dummy)</h2>
+
+      <div class="mt-8 grid gap-5 lg:grid-cols-3">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-bold text-slate-900">“Very clear explanation.”</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Reports ko simple language me samjhaya.</p>
+          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient A</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-bold text-slate-900">“Great support & guidance.”</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Follow-up and care plan was smooth.</p>
+          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient B</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-bold text-slate-900">“Professional and calm.”</p>
+          <p class="mt-2 text-xs text-slate-600">(Dummy) Timings + appointment experience was easy.</p>
+          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient C</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== FAQ ====================-->
+  <section class="py-12 sm:py-16 fade-up delay-6">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-semibold text-slate-500">FAQ</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Common questions</h2>
+
+      <div class="mt-8 grid gap-4">
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Appointment kaise book karein?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-700">(Dummy) Call / online booking se slot confirm ho jayega.</p>
+        </details>
+
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Reports explain hote hain?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-700">(Dummy) Yes, reports ko step-by-step samjhaya jata hai.</p>
+        </details>
+
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Follow-ups ka system?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-700">(Dummy) Reminders + scheduled check-ups available.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== CTA ====================-->
+  <section id="book" class="pb-14 sm:pb-20 fade-up delay-7">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass-strong">
+        <div class="pointer-events-none absolute inset-0">
+          <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/12 blur-3xl"></div>
+          <div class="absolute -bottom-24 right-0 h-96 w-96 rounded-full bg-blue-500/12 blur-3xl"></div>
+        </div>
+
+        <div class="relative px-6 py-10 sm:px-10 sm:py-12 lg:px-14">
+          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 backdrop-blur shimmer motion-safe:shimmer transition-all duration-300 ease-out">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Book Appointment
+          </p>
+
+          <h3 class="mt-4 text-2xl font-extrabold sm:text-3xl text-slate-900">Call for Appointment</h3>
+          <p class="mt-3 text-slate-700">(Dummy) Morning 10:00 AM – 2:00 PM • Evening 6:00 PM – 8:00 PM</p>
+
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href="tel:+910000000000"
+              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15">
+              Call Now →
+            </a>
+            <a href="index.html"
+              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10">
+              Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==============================footer  start========================================-->
+  <div id="footer-container" class="relative z-10"></div>
+  <script>
+    fetch("./footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-container").innerHTML = data;
+      });
+  </script>
+  <!--=======================footer  end=======================================-->
+
+  <!-- ✅ Pulse Engine (Light) -->
+  <script>
+    const HR = (function(){
+      let bpm = 74;
+      let target = 74;
+      const min = 58, max = 92;
+
+      function randTarget(){ target = Math.round(min + Math.random() * (max - min)); }
+      setInterval(randTarget, 4200);
+
+      function tick(){ bpm += (target - bpm) * 0.035; requestAnimationFrame(tick); }
+      requestAnimationFrame(tick);
+
+      function getBpm(){ return Math.max(min, Math.min(max, bpm)); }
+      return { getBpm };
+    })();
+
+    (function () {
+      const canvas = document.getElementById('pulseCanvas');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!canvas || prefersReduced) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resize() {
+        w = Math.floor(window.innerWidth);
+        h = Math.floor(window.innerHeight);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+      function ecgShape(x){
+        const p = Math.exp(-Math.pow((x-0.18)/0.05,2)) * 0.35;
+        const q = -Math.exp(-Math.pow((x-0.32)/0.018,2)) * 0.55;
+        const r =  Math.exp(-Math.pow((x-0.36)/0.012,2)) * 2.8;
+        const s = -Math.exp(-Math.pow((x-0.40)/0.016,2)) * 0.85;
+        const tw = Math.exp(-Math.pow((x-0.62)/0.085,2)) * 0.65;
+        return p + q + r + s + tw;
+      }
+
+      function drawGrid(gridCol){
+        ctx.save();
+        ctx.strokeStyle = gridCol;
+        const gridSize = (w < 520) ? 34 : 36;
+
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.72;
+        ctx.lineWidth = 1.12;
+        ctx.beginPath();
+        const major = gridSize * 5;
+        for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      const period = 340;
+      const beats = 2;
+      const ampBase = 8.5;
+      const lineWidth = 2.0;
+      const glowBlur = 9;
+      const scanStrength = 0.030;
+
+      let xShift = 0;
+      let last = performance.now();
+      let beatTimer = 0;
+      let flash = 0;
+
+      function frame(now){
+        const dt = Math.min(0.04, (now - last) / 1000);
+        last = now;
+
+        const bpm = HR.getBpm();
+        const beatInterval = 60 / bpm;
+
+        beatTimer += dt;
+        if (beatTimer >= beatInterval){
+          beatTimer -= beatInterval;
+          flash = 1;
+        }
+        flash = Math.max(0, flash - dt * 3.6);
+
+        const speedPxPerSec = 115 + (bpm - 60) * 1.8;
+        xShift = (xShift + speedPxPerSec * dt) % period;
+
+        const gridCol = cssVar('--pulse-grid') || 'rgba(2,132,199,0.055)';
+        const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
+        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
+
+        ctx.clearRect(0,0,w,h);
+
+        ctx.save();
+        const g = ctx.createRadialGradient(w*0.5, h*0.45, 0, w*0.5, h*0.45, Math.max(w,h)*0.65);
+        g.addColorStop(0, 'rgba(255,255,255,0.34)');
+        g.addColorStop(1, 'rgba(15,23,42,0.03)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,w,h);
+        ctx.restore();
+
+        drawGrid(gridCol);
+
+        const lanes = 1;
+        const laneGap = h / (lanes + 1);
+
+        for (let i=1; i<=lanes; i++){
+          const midY = laneGap * i;
+
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
+          ctx.shadowBlur = glowBlur + flash * 6;
+          ctx.shadowColor = glowCol;
+
+          ctx.strokeStyle = lineCol;
+          ctx.lineWidth = lineWidth + flash * 0.25;
+
+          ctx.beginPath();
+
+          let x0 = -period + xShift;
+          let first = true;
+
+          while (x0 < w + period) {
+            for (let x = 0; x <= period; x += 3) {
+              const px = x0 + x;
+              const u = x / period;
+
+              const noise = Math.sin((px + now*0.01) * 0.008) * 0.20;
+
+              let spike = 0;
+              for (let b=0; b<beats; b++){
+                const uu = (u * beats) - b;
+                if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
+              }
+
+              const amp = ampBase + flash * 1.0;
+              const y = midY + (noise * 9) - (spike * amp * 6.0);
+
+              if (first) { ctx.moveTo(px, y); first = false; }
+              else { ctx.lineTo(px, y); }
+            }
+            x0 += period;
+          }
+
+          ctx.stroke();
+
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 0.62 + flash * 0.08;
+          ctx.lineWidth = 1.1;
+          ctx.strokeStyle = 'rgba(15,23,42,0.10)';
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        ctx.save();
+        const scanX = (xShift * 1.35) % (w + 240) - 120;
+        const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
+        scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
+        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash*0.02})`);
+        scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore();
+
+        requestAnimationFrame(frame);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) last = performance.now();
+      }, { passive: true });
+
+      requestAnimationFrame(frame);
+    })();
+  </script>
+
+</body>
+</html>

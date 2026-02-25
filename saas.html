@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAAS • Saas Clinic</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      /* ✅ HOME (Light) tokens */
+      --bg-0:#F7F8FB;
+      --bg-1:#F3F5FA;
+      --bg-2:#EEF2F8;
+
+      --card: rgba(255,255,255,0.66);
+      --card-strong: rgba(255,255,255,0.78);
+      --card-soft: rgba(255,255,255,0.52);
+
+      --border: rgba(15,23,42,0.10);
+      --border-soft: rgba(15,23,42,0.07);
+
+      --text: rgba(15,23,42,0.94);
+      --text-soft: rgba(15,23,42,0.70);
+
+      --shadow:
+        0 24px 70px -40px rgba(15,23,42,0.28),
+        0 10px 28px -18px rgba(15,23,42,0.16);
+
+      --overlay: rgba(255,255,255,0.62);
+
+      --v-op:0.90;
+      --v-blur:0.3px;
+
+      /* Pulse App (subtle) */
+      --pulse-opacity:0.18;
+      --pulse-grid: rgba(2,132,199,0.045);
+      --pulse-line: rgba(20,184,166,0.55);
+      --pulse-glow: rgba(20,184,166,0.16);
+    }
+
+    body{
+      background:
+        radial-gradient(1100px 760px at 18% 14%, rgba(2,132,199,0.10), transparent 58%),
+        radial-gradient(1000px 700px at 82% 18%, rgba(16,185,129,0.08), transparent 60%),
+        radial-gradient(950px 650px at 55% 86%, rgba(99,102,241,0.07), transparent 62%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-0));
+      color: var(--text);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+      .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
+    }
+
+    /* Page load: soft fade + slide */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(14px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity:0; transform: translateY(14px); animation: fadeUp .72s cubic-bezier(.2,.8,.2,1) forwards; }
+
+    .delay-1 { animation-delay: .06s; }
+    .delay-2 { animation-delay: .12s; }
+    .delay-3 { animation-delay: .18s; }
+    .delay-4 { animation-delay: .24s; }
+    .delay-5 { animation-delay: .30s; }
+    .delay-6 { animation-delay: .36s; }
+    .delay-7 { animation-delay: .42s; }
+    .delay-8 { animation-delay: .48s; }
+
+    /* Button shine (subtle, on hover only) */
+    .btn-shine { position: relative; overflow: hidden; isolation:isolate; }
+    .btn-shine::after{
+      content:"";
+      position:absolute;
+      top:-40%;
+      left:-120%;
+      width: 70%;
+      height: 180%;
+      transform: skewX(-18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      opacity: 0;
+      transition: left .7s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+      pointer-events:none;
+    }
+    .btn-shine:hover::after{
+      left: 140%;
+      opacity: 1;
+    }
+
+    /* Soft hover lift */
+    .glow-hover{
+      transition: box-shadow .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1), background .35s cubic-bezier(.2,.8,.2,1);
+      will-change: transform;
+    }
+    .glow-hover:hover{
+      box-shadow: 0 20px 55px -35px rgba(15,23,42,.45);
+    }
+
+    /* Badge shimmer */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer {
+      background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.70) 45%, rgba(255,255,255,0) 90%);
+      background-size: 200% 100%;
+    }
+    .motion-safe\:shimmer:hover { animation: shimmer 1.15s ease-in-out; }
+
+    /* Glass tokens */
+    .glass{
+      background:var(--card);
+      border-color:var(--border);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .glass-strong{
+      background:var(--card-strong);
+      border-color:var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+    .glass-soft{
+      background:var(--card-soft);
+      border-color:var(--border-soft);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    /* Floating glow particles (HOME-like) */
+    .particle-layer{ pointer-events:none; position:fixed; inset:0; z-index:-6; overflow:hidden; }
+    .floaty{
+      position:absolute; width:22rem; height:22rem; border-radius:9999px;
+      filter:blur(44px); opacity:.14; transform:translateZ(0);
+      animation:drift 14s ease-in-out infinite; will-change:transform, opacity;
+      mix-blend-mode: multiply;
+    }
+    .floaty.small{ width:14rem; height:14rem; opacity:.12; filter:blur(38px); animation-duration:16s; }
+    .floaty.tiny{ width:10rem; height:10rem; opacity:.10; filter:blur(32px); animation-duration:18s; }
+    @keyframes drift{
+      0%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
+      50%{ transform:translate3d(18px,-22px,0) scale(1.04); opacity:.16; }
+      100%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
+    }
+
+    /* Left/Right videos/images */
+    .bg-video-layer{ pointer-events:none; position:fixed; inset:0; z-index:-10; overflow:hidden; }
+    .bg-video{
+      will-change:transform;
+      transform:translateZ(0);
+      opacity:var(--v-op);
+      filter:blur(var(--v-blur)) saturate(0.95) contrast(0.98);
+    }
+
+    /* Pulse canvas */
+    #pulseCanvas{
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      z-index:-8;
+      opacity:var(--pulse-opacity);
+    }
+
+    /* Text helpers */
+    .t-soft{ color: var(--text-soft); }
+    .t-main{ color: var(--text); }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+  <!-- Floating glow particles -->
+  <div class="particle-layer">
+    <div class="floaty" style="left:-6rem; top:10%; background: rgba(2,132,199,0.22);"></div>
+    <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;"></div>
+    <div class="floaty tiny" style="left:18%; bottom:-5rem; background: rgba(99,102,241,0.16); animation-delay:-7s;"></div>
+    <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;"></div>
+  </div>
+
+  <!-- Pulse App Background -->
+  <canvas id="pulseCanvas"></canvas>
+
+  <!-- Left + Right background (HOME-like) -->
+  <div class="bg-video-layer">
+    <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+      <video autoplay muted loop playsinline preload="metadata" class="bg-video absolute inset-0 h-full w-full object-cover">
+        <source src="./images/heartbeat.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+    </div>
+
+    <!-- ✅ Right side: heartpump.webp -->
+    <div class="fixed inset-y-0 right-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+      <img
+        src="./images/heartpump.webp"
+        alt="Heart Pump"
+        class="bg-video absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="absolute inset-0" style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);"></div>
+    </div>
+
+    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));"></div>
+  </div>
+
+ <!--////////////////////////////////////// Navbar start ////////////////////////-->
+<!-- Navbar inject -->
+  <div id="navbar-container"></div>
+
+  <script type="module">
+    import { initNavbar } from "./nav.js";
+    fetch("./nav.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("navbar-container").innerHTML = html;
+        initNavbar();
+      });
+  </script>
+
+  <!-- ✅ offset for fixed navbar -->
+  <main class="pt-20">
+
+    <!-- Hero / Slider placeholder -->
+ 
+  <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
+
+  <!--==================== Hero ====================-->
+  <section class="relative overflow-hidden fade-up delay-2">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-28 -left-28 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl"></div>
+      <div class="absolute -bottom-32 right-0 h-[28rem] w-[28rem] rounded-full bg-emerald-500/8 blur-3xl"></div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-7 fade-up delay-3">
+          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 shimmer motion-safe:shimmer glass-soft">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            SAAS • Clinic Services
+          </p>
+
+          <h1 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl t-main">
+            Smart, patient-first <span class="text-blue-600">SaaS healthcare</span> workflow
+          </h1>
+
+          <p class="mt-4 max-w-2xl text-base leading-relaxed t-soft sm:text-lg">
+            (Dummy) Saas Clinic me hum modern clinic operations ko easy banate hain —
+            appointments, reminders, reports, and better patient experience with clean & fast service.
+          </p>
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a href="#speciality"
+               class="group btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
+              Explore Speciality <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+            </a>
+
+            <a href="#core-services"
+               class="group btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
+              View Core Services
+            </a>
+          </div>
+
+          <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-4 glow-hover">
+              <p class="text-xs font-semibold text-slate-500">Patients</p>
+              <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-4 glow-hover">
+              <p class="text-xs font-semibold text-slate-500">Rating</p>
+              <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-4 glow-hover">
+              <p class="text-xs font-semibold text-slate-500">Support</p>
+              <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-4 glow-hover">
+              <p class="text-xs font-semibold text-slate-500">Avg Time</p>
+              <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 fade-up delay-4">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition hover:-translate-y-0.5">
+            <img src="./images/saa1.jpg" alt="SaaS clinic" class="h-[320px] w-full object-cover opacity-95 sm:h-[420px] transition duration-700 ease-out group-hover:scale-[1.03]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-5 text-white backdrop-blur">
+              <p class="text-xs font-semibold text-white/80">Premium Experience</p>
+              <p class="mt-1 text-lg font-extrabold">Fast • Clean • Trusted</p>
+              <p class="mt-1 text-sm text-white/90">(Dummy) Smooth journey across every visit.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==================== Speciality ====================-->
+  <section id="speciality" class="py-12 sm:py-16 fade-up delay-2">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+
+        <div class="lg:col-span-5 fade-up delay-3">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-soft transition hover:-translate-y-0.5">
+            <img src="./images/saa2.jpg" alt="Speciality" class="h-72 w-full object-cover sm:h-80 lg:h-[420px] transition duration-700 ease-out group-hover:scale-[1.03]" />
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 fade-up delay-4">
+          <p class="text-3xl font-extrabold tracking-tight text-emerald-600">SAAS</p>
+          <h2 class="mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl text-slate-900">
+            Superspeciality — Chest, Allergy & Sleep Centre
+          </h2>
+
+          <div class="mt-4 h-1 w-24 rounded-full bg-emerald-500"></div>
+
+          <p class="mt-5 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            (Dummy) Comprehensive care for respiratory issues, allergy disorders, and sleep-related problems.
+            Modern diagnostics, rehab support, and CPAP guidance.
+          </p>
+
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 font-extrabold transition group-hover:scale-[1.03]">P</div>
+                <div>
+                  <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+                  <p class="mt-1 text-xs text-slate-500">Diagnostics & care</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 font-extrabold transition group-hover:scale-[1.03]">S</div>
+                <div>
+                  <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                  <p class="mt-1 text-xs text-slate-500">Sleep study & CPAP</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 font-extrabold transition group-hover:scale-[1.03]">A</div>
+                <div>
+                  <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
+                  <p class="mt-1 text-xs text-slate-500">Testing & immunotherapy</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 font-extrabold transition group-hover:scale-[1.03]">R</div>
+                <div>
+                  <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
+                  <p class="mt-1 text-xs text-slate-500">Exercise & recovery</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#core-services"
+               class="group btn-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/18 transition hover:-translate-y-0.5 hover:bg-emerald-700">
+              See Services →
+            </a>
+            <a href="#how-it-works"
+               class="group btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
+              How it works
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==================== Core Services ====================-->
+  <section id="core-services" class="py-12 sm:py-16 border-y border-slate-200/70 fade-up delay-3">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+
+        <div class="lg:col-span-6 fade-up delay-4">
+          <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">
+            Core <span class="text-emerald-600">Services</span>
+          </h2>
+          <div class="mt-4 h-1 w-24 rounded-full bg-emerald-500"></div>
+
+          <p class="mt-5 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            (Dummy) We provide world-class diagnosis & treatment for lung disorders, allergies, and sleep-related diseases.
+            Clean reporting, proper guidance, and safe patient management.
+          </p>
+
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Comprehensive Lung Function Testing</p>
+              <p class="mt-1 text-xs text-slate-500">Accurate diagnostics & reporting (dummy)</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Level 1 Sleep Study (PSG)</p>
+              <p class="mt-1 text-xs text-slate-500">Guided study & interpretation (dummy)</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">CPAP / BiPAP Titration</p>
+              <p class="mt-1 text-xs text-slate-500">Settings, follow-ups, comfort support (dummy)</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehabilitation</p>
+              <p class="mt-1 text-xs text-slate-500">Exercise, breathing & recovery plan (dummy)</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Allergy Testing & Immunotherapy</p>
+              <p class="mt-1 text-xs text-slate-500">Testing + personalized care (dummy)</p>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Bronchoscopy & Emergency Care</p>
+              <p class="mt-1 text-xs text-slate-500">Respiratory support & care (dummy)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 fade-up delay-5">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition hover:-translate-y-0.5">
+            <img src="./images/saa10.jpg" alt="Hospital" class="h-72 w-full object-cover opacity-95 sm:h-96 lg:h-[520px] transition duration-700 ease-out group-hover:scale-[1.03]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-5 text-white backdrop-blur">
+              <p class="text-xs font-semibold text-white/80">Trusted Setup</p>
+              <p class="mt-1 text-lg font-extrabold">Clean Facilities • Modern Flow</p>
+              <p class="mt-1 text-sm text-white/90">(Dummy) Patient-friendly environment.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==================== How it works ====================-->
+  <section id="how-it-works" class="py-12 sm:py-16 fade-up delay-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold text-slate-500">PROCESS</p>
+          <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">How it works (dummy)</h2>
+          <p class="mt-3 text-slate-600">Simple steps for a smooth experience.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-6 lg:grid-cols-4">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition hover:-translate-y-0.5 hover:bg-white/70">
+          <p class="text-xs font-semibold text-slate-500">STEP 01</p>
+          <p class="mt-2 text-lg font-extrabold text-slate-900">Book</p>
+          <p class="mt-2 text-sm text-slate-600">Call / online slot booking (dummy).</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition hover:-translate-y-0.5 hover:bg-white/70">
+          <p class="text-xs font-semibold text-slate-500">STEP 02</p>
+          <p class="mt-2 text-lg font-extrabold text-slate-900">Consult</p>
+          <p class="mt-2 text-sm text-slate-600">Doctor consultation + guidance (dummy).</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition hover:-translate-y-0.5 hover:bg-white/70">
+          <p class="text-xs font-semibold text-slate-500">STEP 03</p>
+          <p class="mt-2 text-lg font-extrabold text-slate-900">Diagnostics</p>
+          <p class="mt-2 text-sm text-slate-600">Tests + reports + clarity (dummy).</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition hover:-translate-y-0.5 hover:bg-white/70">
+          <p class="text-xs font-semibold text-slate-500">STEP 04</p>
+          <p class="mt-2 text-lg font-extrabold text-slate-900">Follow-up</p>
+          <p class="mt-2 text-sm text-slate-600">Reminders + progress tracking (dummy).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== Benefits ====================-->
+  <section class="py-12 sm:py-16 border-y border-slate-200/70 fade-up delay-5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-5">
+          <img src="./images/saa11.jpg" alt="Benefits" class="h-80 w-full rounded-3xl border border-slate-200 object-cover shadow-sm sm:h-96 transition hover:scale-[1.01]" />
+        </div>
+        <div class="lg:col-span-7">
+          <p class="text-xs font-semibold text-slate-500">WHY SAAS Clinic</p>
+          <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Premium care, modern workflow</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">
+            (Dummy) Better patient journey ke liye hum clarity, hygiene, and faster handling ensure karte hain.
+          </p>
+
+          <div class="mt-7 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Fast Booking</p>
+              <p class="mt-1 text-xs text-slate-500">Quick slot confirmation (dummy).</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Clear Reports</p>
+              <p class="mt-1 text-xs text-slate-500">Easy-to-understand summaries (dummy).</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Reminders</p>
+              <p class="mt-1 text-xs text-slate-500">Follow-up messages & care plan (dummy).</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-sm font-extrabold text-slate-900">Hygiene First</p>
+              <p class="mt-1 text-xs text-slate-500">Clean & safe environment (dummy).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== FAQ ====================-->
+  <section class="py-12 sm:py-16 fade-up delay-6">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-semibold text-slate-500">FAQ</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Common questions</h2>
+
+      <div class="mt-8 grid gap-4">
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:bg-white/70">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Is this a real SaaS product or clinic services page?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+            (Dummy) Ye page “Saas Clinic” ke clinic workflow/services ko premium way me present karta hai.
+          </p>
+        </details>
+
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:bg-white/70">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Appointment kaise book karein?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+            (Dummy) Call / WhatsApp / Online form se slot confirm ho jayega.
+          </p>
+        </details>
+
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition hover:bg-white/70">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+            Reports aur follow-ups ka system?
+            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+            (Dummy) Clear reporting + reminders + follow-up scheduling supported.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== CTA ====================-->
+  <section class="pb-14 sm:pb-20 fade-up delay-7">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass-strong">
+        <div class="pointer-events-none absolute inset-0">
+          <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+          <div class="absolute -bottom-24 right-0 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl"></div>
+        </div>
+
+        <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
+          <div class="lg:col-span-8">
+            <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 glass-soft shimmer motion-safe:shimmer">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Ready to book?
+            </p>
+            <h3 class="mt-4 text-2xl font-extrabold sm:text-3xl text-slate-900">Call for Appointment</h3>
+            <p class="mt-3 text-slate-600">(Dummy) Fast confirmation • friendly support • premium care.</p>
+          </div>
+
+          <div class="lg:col-span-4">
+            <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <a href="tel:+910000000000"
+                 class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
+                Call Now →
+              </a>
+              <a href="about.html"
+                 class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
+                Learn About Us
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== Tabs: Specialities ====================-->
+  <section id="speciality-tabs" class="py-12 sm:py-16 fade-up delay-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-start">
+
+        <div class="lg:col-span-7">
+          <p class="text-3xl font-extrabold tracking-tight text-emerald-600">SAAS</p>
+          <h2 class="mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl text-slate-900">
+            Superspeciality — Chest, Allergy & Sleep Centre
+          </h2>
+          <div class="mt-4 h-1 w-24 rounded-full bg-emerald-500"></div>
+
+          <p class="mt-5 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            (Dummy) Choose a speciality below to see details. Click karte hi niche content change hoga.
+          </p>
+
+          <div class="mt-7 flex flex-wrap gap-2">
+            <button data-tab="pulmonology"
+              class="saas-tab-btn btn-shine rounded-2xl border border-emerald-600/30 bg-emerald-600 px-4 py-2 text-sm font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/30">
+              Pulmonology
+            </button>
+
+            <button data-tab="sleep"
+              class="saas-tab-btn btn-shine rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/30">
+              Sleep Medicine
+            </button>
+
+            <button data-tab="allergy"
+              class="saas-tab-btn btn-shine rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/30">
+              Allergy Clinic
+            </button>
+
+            <button data-tab="rehab"
+              class="saas-tab-btn btn-shine rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/30">
+              Pulmonary Rehab
+            </button>
+          </div>
+
+          <div class="mt-6 rounded-3xl border border-slate-200 glass-soft p-6 transition hover:bg-white/70">
+            <div class="flex items-start gap-4">
+              <div id="tabIcon"
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-extrabold">
+                P
+              </div>
+
+              <div class="flex-1">
+                <p id="tabTitle" class="text-lg font-extrabold text-slate-900">Pulmonology</p>
+                <p id="tabSubtitle" class="mt-1 text-sm text-slate-500">Diagnostics & care</p>
+              </div>
+            </div>
+
+            <p id="tabDesc" class="mt-4 text-sm leading-relaxed text-slate-600">
+              (Dummy) Breath-related issues ke liye comprehensive evaluation, lung function testing,
+              reports and step-by-step guidance.
+            </p>
+
+            <div id="tabBullets" class="mt-5 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-2xl border border-slate-200 bg-white/60 p-4 transition hover:-translate-y-0.5 hover:bg-white/80">
+                <p class="text-sm font-extrabold text-slate-900">Lung Function Testing</p>
+                <p class="mt-1 text-xs text-slate-500">Accurate diagnostics (dummy).</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white/60 p-4 transition hover:-translate-y-0.5 hover:bg-white/80">
+                <p class="text-sm font-extrabold text-slate-900">Treatment Planning</p>
+                <p class="mt-1 text-xs text-slate-500">Clear guidance & follow-ups (dummy).</p>
+              </div>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+              <a id="tabPrimaryBtn" href="#core-services"
+                class="btn-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/18 transition hover:-translate-y-0.5 hover:bg-emerald-700">
+                View Related Services →
+              </a>
+
+              <a id="tabSecondaryBtn" href="#how-it-works"
+                class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
+                How It Works
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition hover:-translate-y-0.5">
+            <img id="tabImage" src="./images/saa2.jpg" alt="Speciality"
+              class="h-[320px] w-full object-cover opacity-95 sm:h-[420px] transition duration-700 ease-out group-hover:scale-[1.03]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-5 text-white backdrop-blur">
+              <p id="tabBadge" class="text-xs font-semibold text-white/80">Pulmonology</p>
+              <p id="tabMini" class="mt-1 text-lg font-extrabold">Diagnostics • Care</p>
+              <p id="tabMiniDesc" class="mt-1 text-sm text-white/90">(Dummy) Patient-friendly workflow.</p>
+            </div>
+          </div>
+
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-xs font-semibold text-slate-500">Fast Reports</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">Clear summaries</p>
+              <p class="mt-1 text-xs text-slate-500">(Dummy) Easy to understand.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 glass-soft p-5 transition hover:-translate-y-0.5 hover:bg-white/70">
+              <p class="text-xs font-semibold text-slate-500">Follow-ups</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">Reminders</p>
+              <p class="mt-1 text-xs text-slate-500">(Dummy) Better continuity of care.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==============================footer  start========================================-->
+  <div id="footer-container" class="relative z-10"></div>
+  <script>
+    fetch("./footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-container").innerHTML = data;
+      });
+  </script>
+  <!--=======================footer  end=======================================-->
+
+  <!-- ✅ Tabs JS -->
+  <script type="module" src="./saas-tabs.js"></script>
+
+  <script>
+    // Random heart rate variation engine (no UI)
+    const HR = (function(){
+      let bpm = 74;
+      let target = 74;
+      const min = 58, max = 92;
+
+      function randTarget(){
+        target = Math.round(min + Math.random() * (max - min));
+      }
+      setInterval(randTarget, 4200);
+
+      function tick(){
+        bpm += (target - bpm) * 0.035;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      function getBpm(){ return Math.max(min, Math.min(max, bpm)); }
+      return { getBpm };
+    })();
+
+    // Heart pulse canvas (continuous, never stops) — HOME colors
+    (function () {
+      const canvas = document.getElementById('pulseCanvas');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!canvas || prefersReduced) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resize() {
+        w = Math.floor(window.innerWidth);
+        h = Math.floor(window.innerHeight);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      function cssVar(name){
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      function ecgShape(x){
+        const p = Math.exp(-Math.pow((x-0.18)/0.05,2)) * 0.35;
+        const q = -Math.exp(-Math.pow((x-0.32)/0.018,2)) * 0.55;
+        const r =  Math.exp(-Math.pow((x-0.36)/0.012,2)) * 2.8;
+        const s = -Math.exp(-Math.pow((x-0.40)/0.016,2)) * 0.85;
+        const tw = Math.exp(-Math.pow((x-0.62)/0.085,2)) * 0.65;
+        return p + q + r + s + tw;
+      }
+
+      function drawGrid(gridCol){
+        ctx.save();
+        ctx.strokeStyle = gridCol;
+        const gridSize = (w < 520) ? 34 : 36;
+
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.72;
+        ctx.lineWidth = 1.12;
+        ctx.beginPath();
+        const major = gridSize * 5;
+        for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      const period = 340;
+      const beats = 2;
+      const ampBase = 8.5;
+      const lineWidth = 2.0;
+      const glowBlur = 9;
+      const scanStrength = 0.030;
+
+      let xShift = 0;
+      let last = performance.now();
+
+      let beatTimer = 0;
+      let flash = 0;
+
+      function frame(now){
+        const dt = Math.min(0.04, (now - last) / 1000);
+        last = now;
+
+        const bpm = HR.getBpm();
+        const beatInterval = 60 / bpm;
+
+        beatTimer += dt;
+        if (beatTimer >= beatInterval){
+          beatTimer -= beatInterval;
+          flash = 1;
+        }
+        flash = Math.max(0, flash - dt * 3.6);
+
+        const speedPxPerSec = 115 + (bpm - 60) * 1.8;
+        xShift = (xShift + speedPxPerSec * dt) % period;
+
+        const gridCol = cssVar('--pulse-grid') || 'rgba(2,132,199,0.045)';
+        const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
+        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
+
+        ctx.clearRect(0,0,w,h);
+
+        ctx.save();
+        const g = ctx.createRadialGradient(w*0.5, h*0.45, 0, w*0.5, h*0.45, Math.max(w,h)*0.65);
+        g.addColorStop(0, 'rgba(255,255,255,0.34)');
+        g.addColorStop(1, 'rgba(15,23,42,0.03)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,w,h);
+        ctx.restore();
+
+        drawGrid(gridCol);
+
+        const lanes = 1;
+        const laneGap = h / (lanes + 1);
+
+        for (let i=1; i<=lanes; i++){
+          const midY = laneGap * i;
+
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
+          ctx.shadowBlur = glowBlur + flash * 6;
+          ctx.shadowColor = glowCol;
+
+          ctx.strokeStyle = lineCol;
+          ctx.lineWidth = lineWidth + flash * 0.25;
+
+          ctx.beginPath();
+
+          let x0 = -period + xShift;
+          let first = true;
+
+          while (x0 < w + period) {
+            for (let x = 0; x <= period; x += 3) {
+              const px = x0 + x;
+              const u = x / period;
+
+              const noise = Math.sin((px + now*0.01) * 0.008) * 0.20;
+
+              let spike = 0;
+              for (let b=0; b<beats; b++){
+                const uu = (u * beats) - b;
+                if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
+              }
+
+              const amp = ampBase + flash * 1.0;
+              const y = midY + (noise * 9) - (spike * amp * 6.0);
+
+              if (first) { ctx.moveTo(px, y); first = false; }
+              else { ctx.lineTo(px, y); }
+            }
+            x0 += period;
+          }
+
+          ctx.stroke();
+
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 0.62 + flash * 0.08;
+          ctx.lineWidth = 1.1;
+          ctx.strokeStyle = 'rgba(15,23,42,0.10)';
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        ctx.save();
+        const scanX = (xShift * 1.35) % (w + 240) - 120;
+        const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
+        scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
+        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash*0.02})`);
+        scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore();
+
+        requestAnimationFrame(frame);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) last = performance.now();
+      }, { passive: true });
+
+      requestAnimationFrame(frame);
+    })();
+  </script>
+
+</body>
+</html>

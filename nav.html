@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saas Clinic - Navbar (Light)</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-transparent">
+  <!-- nav.html -->
+<!-- nav.html (ONLY NAVBAR MARKUP) -->
+<!-- nav.html -->
+<header id="siteNav"
+  class="fixed top-0 left-0 right-0 z-[9999] w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/70">
+  <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-20 items-center justify-between">
+
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 min-w-0">
+        <div class="h-12 w-12 rounded-xl bg-white/80 flex items-center justify-center shrink-0 border border-slate-200/70 shadow-sm">
+          <span class="text-slate-900 font-extrabold">SC</span>
+        </div>
+
+        <div class="min-w-0">
+          <div class="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight truncate">Saas Clinic</div>
+          <div class="text-xs sm:text-sm text-slate-600 leading-tight truncate">Because We Respect Life</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-8">
+        <ul class="flex items-center gap-7 text-slate-700 font-semibold">
+          <li>
+            <a data-nav="index.html" href="index.html" class="nav-link relative py-2 hover:text-emerald-700 transition-colors">
+              Home
+              <span class="nav-underline absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-600 rounded-full transition-all"></span>
+            </a>
+          </li>
+          <li>
+            <a data-nav="about.html" href="about.html" class="nav-link relative py-2 hover:text-emerald-700 transition-colors">
+              About
+              <span class="nav-underline absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-600 rounded-full transition-all"></span>
+            </a>
+          </li>
+          <li>
+            <a data-nav="saas.html" href="saas.html" class="nav-link relative py-2 hover:text-emerald-700 transition-colors">
+              SAAS
+              <span class="nav-underline absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-600 rounded-full transition-all"></span>
+            </a>
+          </li>
+          <li>
+            <a data-nav="DrPrakharAgarwal.html" href="DrPrakharAgarwal.html" class="nav-link relative py-2 hover:text-emerald-700 transition-colors">
+              Dr. Prakhar Agarwal
+              <span class="nav-underline absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-600 rounded-full transition-all"></span>
+            </a>
+          </li>
+          <li>
+            <a data-nav="DrKirtiKadian.html" href="DrKirtiKadian.html" class="nav-link relative py-2 hover:text-emerald-700 transition-colors">
+              Dr. Kirti Kadian
+              <span class="nav-underline absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-600 rounded-full transition-all"></span>
+            </a>
+          </li>
+        </ul>
+
+        <a data-nav="contact.html" href="contact.html"
+          class="nav-btn inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-white font-bold shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition">
+          Contact Us
+        </a>
+      </div>
+
+      <!-- Mobile Button -->
+      <button id="menuBtn"
+        class="lg:hidden inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/80 p-2 text-slate-900 shadow-sm hover:bg-white transition"
+        aria-label="Open menu" aria-expanded="false" type="button">
+        <svg id="iconOpen" class="h-6 w-6" viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <svg id="iconClose" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="lg:hidden hidden pb-5">
+      <div class="rounded-2xl border border-slate-200/70 bg-white/90 backdrop-blur-xl overflow-hidden shadow-lg">
+        <ul class="flex flex-col text-slate-700 font-semibold">
+          <li><a data-nav="index.html" href="index.html" class="m-link block px-4 py-3 hover:bg-slate-50">Home</a></li>
+          <li><a data-nav="about.html" href="about.html" class="m-link block px-4 py-3 hover:bg-slate-50">About</a></li>
+          <li><a data-nav="saas.html" href="saas.html" class="m-link block px-4 py-3 hover:bg-slate-50">SAAS</a></li>
+          <li><a data-nav="DrPrakharAgarwal.html" href="DrPrakharAgarwal.html" class="m-link block px-4 py-3 hover:bg-slate-50">Dr. Prakhar Agarwal</a></li>
+          <li><a data-nav="DrKirtiKadian.html" href="DrKirtiKadian.html" class="m-link block px-4 py-3 hover:bg-slate-50">Dr. Kirti Kadian</a></li>
+          <li><a data-nav="contact.html" href="contact.html" class="m-link block px-4 py-3 hover:bg-slate-50">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </nav>
+</header>
+
+    <!-- ✅ Your existing nav.js will work -->
+    <script type="module" src="./nav.js"></script>
+  </body>
+</html>
