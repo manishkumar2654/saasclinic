@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,213 +10,386 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    :root{
+    :root {
       /* Light base (warm-neutral, soft) */
-      --bg-0:#F7F8FB;
-      --bg-1:#F3F5FA;
-      --bg-2:#EEF2F8;
+      --bg-0: #F7F8FB;
+      --bg-1: #F3F5FA;
+      --bg-2: #EEF2F8;
 
       /* Light glass tokens */
-      --card: rgba(255,255,255,0.66);
-      --card-strong: rgba(255,255,255,0.78);
-      --card-soft: rgba(255,255,255,0.52);
+      --card: rgba(255, 255, 255, 0.66);
+      --card-strong: rgba(255, 255, 255, 0.78);
+      --card-soft: rgba(255, 255, 255, 0.52);
 
-      --border: rgba(15,23,42,0.10);
-      --border-soft: rgba(15,23,42,0.07);
+      --border: rgba(15, 23, 42, 0.10);
+      --border-soft: rgba(15, 23, 42, 0.07);
 
       /* Text (dark palette, high readability) */
-      --text: rgba(15,23,42,0.94);
-      --text-soft: rgba(15,23,42,0.70);
+      --text: rgba(15, 23, 42, 0.94);
+      --text-soft: rgba(15, 23, 42, 0.70);
 
       /* Premium soft shadow */
       --shadow:
-        0 24px 70px -40px rgba(15,23,42,0.28),
-        0 10px 28px -18px rgba(15,23,42,0.16);
+        0 24px 70px -40px rgba(15, 23, 42, 0.28),
+        0 10px 28px -18px rgba(15, 23, 42, 0.16);
 
       /* Light overlays */
-      --overlay: rgba(255,255,255,0.62);
+      --overlay: rgba(255, 255, 255, 0.62);
 
       /* Videos */
-      --v-op:0.90;
-      --v-blur:0.3px;
+      --v-op: 0.90;
+      --v-blur: 0.3px;
 
       /* Pulse App (subtle) */
-      --pulse-opacity:0.18;
-      --pulse-grid: rgba(2,132,199,0.045);
-      --pulse-line: rgba(20,184,166,0.55);
-      --pulse-glow: rgba(20,184,166,0.16);
+      --pulse-opacity: 0.18;
+      --pulse-grid: rgba(2, 132, 199, 0.045);
+      --pulse-line: rgba(20, 184, 166, 0.55);
+      --pulse-glow: rgba(20, 184, 166, 0.16);
 
       /* Heart SVG */
       --heart-op: 0.08;
-      --heart-glow: rgba(20,184,166,0.14);
+      --heart-glow: rgba(20, 184, 166, 0.14);
     }
 
-    body{
+    body {
       background:
-        radial-gradient(1100px 760px at 18% 14%, rgba(2,132,199,0.10), transparent 58%),
-        radial-gradient(1000px 700px at 82% 18%, rgba(16,185,129,0.08), transparent 60%),
-        radial-gradient(950px 650px at 55% 86%, rgba(99,102,241,0.07), transparent 62%),
+        radial-gradient(1100px 760px at 18% 14%, rgba(2, 132, 199, 0.10), transparent 58%),
+        radial-gradient(1000px 700px at 82% 18%, rgba(16, 185, 129, 0.08), transparent 60%),
+        radial-gradient(950px 650px at 55% 86%, rgba(99, 102, 241, 0.07), transparent 62%),
         linear-gradient(180deg, var(--bg-2), var(--bg-0));
       color: var(--text);
     }
 
-    @media (prefers-reduced-motion: reduce){
-      .reveal,.reveal-1,.reveal-2,.reveal-3,.reveal-4,.reveal-5,.reveal-6,.reveal-7,.reveal-8,
-      .hover-shine::after,.pill-shimmer::after,.heart-3d,
-      .anim-base,.hover-lift,.hover-glow,.btn-press,.link-underline::after,.img-zoom{ animation:none !important; transition:none !important; transform:none !important; filter:none !important; }
-      .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
+    @media (prefers-reduced-motion: reduce) {
+
+      .reveal,
+      .reveal-1,
+      .reveal-2,
+      .reveal-3,
+      .reveal-4,
+      .reveal-5,
+      .reveal-6,
+      .reveal-7,
+      .reveal-8,
+      .hover-shine::after,
+      .pill-shimmer::after,
+      .heart-3d,
+      .anim-base,
+      .hover-lift,
+      .hover-glow,
+      .btn-press,
+      .link-underline::after,
+      .img-zoom {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+      }
+
+      .bg-video-layer,
+      #pulseCanvas,
+      .particle-layer {
+        display: none !important;
+      }
     }
 
     /* ==== Your original animation helpers (kept) ==== */
     @keyframes fadeUp {
-      0% { opacity: 0; transform: translate3d(0, 14px, 0); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0); }
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 14px, 0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
     }
-    .reveal { opacity: 0; transform: translate3d(0, 14px, 0); animation: fadeUp .72s cubic-bezier(.2, .8, .2, 1) forwards; }
-    .reveal-1 { animation-delay: .06s; }
-    .reveal-2 { animation-delay: .12s; }
-    .reveal-3 { animation-delay: .18s; }
-    .reveal-4 { animation-delay: .24s; }
-    .reveal-5 { animation-delay: .30s; }
-    .reveal-6 { animation-delay: .36s; }
-    .reveal-7 { animation-delay: .42s; }
-    .reveal-8 { animation-delay: .48s; }
+
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      animation: fadeUp .72s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .reveal-1 {
+      animation-delay: .06s;
+    }
+
+    .reveal-2 {
+      animation-delay: .12s;
+    }
+
+    .reveal-3 {
+      animation-delay: .18s;
+    }
+
+    .reveal-4 {
+      animation-delay: .24s;
+    }
+
+    .reveal-5 {
+      animation-delay: .30s;
+    }
+
+    .reveal-6 {
+      animation-delay: .36s;
+    }
+
+    .reveal-7 {
+      animation-delay: .42s;
+    }
+
+    .reveal-8 {
+      animation-delay: .48s;
+    }
 
     @keyframes softPulse {
-      0% { opacity: .75; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.02); }
-      100% { opacity: .75; transform: scale(1); }
-    }
-    .pulse-soft { animation: softPulse 2.8s ease-in-out infinite; }
+      0% {
+        opacity: .75;
+        transform: scale(1);
+      }
 
-    .hover-shine{ position:relative; overflow:hidden; isolation:isolate; }
-    .hover-shine::after{
-      content:"";
-      position:absolute;
-      inset:-40% -60%;
-      transform:translateX(-60%) rotate(12deg);
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
-      opacity:0;
-      transition:opacity .25s ease;
-      pointer-events:none;
-    }
-    .hover-shine:hover::after{ opacity:1; animation:shineMove .8s cubic-bezier(.2,.8,.2,1) forwards; }
-    @keyframes shineMove{ 0%{transform:translateX(-60%) rotate(12deg);} 100%{transform:translateX(60%) rotate(12deg);} }
+      50% {
+        opacity: 1;
+        transform: scale(1.02);
+      }
 
-    .pill-shimmer{ position:relative; overflow:hidden; isolation:isolate; }
-    .pill-shimmer::after{
-      content:"";
-      position:absolute; inset:0;
-      transform:translateX(-120%);
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.70), transparent);
-      opacity:0; pointer-events:none;
+      100% {
+        opacity: .75;
+        transform: scale(1);
+      }
     }
-    .pill-shimmer:hover::after{ opacity:1; animation:pillShine .9s ease forwards; }
-    @keyframes pillShine{ 0%{transform:translateX(-120%);} 100%{transform:translateX(120%);} }
+
+    .pulse-soft {
+      animation: softPulse 2.8s ease-in-out infinite;
+    }
+
+    .hover-shine {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hover-shine::after {
+      content: "";
+      position: absolute;
+      inset: -40% -60%;
+      transform: translateX(-60%) rotate(12deg);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+
+    .hover-shine:hover::after {
+      opacity: 1;
+      animation: shineMove .8s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    @keyframes shineMove {
+      0% {
+        transform: translateX(-60%) rotate(12deg);
+      }
+
+      100% {
+        transform: translateX(60%) rotate(12deg);
+      }
+    }
+
+    .pill-shimmer {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .pill-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-120%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .70), transparent);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pill-shimmer:hover::after {
+      opacity: 1;
+      animation: pillShine .9s ease forwards;
+    }
+
+    @keyframes pillShine {
+      0% {
+        transform: translateX(-120%);
+      }
+
+      100% {
+        transform: translateX(120%);
+      }
+    }
 
     /* ==== Premium glass tokens ==== */
-    .glass{
-      background:var(--card);
-      border-color:var(--border);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
-    }
-    .glass-strong{
-      background:var(--card-strong);
-      border-color:var(--border);
+    .glass {
+      background: var(--card);
+      border-color: var(--border);
       box-shadow: var(--shadow);
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
-    .glass-soft{
-      background:var(--card-soft);
-      border-color:var(--border-soft);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
+
+    .glass-strong {
+      background: var(--card-strong);
+      border-color: var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .glass-soft {
+      background: var(--card-soft);
+      border-color: var(--border-soft);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     /* ==== Floating glow particles ==== */
-    .particle-layer{ pointer-events:none; position:fixed; inset:0; z-index:-6; overflow:hidden; }
-    .floaty{
-      position:absolute; width:22rem; height:22rem; border-radius:9999px;
-      filter:blur(44px); opacity:.14; transform:translateZ(0);
-      animation:drift 14s ease-in-out infinite; will-change:transform, opacity;
+    .particle-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -6;
+      overflow: hidden;
+    }
+
+    .floaty {
+      position: absolute;
+      width: 22rem;
+      height: 22rem;
+      border-radius: 9999px;
+      filter: blur(44px);
+      opacity: .14;
+      transform: translateZ(0);
+      animation: drift 14s ease-in-out infinite;
+      will-change: transform, opacity;
       mix-blend-mode: multiply;
     }
-    .floaty.small{ width:14rem; height:14rem; opacity:.12; filter:blur(38px); animation-duration:16s; }
-    .floaty.tiny{ width:10rem; height:10rem; opacity:.10; filter:blur(32px); animation-duration:18s; }
-    @keyframes drift{
-      0%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
-      50%{ transform:translate3d(18px,-22px,0) scale(1.04); opacity:.16; }
-      100%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
+
+    .floaty.small {
+      width: 14rem;
+      height: 14rem;
+      opacity: .12;
+      filter: blur(38px);
+      animation-duration: 16s;
+    }
+
+    .floaty.tiny {
+      width: 10rem;
+      height: 10rem;
+      opacity: .10;
+      filter: blur(32px);
+      animation-duration: 18s;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: .10;
+      }
+
+      50% {
+        transform: translate3d(18px, -22px, 0) scale(1.04);
+        opacity: .16;
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: .10;
+      }
     }
 
     /* ==== Left/Right videos ==== */
-    .bg-video-layer{ pointer-events:none; position:fixed; inset:0; z-index:-10; overflow:hidden; }
-    .bg-video{
-      will-change:transform;
-      transform:translateZ(0);
-      opacity:var(--v-op);
-      filter:blur(var(--v-blur)) saturate(0.95) contrast(0.98);
+    .bg-video-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+    }
+
+    .bg-video {
+      will-change: transform;
+      transform: translateZ(0);
+      opacity: var(--v-op);
+      filter: blur(var(--v-blur)) saturate(0.95) contrast(0.98);
     }
 
     /* ==== Pulse canvas ==== */
-    #pulseCanvas{
-      pointer-events:none;
-      position:fixed;
-      inset:0;
-      z-index:-8;
-      opacity:var(--pulse-opacity);
+    #pulseCanvas {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -8;
+      opacity: var(--pulse-opacity);
     }
 
     /* ==== 3D rotating heart SVG ==== */
-    .heart-wrap{
-      pointer-events:none;
-      position:fixed;
-      inset:0;
-      z-index:-7;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
+    .heart-wrap {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    .heart-3d{
-      width:min(520px, 70vw);
+
+    .heart-3d {
+      width: min(520px, 70vw);
       aspect-ratio: 1 / 1;
-      opacity:var(--heart-op);
-      transform-style:preserve-3d;
+      opacity: var(--heart-op);
+      transform-style: preserve-3d;
       filter: drop-shadow(0 0 22px var(--heart-glow));
       animation: heartSpin 12s linear infinite;
       will-change: transform;
     }
-    @keyframes heartSpin{
-      0%{ transform: rotateX(14deg) rotateY(0deg) scale(1); }
-      50%{ transform: rotateX(14deg) rotateY(180deg) scale(1.02); }
-      100%{ transform: rotateX(14deg) rotateY(360deg) scale(1); }
+
+    @keyframes heartSpin {
+      0% {
+        transform: rotateX(14deg) rotateY(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotateX(14deg) rotateY(180deg) scale(1.02);
+      }
+
+      100% {
+        transform: rotateX(14deg) rotateY(360deg) scale(1);
+      }
     }
 
     /* ==== Make "bg-slate-50" sections premium glass but keep layout same ==== */
-    .glass-section{
-      background: rgba(255,255,255,0.52) !important;
-      border-color: rgba(15,23,42,0.10) !important;
-      box-shadow: 0 18px 60px -45px rgba(15,23,42,0.18);
+    .glass-section {
+      background: rgba(255, 255, 255, 0.52) !important;
+      border-color: rgba(15, 23, 42, 0.10) !important;
+      box-shadow: 0 18px 60px -45px rgba(15, 23, 42, 0.18);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
 
     /* ==== Make your white cards slightly glassy (light premium) ==== */
-    .card-glass{
-      background: rgba(255,255,255,0.72) !important;
-      border-color: rgba(15,23,42,0.12) !important;
+    .card-glass {
+      background: rgba(255, 255, 255, 0.72) !important;
+      border-color: rgba(15, 23, 42, 0.12) !important;
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
-    .card-glass-soft{
-      background: rgba(255,255,255,0.58) !important;
-      border-color: rgba(15,23,42,0.09) !important;
-      box-shadow: 0 16px 46px -40px rgba(15,23,42,0.18);
+
+    .card-glass-soft {
+      background: rgba(255, 255, 255, 0.58) !important;
+      border-color: rgba(15, 23, 42, 0.09) !important;
+      box-shadow: 0 16px 46px -40px rgba(15, 23, 42, 0.18);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -223,102 +397,113 @@
     /* =======================================================================
        ✅ NO-REDESIGN Premium Animation System (added)
        ======================================================================= */
-    .anim-base{
+    .anim-base {
       will-change: transform, opacity, filter;
       transition-property: transform, opacity, filter;
       transition-duration: 320ms;
-      transition-timing-function: cubic-bezier(.2,.8,.2,1);
+      transition-timing-function: cubic-bezier(.2, .8, .2, 1);
       transform: translateZ(0);
     }
 
     /* Hover lift + tiny scale (only when hover is supported) */
-    @media (hover:hover){
-      .hover-lift:hover{
-        transform: translate3d(0,-4px,0) scale(1.01);
+    @media (hover:hover) {
+      .hover-lift:hover {
+        transform: translate3d(0, -4px, 0) scale(1.01);
       }
     }
+
     /* Tap / active feedback for touch too */
-    .hover-lift:active{
-      transform: translate3d(0,-1px,0) scale(0.995);
+    .hover-lift:active {
+      transform: translate3d(0, -1px, 0) scale(0.995);
     }
 
     /* Subtle glow ring using existing emerald/blue palette */
-    .hover-glow{
+    .hover-glow {
       position: relative;
     }
-    @media (hover:hover){
-      .hover-glow:hover{
+
+    @media (hover:hover) {
+      .hover-glow:hover {
         filter: saturate(1.02);
         box-shadow:
-          0 0 0 1px rgba(16,185,129,0.10),
-          0 0 0 6px rgba(16,185,129,0.06),
-          0 10px 28px -18px rgba(15,23,42,0.14);
+          0 0 0 1px rgba(16, 185, 129, 0.10),
+          0 0 0 6px rgba(16, 185, 129, 0.06),
+          0 10px 28px -18px rgba(15, 23, 42, 0.14);
       }
     }
-    .hover-glow:active{
+
+    .hover-glow:active {
       box-shadow:
-        0 0 0 1px rgba(2,132,199,0.12),
-        0 0 0 5px rgba(2,132,199,0.06),
-        0 10px 28px -18px rgba(15,23,42,0.12);
+        0 0 0 1px rgba(2, 132, 199, 0.12),
+        0 0 0 5px rgba(2, 132, 199, 0.06),
+        0 10px 28px -18px rgba(15, 23, 42, 0.12);
     }
 
     /* Button press */
-    .btn-press:active{
+    .btn-press:active {
       transform: scale(0.98);
     }
 
     /* Focus-visible ring for links/buttons (no class changes to theme) */
     a:focus-visible,
-    button:focus-visible{
+    button:focus-visible {
       outline: none;
       box-shadow:
-        0 0 0 2px rgba(255,255,255,0.70),
-        0 0 0 6px rgba(16,185,129,0.16),
-        0 0 0 1px rgba(16,185,129,0.30);
+        0 0 0 2px rgba(255, 255, 255, 0.70),
+        0 0 0 6px rgba(16, 185, 129, 0.16),
+        0 0 0 1px rgba(16, 185, 129, 0.30);
       border-radius: 1rem;
     }
 
     /* Link underline slide animation */
-    .link-underline{
+    .link-underline {
       position: relative;
       text-decoration: none;
     }
-    .link-underline::after{
-      content:"";
-      position:absolute;
-      left:0; right:0;
-      bottom:-2px;
-      height:2px;
+
+    .link-underline::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
       background: currentColor;
       transform: scaleX(0);
       transform-origin: left;
-      opacity:0.55;
-      transition: transform 280ms cubic-bezier(.2,.8,.2,1), opacity 280ms ease;
+      opacity: 0.55;
+      transition: transform 280ms cubic-bezier(.2, .8, .2, 1), opacity 280ms ease;
     }
-    @media (hover:hover){
-      .link-underline:hover::after{
+
+    @media (hover:hover) {
+      .link-underline:hover::after {
         transform: scaleX(1);
-        opacity:0.75;
+        opacity: 0.75;
       }
     }
-    .link-underline:active::after{
+
+    .link-underline:active::after {
       transform: scaleX(1);
-      opacity:0.85;
+      opacity: 0.85;
     }
 
     /* Image zoom (use ONLY when parent already overflow-hidden) */
-    .img-zoom{
+    .img-zoom {
       will-change: transform;
-      transition: transform 340ms cubic-bezier(.2,.8,.2,1), filter 340ms ease;
+      transition: transform 340ms cubic-bezier(.2, .8, .2, 1), filter 340ms ease;
       transform: translateZ(0);
     }
-    @media (hover:hover){
-      .img-zoom:hover{
+
+    @media (hover:hover) {
+      .img-zoom:hover {
         transform: scale(1.04);
         filter: saturate(1.02);
       }
     }
-    .img-zoom:active{ transform: scale(1.02); }
+
+    .img-zoom:active {
+      transform: scale(1.02);
+    }
   </style>
 </head>
 
@@ -327,9 +512,12 @@
   <!-- Floating glow particles -->
   <div class="particle-layer">
     <div class="floaty" style="left:-6rem; top:10%; background: rgba(2,132,199,0.22);"></div>
-    <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;"></div>
-    <div class="floaty tiny" style="left:18%; bottom:-5rem; background: rgba(99,102,241,0.16); animation-delay:-7s;"></div>
-    <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;"></div>
+    <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;">
+    </div>
+    <div class="floaty tiny" style="left:18%; bottom:-5rem; background: rgba(99,102,241,0.16); animation-delay:-7s;">
+    </div>
+    <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;">
+    </div>
   </div>
 
   <!-- Pulse App Background -->
@@ -345,15 +533,11 @@
     <!-- RIGHT (FULL WIDTH) -->
     <div class="fixed inset-0 w-full h-full overflow-hidden">
 
-      <img
-        src="./images/heartpump.webp"
-        alt="Heart Pump Animation"
-        class="absolute inset-0 h-full w-full object-cover object-center anim-base img-zoom"
-      />
+      <img src="./images/heartpump.webp" alt="Heart Pump Animation"
+        class="absolute inset-0 h-full w-full object-cover object-center anim-base img-zoom" />
 
       <!-- Softer Light Gradient -->
-      <div class="absolute inset-0"
-        style="background: linear-gradient(to left,
+      <div class="absolute inset-0" style="background: linear-gradient(to left,
         rgba(247,248,251,0.97),
         rgba(247,248,251,0.85),
         rgba(247,248,251,0.65),
@@ -363,8 +547,7 @@
     </div>
 
     <!-- GLOBAL LIGHT OVERLAY -->
-    <div class="absolute inset-0"
-      style="background: linear-gradient(to bottom,
+    <div class="absolute inset-0" style="background: linear-gradient(to bottom,
       rgba(255,255,255,0.65),
       rgba(255,255,255,0.4));">
     </div>
@@ -399,11 +582,58 @@
       // Slider
       fetch("./slider.html")
         .then(r => r.text())
-        .then(html => {
-          document.getElementById("slider-container").innerHTML = html;
+        .then(async (html) => {
+          const holder = document.getElementById("slider-container");
+          holder.innerHTML = html;
 
-          // ✅ slider inject hone ke baad slider init call karo
-          import("./slider.js").then(m => m.initImageSlider());
+          // ✅ 1) Strong blocker (works even if slider.js uses capturing/bubbling events)
+          //    NOTE: mouseenter/pointerenter don't bubble, so we block listener-attachment too (below)
+          const sliderEl = holder.querySelector("#imgSlider");
+          if (sliderEl) {
+            const block = (e) => e.stopImmediatePropagation();
+
+            // block bubbling ones
+            ["mouseover", "mouseout", "pointerover", "pointerout"].forEach(ev => {
+              sliderEl.addEventListener(ev, block, true);
+            });
+          }
+
+          // ✅ 2) The real fix: prevent slider.js from attaching hover-pause listeners on #imgSlider
+          const hoverEvents = new Set([
+            "mouseenter", "mouseleave",
+            "mouseover", "mouseout",
+            "pointerenter", "pointerleave",
+            "pointerover", "pointerout",
+            "focusin", "focusout"
+          ]);
+
+          const originalAdd = EventTarget.prototype.addEventListener;
+
+          function isInsideImgSlider(target) {
+            if (!target || !sliderEl) return false;
+            // target can be Window/Document too
+            if (target === sliderEl) return true;
+            if (target instanceof Element) {
+              return target === sliderEl || target.closest("#imgSlider");
+            }
+            return false;
+          }
+
+          EventTarget.prototype.addEventListener = function (type, listener, options) {
+            // If slider.js tries to pause on hover by binding to #imgSlider (or inside it), ignore it.
+            if (sliderEl && hoverEvents.has(type) && isInsideImgSlider(this)) {
+              return; // ✅ don't attach hover pause listeners
+            }
+            return originalAdd.call(this, type, listener, options);
+          };
+
+          try {
+            const m = await import("./slider.js");
+            m.initImageSlider();
+          } finally {
+            // ✅ restore default behavior for rest of site
+            EventTarget.prototype.addEventListener = originalAdd;
+          }
         });
     </script>
     <!--///////////////////////// Slider End  ///////////////////////////////////////// -->
@@ -411,7 +641,8 @@
     <!--==================== Call for Appointment Section ====================-->
     <section id="call-appointment" class="py-10 sm:py-14 relative z-10 reveal reveal-3">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+        <div
+          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
           <!-- Glow background -->
           <div class="pointer-events-none absolute inset-0">
@@ -419,11 +650,13 @@
             <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
           </div>
 
-          <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
+          <div
+            class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
             <!-- Left -->
             <div class="lg:col-span-7">
-              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+              <p
+                class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
                 <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                 24×7 Support • Fast Confirmation
               </p>
@@ -458,19 +691,22 @@
             <!-- Right (info cards) -->
             <div class="lg:col-span-5">
               <div class="grid gap-4">
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Clinic Hours</p>
                   <p class="mt-1 text-base font-extrabold text-slate-900">10:00 AM – 6:00 PM</p>
                   <p class="mt-1 text-sm text-slate-600">Mon – Sat (Emergency 24×7)</p>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Quick Service</p>
                   <p class="mt-1 text-base font-extrabold text-slate-900">Instant Slot Confirmation</p>
                   <p class="mt-1 text-sm text-slate-600">No waiting • Priority support</p>
                 </div>
 
-                <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-white/80">Need Help?</p>
                   <p class="mt-1 text-base font-extrabold">Chat + Call Support</p>
                   <p class="mt-1 text-sm text-white/85">We’re here to assist you anytime.</p>
@@ -487,7 +723,8 @@
     <!--==================== Patient-Centered Care Section ====================-->
     <section class="py-10 sm:py-14 relative z-10 reveal reveal-4">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+        <div
+          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
           <!-- Soft background glow -->
           <div class="pointer-events-none absolute inset-0">
@@ -495,17 +732,20 @@
             <div class="absolute -bottom-28 left-0 h-80 w-80 rounded-full bg-emerald-500/7 blur-3xl"></div>
           </div>
 
-          <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
+          <div
+            class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
             <!-- Left: Content -->
             <div class="lg:col-span-7">
-              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+              <p
+                class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
                 <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                 Patient-Centered Care
               </p>
 
               <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-                Caring for you with <span class="text-blue-600">compassion</span> and <span class="text-blue-600">respect</span>
+                Caring for you with <span class="text-blue-600">compassion</span> and <span
+                  class="text-blue-600">respect</span>
               </h2>
 
               <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
@@ -529,19 +769,22 @@
             <!-- Right: Feature Cards -->
             <div class="lg:col-span-5">
               <div class="grid gap-4">
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Quality Care</p>
                   <p class="mt-1 text-base font-extrabold text-slate-900">High Standards</p>
                   <p class="mt-1 text-sm text-slate-600">Reliable diagnosis & modern care process.</p>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Patient First</p>
                   <p class="mt-1 text-base font-extrabold text-slate-900">Comfort & Trust</p>
                   <p class="mt-1 text-sm text-slate-600">We listen, we care, we guide you.</p>
                 </div>
 
-                <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-white/80">Compassion</p>
                   <p class="mt-1 text-base font-extrabold">Respect for Everyone</p>
                   <p class="mt-1 text-sm text-white/85">A supportive experience for every individual.</p>
@@ -559,16 +802,19 @@
     <section id="home-about" class="py-10 sm:py-14 lg:py-16 relative z-10 reveal reveal-6">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+        <div
+          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
           <div class="pointer-events-none absolute inset-0">
             <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"></div>
             <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
           </div>
 
-          <div class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
+          <div
+            class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
 
             <div class="lg:col-span-7">
-              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+              <p
+                class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
                 <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                 About Saas Clinic
               </p>
@@ -580,30 +826,34 @@
               </h2>
 
               <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-                 Saas Clinic ka focus hai: har patient ko comfort, clarity aur trustworthy guidance dena —
+                Saas Clinic ka focus hai: har patient ko comfort, clarity aur trustworthy guidance dena —
                 hygiene-first environment aur modern clinic workflow ke saath.
               </p>
 
               <div class="mt-7 grid gap-4 sm:grid-cols-2">
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold text-slate-900">Patient-First Approach</p>
                   <p class="mt-2 text-sm text-slate-600">
-                     Consultation me aapko clear explanation + right plan milta hai.
+                    Consultation me aapko clear explanation + right plan milta hai.
                   </p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold text-slate-900">Hygiene & Safety</p>
                   <p class="mt-2 text-sm text-slate-600">
-                     Clean clinic, safe patient flow, and respectful care.
+                    Clean clinic, safe patient flow, and respectful care.
                   </p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold text-slate-900">Modern Tools</p>
                   <p class="mt-2 text-sm text-slate-600">
-                     Appointments, reminders, reports — organized experience.
+                    Appointments, reminders, reports — organized experience.
                   </p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold text-slate-900">Trusted Specialists</p>
                   <p class="mt-2 text-sm text-slate-600">
                     Dr. Prakhar Agarwal • Dr. Kirti Kadian ( profiles)
@@ -612,19 +862,23 @@
               </div>
 
               <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Patients</p>
                   <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Rating</p>
                   <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Support</p>
                   <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Experience</p>
                   <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
                 </div>
@@ -650,10 +904,14 @@
 
             <div class="lg:col-span-5">
               <div class="grid gap-4">
-                <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
-                  <img src="./images/saa7.jpg" alt="Clinic" class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72 img-zoom" />
-                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
-                  <div class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur anim-base hover-lift hover-glow">
+                <div
+                  class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+                  <img src="./images/saa7.jpg" alt="Clinic"
+                    class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72 img-zoom" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent">
+                  </div>
+                  <div
+                    class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur anim-base hover-lift hover-glow">
                     <p class="text-xs font-semibold text-white/70">Our Promise</p>
                     <p class="mt-1 text-base font-extrabold">Comfort • Clarity • Care</p>
                     <p class="mt-1 text-sm text-white/80">Premium clinic experience on every visit.</p>
@@ -661,7 +919,8 @@
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2">
-                  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
+                  <div
+                    class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
                     <img src="./images/saa8.jpg" alt="Care" class="h-40 w-full object-cover img-zoom" />
                     <div class="p-4">
                       <p class="text-sm font-extrabold">Clean Environment</p>
@@ -669,7 +928,8 @@
                     </div>
                   </div>
 
-                  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
+                  <div
+                    class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
                     <img src="./images/saa9.jpg" alt="Support" class="h-40 w-full object-cover img-zoom" />
                     <div class="p-4">
                       <p class="text-sm font-extrabold">Friendly Support</p>
@@ -678,12 +938,14 @@
                   </div>
                 </div>
 
-                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-3xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-xs font-semibold text-slate-500">Quick Note</p>
                   <p class="mt-2 text-sm text-slate-700 leading-relaxed">
-                     Aap “About” page me detailed story, doctors, facilities, testimonials aur FAQ bhi dekh sakte hain.
+                    Aap “About” page me detailed story, doctors, facilities, testimonials aur FAQ bhi dekh sakte hain.
                   </p>
-                  <a href="about.html" class="mt-4 inline-flex items-center font-bold text-blue-600 hover:text-blue-700 anim-base link-underline btn-press">
+                  <a href="about.html"
+                    class="mt-4 inline-flex items-center font-bold text-blue-600 hover:text-blue-700 anim-base link-underline btn-press">
                     Go to About Page →
                   </a>
                 </div>
@@ -703,7 +965,8 @@
         <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
 
           <div class="lg:col-span-5">
-            <div class="relative overflow-hidden rounded-3xl border border-slate-200 shadow-lg card-glass anim-base hover-lift hover-glow">
+            <div
+              class="relative overflow-hidden rounded-3xl border border-slate-200 shadow-lg card-glass anim-base hover-lift hover-glow">
               <img src="./images/saa6.jpg" alt="Clinic" class="h-72 w-full object-cover sm:h-80 lg:h-96 img-zoom">
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 to-transparent"></div>
               <div class="absolute bottom-5 left-5 right-5 text-white">
@@ -727,11 +990,13 @@
             </p>
 
             <div class="mt-6 grid gap-4 sm:grid-cols-2">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold">Quality Care</p>
                 <p class="mt-1 text-xs text-slate-600">Evidence-based consultation & accurate diagnosis.</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold">Safe Environment</p>
                 <p class="mt-1 text-xs text-slate-600">Clean clinic & comfortable patient flow.</p>
               </div>
@@ -756,12 +1021,14 @@
     </section>
 
     <!--==================== BIG SAAS SECTION (HOME) ====================-->
-    <section id="home-saas" class="py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
+    <section id="home-saas"
+      class="py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+            <p
+              class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
               <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
               SAAS • Services Overview
             </p>
@@ -771,7 +1038,7 @@
             </h2>
 
             <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
-               Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
+              Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
               modern diagnostics + patient-friendly workflow ke saath manage karte hain.
               Aapko clear guidance, clean environment aur fast support milega.
             </p>
@@ -793,11 +1060,14 @@
         <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-start">
 
           <div class="lg:col-span-5">
-            <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
-              <img src="./images/saa10.jpg" alt="SaaS Clinic" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
+            <div
+              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+              <img src="./images/saa10.jpg" alt="SaaS Clinic"
+                class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
 
-              <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+              <div
+                class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-white/70">Premium Clinic Workflow</p>
                 <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
                 <p class="mt-1 text-sm text-white/80"> Smooth experience on mobile, tablet, and desktop.</p>
@@ -805,19 +1075,23 @@
             </div>
 
             <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-2">
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Patients</p>
                 <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Rating</p>
                 <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Support</p>
                 <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Avg Time</p>
                 <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
               </div>
@@ -825,21 +1099,23 @@
           </div>
 
           <div class="lg:col-span-7">
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass anim-base hover-lift hover-glow">
+            <div
+              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass anim-base hover-lift hover-glow">
               <p class="text-xs font-semibold text-slate-500">WHAT WE COVER</p>
               <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
                 One place for diagnosis, therapy & follow-ups
               </h3>
               <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-                 Saas Clinic ka system patient journey ko simplify karta hai:
+                Saas Clinic ka system patient journey ko simplify karta hai:
                 booking → consultation → diagnostics → reports → follow-up reminders.
               </p>
 
               <div class="mt-7 grid gap-4 sm:grid-cols-2">
                 <a href="saas.html#speciality-tabs"
-                   class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
                   <div class="flex items-start gap-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
                       P
                     </div>
                     <div>
@@ -848,7 +1124,7 @@
                     </div>
                   </div>
                   <p class="mt-3 text-sm text-slate-600">
-                     Lung function tests, reporting, guidance & care plans.
+                    Lung function tests, reporting, guidance & care plans.
                   </p>
                   <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
                     Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
@@ -856,9 +1132,10 @@
                 </a>
 
                 <a href="saas.html#speciality-tabs"
-                   class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
                   <div class="flex items-start gap-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
                       S
                     </div>
                     <div>
@@ -867,7 +1144,7 @@
                     </div>
                   </div>
                   <p class="mt-3 text-sm text-slate-600">
-                     PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
+                    PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
                   </p>
                   <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
                     Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
@@ -876,15 +1153,18 @@
               </div>
 
               <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold">Lung Function Testing</p>
                   <p class="mt-1 text-xs text-slate-600"> Accurate diagnosis & report.</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold">CPAP / BiPAP</p>
                   <p class="mt-1 text-xs text-slate-600"> Titration + comfort support.</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                   <p class="text-sm font-extrabold">Allergy Testing</p>
                   <p class="mt-1 text-xs text-slate-600"> Triggers + prevention plan.</p>
                 </div>
@@ -912,7 +1192,8 @@
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         <div class="text-center max-w-3xl mx-auto">
-          <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+          <p
+            class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
             SAAS • Chest, Allergy & Sleep Centre
           </p>
@@ -931,11 +1212,13 @@
         <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start">
 
           <div class="lg:col-span-5">
-            <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+            <div
+              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
               <img src="./images/saa10.jpg" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
 
-              <div class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+              <div
+                class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-white/70">Premium Workflow</p>
                 <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
                 <p class="mt-1 text-sm text-white/80"> Smooth experience across every visit.</p>
@@ -946,28 +1229,41 @@
           <div class="lg:col-span-7">
             <div class="grid gap-6 sm:grid-cols-2">
 
-              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
                 <p class="mt-2 text-sm text-slate-600">Lung function testing, diagnosis and structured care plans.</p>
-                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
               </div>
 
-              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-                <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.</p>
-                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
+                <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.
+                </p>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
               </div>
 
-              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
                 <p class="mt-2 text-sm text-slate-600">Testing, prevention strategies and immunotherapy guidance.</p>
-                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
               </div>
 
-              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
                 <p class="mt-2 text-sm text-slate-600">Breathing exercises, recovery plans and endurance training.</p>
-                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
               </div>
 
             </div>
@@ -990,7 +1286,8 @@
     </section>
 
     <!--==================== HOME: SPECIALIST DOCTORS SECTION ====================-->
-    <section id="doctors" class="relative py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 overflow-hidden relative z-10 glass-section">
+    <section id="doctors"
+      class="relative py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 overflow-hidden relative z-10 glass-section">
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-500/8 blur-3xl"></div>
         <div class="absolute -right-28 -top-10 h-72 w-72 rounded-full bg-blue-500/8 blur-3xl"></div>
@@ -1008,10 +1305,12 @@
 
         <div class="mt-12 grid gap-8 lg:grid-cols-2">
 
-          <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+          <div
+            class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
             <div class="grid lg:grid-cols-12">
               <div class="relative lg:col-span-5 overflow-hidden">
-                <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal" class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
+                <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal"
+                  class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
               </div>
 
@@ -1031,7 +1330,8 @@
 
                 <div class="mt-6 border-t border-slate-200 pt-5">
                   <div class="flex items-center gap-2 text-slate-700">
-                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
+                    <span
+                      class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
                     <p class="text-sm font-semibold text-slate-500">Available Timings</p>
                   </div>
 
@@ -1061,10 +1361,12 @@
             </div>
           </div>
 
-          <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+          <div
+            class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
             <div class="grid lg:grid-cols-12">
               <div class="relative lg:col-span-5 overflow-hidden">
-                <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian" class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
+                <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian"
+                  class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
               </div>
 
@@ -1084,7 +1386,8 @@
 
                 <div class="mt-6 border-t border-slate-200 pt-5">
                   <div class="flex items-center gap-2 text-slate-700">
-                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
+                    <span
+                      class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
                     <p class="text-sm font-semibold text-slate-500">Available Timings</p>
                   </div>
 
@@ -1120,7 +1423,8 @@
     </section>
 
     <!--==================== HOME CONTACT SECTION ====================-->
-    <section id="home-contact" class="relative py-10 sm:py-14 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
+    <section id="home-contact"
+      class="relative py-10 sm:py-14 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
         <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
@@ -1140,7 +1444,8 @@
         <div class="mt-12 grid gap-10 lg:grid-cols-12">
 
           <div class="lg:col-span-5 space-y-6">
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
+            <div
+              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
               <h3 class="text-lg font-extrabold text-slate-900">Clinic Details</h3>
 
               <div class="mt-5 space-y-4 text-sm text-slate-700">
@@ -1153,7 +1458,7 @@
                 <div class="anim-base">
                   <p class="font-semibold text-slate-500">Phone</p>
                   <a href="tel:+917997732332" class="text-emerald-600 font-semibold anim-base link-underline btn-press">
-                   +91 7997732332
+                    +91 7997732332
                   </a>
                 </div>
 
@@ -1170,7 +1475,8 @@
               </div>
             </div>
 
-            <div class="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow">
+            <div
+              class="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow">
               <h3 class="text-lg font-extrabold">Call for Appointment</h3>
               <p class="mt-2 text-sm text-white/90">
                 Confirm your slot quickly by speaking with our team.
@@ -1184,7 +1490,8 @@
           </div>
 
           <div class="lg:col-span-7">
-            <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg card-glass anim-base hover-lift hover-glow">
+            <div
+              class="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg card-glass anim-base hover-lift hover-glow">
               <h3 class="text-xl font-extrabold text-slate-900">Quick Appointment Request</h3>
 
               <form class="mt-6 space-y-5">
@@ -1228,23 +1535,23 @@
 
   <script>
     // Random heart rate variation engine (no UI)
-    const HR = (function(){
+    const HR = (function () {
       let bpm = 74;
       let target = 74;
       const min = 58, max = 92;
 
-      function randTarget(){
+      function randTarget() {
         target = Math.round(min + Math.random() * (max - min));
       }
       setInterval(randTarget, 4200);
 
-      function tick(){
+      function tick() {
         bpm += (target - bpm) * 0.035;
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
 
-      function getBpm(){ return Math.max(min, Math.min(max, bpm)); }
+      function getBpm() { return Math.max(min, Math.min(max, bpm)); }
       return { getBpm };
     })();
 
@@ -1270,20 +1577,20 @@
       resize();
       window.addEventListener('resize', resize, { passive: true });
 
-      function cssVar(name){
+      function cssVar(name) {
         return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
       }
 
-      function ecgShape(x){
-        const p = Math.exp(-Math.pow((x-0.18)/0.05,2)) * 0.35;
-        const q = -Math.exp(-Math.pow((x-0.32)/0.018,2)) * 0.55;
-        const r =  Math.exp(-Math.pow((x-0.36)/0.012,2)) * 2.8;
-        const s = -Math.exp(-Math.pow((x-0.40)/0.016,2)) * 0.85;
-        const tw = Math.exp(-Math.pow((x-0.62)/0.085,2)) * 0.65;
+      function ecgShape(x) {
+        const p = Math.exp(-Math.pow((x - 0.18) / 0.05, 2)) * 0.35;
+        const q = -Math.exp(-Math.pow((x - 0.32) / 0.018, 2)) * 0.55;
+        const r = Math.exp(-Math.pow((x - 0.36) / 0.012, 2)) * 2.8;
+        const s = -Math.exp(-Math.pow((x - 0.40) / 0.016, 2)) * 0.85;
+        const tw = Math.exp(-Math.pow((x - 0.62) / 0.085, 2)) * 0.65;
         return p + q + r + s + tw;
       }
 
-      function drawGrid(gridCol){
+      function drawGrid(gridCol) {
         ctx.save();
         ctx.strokeStyle = gridCol;
         const gridSize = (w < 520) ? 34 : 36;
@@ -1319,7 +1626,7 @@
       let beatTimer = 0;
       let flash = 0;
 
-      function frame(now){
+      function frame(now) {
         const dt = Math.min(0.04, (now - last) / 1000);
         last = now;
 
@@ -1327,7 +1634,7 @@
         const beatInterval = 60 / bpm;
 
         beatTimer += dt;
-        if (beatTimer >= beatInterval){
+        if (beatTimer >= beatInterval) {
           beatTimer -= beatInterval;
           flash = 1;
         }
@@ -1340,14 +1647,14 @@
         const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
         const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
 
-        ctx.clearRect(0,0,w,h);
+        ctx.clearRect(0, 0, w, h);
 
         ctx.save();
-        const g = ctx.createRadialGradient(w*0.5, h*0.45, 0, w*0.5, h*0.45, Math.max(w,h)*0.65);
+        const g = ctx.createRadialGradient(w * 0.5, h * 0.45, 0, w * 0.5, h * 0.45, Math.max(w, h) * 0.65);
         g.addColorStop(0, 'rgba(255,255,255,0.34)');
         g.addColorStop(1, 'rgba(15,23,42,0.03)');
         ctx.fillStyle = g;
-        ctx.fillRect(0,0,w,h);
+        ctx.fillRect(0, 0, w, h);
         ctx.restore();
 
         drawGrid(gridCol);
@@ -1355,7 +1662,7 @@
         const lanes = 1; /* ✅ always single ECG line (fixed) */
         const laneGap = h / (lanes + 1);
 
-        for (let i=1; i<=lanes; i++){
+        for (let i = 1; i <= lanes; i++) {
           const midY = laneGap * i;
 
           ctx.save();
@@ -1377,10 +1684,10 @@
               const px = x0 + x;
               const u = x / period;
 
-              const noise = Math.sin((px + now*0.01) * 0.008) * 0.20;
+              const noise = Math.sin((px + now * 0.01) * 0.008) * 0.20;
 
               let spike = 0;
-              for (let b=0; b<beats; b++){
+              for (let b = 0; b < beats; b++) {
                 const uu = (u * beats) - b;
                 if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
               }
@@ -1409,7 +1716,7 @@
         const scanX = (xShift * 1.35) % (w + 240) - 120;
         const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
         scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
-        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash*0.02})`);
+        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash * 0.02})`);
         scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
         ctx.fillStyle = scanGrad;
         ctx.fillRect(0, 0, w, h);
@@ -1427,4 +1734,5 @@
   </script>
 
 </body>
+
 </html>
