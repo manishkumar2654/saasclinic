@@ -56,7 +56,8 @@
 
     @media (prefers-reduced-motion: reduce){
       .reveal,.reveal-1,.reveal-2,.reveal-3,.reveal-4,.reveal-5,.reveal-6,.reveal-7,.reveal-8,
-      .hover-shine::after,.pill-shimmer::after,.heart-3d{ animation:none !important; transition:none !important; transform:none !important; }
+      .hover-shine::after,.pill-shimmer::after,.heart-3d,
+      .anim-base,.hover-lift,.hover-glow,.btn-press,.link-underline::after,.img-zoom{ animation:none !important; transition:none !important; transform:none !important; filter:none !important; }
       .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
     }
 
@@ -185,6 +186,49 @@
     /* Text helpers */
     .t-soft{ color: var(--text-soft); }
     .t-main{ color: var(--text); }
+
+    /* ================== Premium Interaction System (NO-REDESIGN) ================== */
+    .anim-base{
+      transition:
+        transform 320ms cubic-bezier(.2,.8,.2,1),
+        opacity 320ms cubic-bezier(.2,.8,.2,1),
+        filter 320ms cubic-bezier(.2,.8,.2,1);
+      will-change: transform, opacity, filter;
+      transform: translateZ(0);
+    }
+    .hover-lift:hover{ transform: translate3d(0,-4px,0) scale(1.01); }
+    .hover-glow:hover{ box-shadow: 0 0 0 6px rgba(16,185,129,0.10); }
+    .btn-press:active{ transform: scale(0.98); }
+    .btn-press:active{ filter: saturate(1.02); }
+
+    .link-underline{ position:relative; text-decoration:none; }
+    .link-underline::after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      bottom:-2px;
+      height:2px;
+      background: currentColor;
+      opacity:0.35;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 320ms cubic-bezier(.2,.8,.2,1), opacity 320ms cubic-bezier(.2,.8,.2,1);
+    }
+    .link-underline:hover::after{ transform: scaleX(1); opacity:0.55; }
+
+    /* Image zoom only where parent is already overflow-hidden */
+    .img-zoom{
+      transition: transform 420ms cubic-bezier(.2,.8,.2,1), filter 420ms cubic-bezier(.2,.8,.2,1);
+      will-change: transform, filter;
+      transform: translateZ(0);
+    }
+    .img-zoom:hover{ transform: scale(1.04); }
+
+    /* Tap feedback on touch without breaking layout */
+    @media (hover: none){
+      .hover-lift:hover{ transform:none; }
+      .hover-glow:hover{ box-shadow:none; }
+    }
   </style>
 </head>
 
@@ -201,40 +245,39 @@
   <!-- Pulse App Background -->
   <canvas id="pulseCanvas"></canvas>
 
- 
-
   <!-- Left + Right background (HOME-like) -->
-<div class="bg-video-layer">
-  <!-- LEFT (desktop same, mobile hide) -->
-  <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden hidden sm:block">
-    <video autoplay muted loop playsinline preload="metadata"
-      class="bg-video absolute inset-0 h-full w-full object-cover">
-      <source src="./images/heartbeat.mp4" type="video/mp4" />
-    </video>
+  <div class="bg-video-layer">
+    <!-- LEFT (desktop same, mobile hide) -->
+    <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden hidden sm:block">
+      <video autoplay muted loop playsinline preload="metadata"
+        class="bg-video absolute inset-0 h-full w-full object-cover">
+        <source src="./images/heartbeat.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0"
+        style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
+      </div>
+    </div>
+
+    <!-- RIGHT (mobile full cover, desktop same) -->
+    <div class="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto w-full sm:w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
+      <img
+        src="./images/heartpump.webp"
+        alt="Heart Pump"
+        class="bg-video absolute inset-0 h-full w-full object-cover"
+      />
+
+      <div class="absolute inset-0"
+        style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
+      </div>
+    </div>
+
     <div class="absolute inset-0"
-      style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
+      style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));">
     </div>
   </div>
 
-  <!-- RIGHT (mobile full cover, desktop same) -->
-  <div class="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto w-full sm:w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-    <img
-      src="./images/heartpump.webp"
-      alt="Heart Pump"
-      class="bg-video absolute inset-0 h-full w-full object-cover"
-    />
-
-    <div class="absolute inset-0"
-      style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
-    </div>
-  </div>
-
-  <div class="absolute inset-0"
-    style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));">
-  </div>
-</div>
- <!--////////////////////////////////////// Navbar start ////////////////////////-->
-<!-- Navbar inject -->
+  <!--////////////////////////////////////// Navbar start ////////////////////////-->
+  <!-- Navbar inject -->
   <div id="navbar-container"></div>
 
   <script type="module">
@@ -251,583 +294,600 @@
   <main class="pt-20">
 
     <!-- Hero / Slider placeholder -->
- 
-  <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
 
-  <!-- ============================== ABOUT PAGE START ============================== -->
-  <main class="relative z-10">
+    <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
 
-    <!-- Hero -->
-    <section class="py-10 sm:py-14 reveal reveal-2">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass p-6 sm:p-10 lg:p-12">
-          <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-20 -right-24 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
-            <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
-          </div>
+    <!-- ============================== ABOUT PAGE START ============================== -->
+    <main class="relative z-10">
 
-          <div class="relative grid gap-10 lg:grid-cols-12 lg:items-center">
-            <div class="lg:col-span-7">
-              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 glass-soft">
-                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                About Saas Clinic • Patient First
-              </p>
+      <!-- Hero -->
+      <section class="py-8 sm:py-10 reveal reveal-2">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass p-6 sm:p-10 lg:p-12 anim-base hover-lift hover-glow">
 
-              <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight t-main">
-                Providing high-quality, patient-centered healthcare with
-                <span class="text-blue-600"> compassion</span> & <span class="text-emerald-600">respect</span>.
-              </h1>
-
-              <p class="mt-4 text-base sm:text-lg leading-relaxed t-soft max-w-2xl">
-                Saas Clinic ka mission simple hai: har patient ko comfort, clarity aur trusted guidance dena —
-                modern clinic experience ke saath, hygiene-first environment me.
-              </p>
-
-              <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="#our-story"
-                   class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-                  Know Our Story <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
-                </a>
-
-                <a href="#contact"
-                   class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
-                  Contact Us
-                </a>
-              </div>
-
-              <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                <div class="rounded-2xl border border-slate-200 glass-soft p-4">
-                  <p class="text-xs font-semibold text-slate-500">Patients</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
-                </div>
-                <div class="rounded-2xl border border-slate-200 glass-soft p-4">
-                  <p class="text-xs font-semibold text-slate-500">Rating</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
-                </div>
-                <div class="rounded-2xl border border-slate-200 glass-soft p-4">
-                  <p class="text-xs font-semibold text-slate-500">Support</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
-                </div>
-                <div class="rounded-2xl border border-slate-200 glass-soft p-4">
-                  <p class="text-xs font-semibold text-slate-500">Experience</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
-                </div>
-              </div>
+            <div class="pointer-events-none absolute inset-0">
+              <div class="absolute -top-20 -right-24 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
+              <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
             </div>
 
+            <div class="relative grid gap-10 lg:grid-cols-12 lg:items-center">
+              <div class="lg:col-span-7">
+                <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 glass-soft anim-base hover-lift hover-glow">
+                  <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                  About Saas Clinic • Patient First
+                </p>
+
+                <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight t-main">
+                  Providing high-quality, patient-centered healthcare with
+                  <span class="text-blue-600"> compassion</span> & <span class="text-emerald-600">respect</span>.
+                </h1>
+
+                <p class="mt-4 text-base sm:text-lg leading-relaxed t-soft max-w-2xl">
+                  Saas Clinic ka mission simple hai: har patient ko comfort, clarity aur trusted guidance dena —
+                  modern clinic experience ke saath, hygiene-first environment me.
+                </p>
+
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <a href="#our-story"
+                     class="group hover-shine anim-base hover-lift hover-glow btn-press inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 active:scale-[0.98]
+                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                    Know Our Story <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+                  </a>
+
+                  <a href="#contact"
+                     class="hover-shine anim-base hover-lift hover-glow btn-press inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft active:scale-[0.98]
+                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                    Contact Us
+                  </a>
+                </div>
+
+                <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-4 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Patients</p>
+                    <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-4 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Rating</p>
+                    <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-4 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Support</p>
+                    <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-4 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Experience</p>
+                    <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lg:col-span-5">
+                <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong anim-base hover-lift hover-glow">
+                  <img src="./images/saa6.jpg" alt="Clinic"
+                       class="h-[280px] w-full object-cover opacity-95 sm:h-[360px] transition duration-700 ease-out group-hover:scale-[1.03]" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent"></div>
+                  <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-5 text-white backdrop-blur">
+                    <p class="text-xs font-semibold text-white/80">Our Promise</p>
+                    <p class="mt-1 text-lg font-extrabold">Safe • Clean • Trusted</p>
+                    <p class="mt-1 text-sm text-white/90">A premium clinic experience across every visit.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Story -->
+      <section id="our-story" class="py-8 sm:py-10 reveal reveal-3">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
             <div class="lg:col-span-5">
-              <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong">
-                <img src="./images/saa6.jpg" alt="Clinic"
-                     class="h-[280px] w-full object-cover opacity-95 sm:h-[360px] transition duration-700 ease-out group-hover:scale-[1.03]" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent"></div>
-                <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-5 text-white backdrop-blur">
-                  <p class="text-xs font-semibold text-white/80">Our Promise</p>
-                  <p class="mt-1 text-lg font-extrabold">Safe • Clean • Trusted</p>
-                  <p class="mt-1 text-sm text-white/90">A premium clinic experience across every visit.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Our Story -->
-    <section id="our-story" class="py-10 sm:py-14 reveal reveal-3">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
-          <div class="lg:col-span-5">
-            <p class="text-xs font-semibold tracking-wider text-slate-500">OUR STORY</p>
-            <h2 class="mt-3 text-2xl sm:text-3xl font-extrabold text-slate-900">
-              From a small clinic to a trusted healthcare brand
-            </h2>
-            <p class="mt-4 text-slate-600 leading-relaxed">
-               Saas Clinic ki shuruaat ek simple goal se hui — “patients ko time par, clear aur respectful care dena.”
-              Aaj hum modern processes aur patient-first approach ke saath care deliver karte hain.
-            </p>
-
-            <div class="mt-6 grid gap-4">
-              <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition">
-                <p class="text-sm font-bold text-slate-900">Why we exist</p>
-                <p class="mt-2 text-sm text-slate-600">Quality healthcare ko accessible aur smooth banana.</p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition">
-                <p class="text-sm font-bold text-slate-900">How we work</p>
-                <p class="mt-2 text-sm text-slate-600">Compassion, hygiene, transparency, and modern tools.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-7">
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft hover:bg-white/70 transition">
-                <div class="relative overflow-hidden">
-                  <img src="./images/saa7.jpg" alt="Clinic"
-                       class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]" />
-                  <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
-                </div>
-                <div class="p-5">
-                  <p class="text-sm font-extrabold text-slate-900">Comfortable Environment</p>
-                  <p class="mt-2 text-sm text-slate-600">Clean, calm aur patient-friendly setup.</p>
-                </div>
-              </div>
-
-              <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft hover:bg-white/70 transition">
-                <div class="relative overflow-hidden">
-                  <img src="./images/saa8.jpg" alt="Care"
-                       class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]" />
-                  <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
-                </div>
-                <div class="p-5">
-                  <p class="text-sm font-extrabold text-slate-900">Clear Guidance</p>
-                  <p class="mt-2 text-sm text-slate-600">Simple explanation + right treatment plan.</p>
-                </div>
-              </div>
-
-              <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft sm:col-span-2 hover:bg-white/70 transition">
-                <div class="relative overflow-hidden">
-                  <img src="./images/saa9.jpg" alt="Team"
-                       class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]" />
-                  <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
-                </div>
-                <div class="p-5">
-                  <p class="text-sm font-extrabold text-slate-900">Trusted Team</p>
-                  <p class="mt-2 text-sm text-slate-600">Experienced doctors + supportive staff.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Mission / Vision / Values -->
-    <section class="py-10 sm:py-14 reveal reveal-4">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-6 lg:grid-cols-3">
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-xs font-semibold text-slate-500">MISSION</p>
-            <h3 class="mt-2 text-lg font-extrabold text-slate-900">Patient-centered healthcare</h3>
-            <p class="mt-3 text-sm text-slate-600 leading-relaxed">
-               Har patient ko compassion aur respect ke saath best possible care.
-            </p>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-xs font-semibold text-slate-500">VISION</p>
-            <h3 class="mt-2 text-lg font-extrabold text-slate-900">Modern clinic experience</h3>
-            <p class="mt-3 text-sm text-slate-600 leading-relaxed">
-               Technology + human touch se healthcare ko easy aur reliable banana.
-            </p>
-          </div>
-
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-xs font-semibold text-slate-500">VALUES</p>
-            <h3 class="mt-2 text-lg font-extrabold text-slate-900">Respect, clarity, trust</h3>
-            <ul class="mt-3 space-y-2 text-sm text-slate-600">
-              <li>• Compassion in every interaction</li>
-              <li>• Transparent guidance</li>
-              <li>• Hygiene & safety first</li>
-              <li>• Continuous improvement</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Doctors -->
-    <section id="doctors" class="py-10 sm:py-14 reveal reveal-5">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between gap-4">
-          <div>
-            <p class="text-xs font-semibold text-slate-500">OUR DOCTORS</p>
-            <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Meet our specialists</h2>
-            <p class="mt-3 text-slate-600"> profiles — aap baad me real details fill kar sakte hain.</p>
-          </div>
-
-          <a href="#contact"
-             class="hidden sm:inline-flex hover-shine items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50">
-            Book Consultation →
-          </a>
-        </div>
-
-        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <div class="flex items-center gap-4">
-              <div class="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-extrabold">PA</div>
-              <div>
-                <p class="text-base font-extrabold text-slate-900">Dr. Prakhar Agarwal</p>
-                <p class="text-sm text-slate-500">Senior Consultant</p>
-              </div>
-            </div>
-            <p class="mt-4 text-sm text-slate-600 leading-relaxed">
-               10+ years experience, patient-friendly consultation, evidence-based guidance.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Consultation</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Wellness</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Care Plan</span>
-            </div>
-          </div>
-
-          <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <div class="flex items-center gap-4">
-              <div class="h-12 w-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-extrabold">KK</div>
-              <div>
-                <p class="text-base font-extrabold text-slate-900">Dr. Kirti Kadian</p>
-                <p class="text-sm text-slate-500">Consultant Specialist</p>
-              </div>
-            </div>
-            <p class="mt-4 text-sm text-slate-600 leading-relaxed">
-               Precision diagnosis, modern treatment options, respectful patient handling.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Skin</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Hair</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Wellness</span>
-            </div>
-          </div>
-
-          <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <div class="flex items-center gap-4">
-              <div class="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold">SC</div>
-              <div>
-                <p class="text-base font-extrabold text-slate-900">Saas Clinic Team</p>
-                <p class="text-sm text-slate-500">Support & Care</p>
-              </div>
-            </div>
-            <p class="mt-4 text-sm text-slate-600 leading-relaxed">
-               Friendly staff, fast appointment handling, and clean clinic management.
-            </p>
-            <div class="mt-5 flex flex-wrap gap-2">
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Help Desk</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Follow-ups</span>
-              <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">Reminders</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-8 sm:hidden">
-          <a href="#contact"
-             class="hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-            Book Consultation →
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Facilities -->
-    <section class="py-10 sm:py-14 reveal reveal-6">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p class="text-xs font-semibold text-slate-500">FACILITIES</p>
-        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Modern setup, hygienic environment</h2>
-
-        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-sm font-extrabold text-slate-900">Clean & Safe Clinic</p>
-            <p class="mt-2 text-sm text-slate-600"> sanitized rooms, safety protocols, comfortable waiting area.</p>
-          </div>
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-sm font-extrabold text-slate-900">Modern Equipment</p>
-            <p class="mt-2 text-sm text-slate-600"> updated tools and accurate measurements for better diagnosis.</p>
-          </div>
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition">
-            <p class="text-sm font-extrabold text-slate-900">Fast Appointments</p>
-            <p class="mt-2 text-sm text-slate-600"> quick booking, reminders, and organized scheduling.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="py-10 sm:py-14 reveal reveal-7">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p class="text-xs font-semibold text-slate-500">GALLERY</p>
-        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Clinic moments </h2>
-
-        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <img src="./images/saa1.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g1" />
-          <img src="./images/saa2.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g2" />
-          <img src="./images/saa3.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g3" />
-          <img src="./images/saa4.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g4" />
-          <img src="./images/saa5.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g5" />
-          <img src="./images/saa6.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1" alt="g6" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact CTA -->
-    <section id="contact" class="py-10 sm:py-14 reveal reveal-8">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass p-6 sm:p-10 lg:p-12">
-          <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
-            <div class="absolute -bottom-24 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
-          </div>
-
-          <div class="relative grid gap-10 lg:grid-cols-12 lg:items-center">
-            <div class="lg:col-span-7">
-              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 glass-soft">
-                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                Call for Appointment
-              </p>
-
-              <h2 class="mt-4 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900">
-                Need help? Book your appointment in minutes.
+              <p class="text-xs font-semibold tracking-wider text-slate-500">OUR STORY</p>
+              <h2 class="mt-3 text-2xl sm:text-3xl font-extrabold text-slate-900">
+                From a small clinic to a trusted healthcare brand
               </h2>
-              <p class="mt-3 text-slate-600">
-                 hum aapko jaldi slot confirm kar denge — call/online dono available.
+              <p class="mt-4 text-slate-600 leading-relaxed">
+                Saas Clinic ki shuruaat ek simple goal se hui — “patients ko time par, clear aur respectful care dena.”
+                Aaj hum modern processes aur patient-first approach ke saath care deliver karte hain.
               </p>
 
-              <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="tel:+917997732332"
-                   class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-                  Call Now →
-                </a>
-
-                <a href="contact.html"
-                   class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft">
-                  Open Contact Page
-                </a>
+              <div class="mt-6 grid gap-4">
+                <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <p class="text-sm font-bold text-slate-900">Why we exist</p>
+                  <p class="mt-2 text-sm text-slate-600">Quality healthcare ko accessible aur smooth banana.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <p class="text-sm font-bold text-slate-900">How we work</p>
+                  <p class="mt-2 text-sm text-slate-600">Compassion, hygiene, transparency, and modern tools.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <p class="text-sm font-bold text-slate-900">How we work</p>
+                  <p class="mt-2 text-sm text-slate-600">Compassion, hygiene, transparency, and modern tools.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 glass-soft p-5 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <p class="text-sm font-bold text-slate-900">How we work</p>
+                  <p class="mt-2 text-sm text-slate-600">Compassion, hygiene, transparency, and modern tools.</p>
+                </div>
               </div>
             </div>
 
-            <div class="lg:col-span-5">
-              <div class="grid gap-4">
-                <div class="rounded-2xl border border-slate-200 glass-soft p-5">
-                  <p class="text-xs font-semibold text-slate-500">Clinic Hours</p>
-                  <p class="mt-1 text-base font-extrabold text-slate-900">10:00 AM – 6:00 PM</p>
-                  <p class="mt-1 text-sm text-slate-600">Mon – Sat (Emergency 24×7)</p>
+            <div class="lg:col-span-7">
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <div class="relative overflow-hidden">
+                    <img src="./images/saa7.jpg" alt="Clinic"
+                         class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]" />
+                    <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
+                  </div>
+                  <div class="p-5">
+                    <p class="text-sm font-extrabold text-slate-900">Comfortable Environment</p>
+                    <p class="mt-2 text-sm text-slate-600">Clean, calm aur patient-friendly setup.</p>
+                  </div>
                 </div>
-                <div class="rounded-2xl border border-slate-200 glass-soft p-5">
-                  <p class="text-xs font-semibold text-slate-500">Address</p>
-                  <p class="mt-1 text-base font-extrabold text-slate-900">Your City, India</p>
-                  <p class="mt-1 text-sm text-slate-600"> Near Main Road</p>
+
+                <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <div class="relative overflow-hidden">
+                    <img src="./images/saa8.jpg" alt="Care"
+                         class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]" />
+                    <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
+                  </div>
+                  <div class="p-5">
+                    <p class="text-sm font-extrabold text-slate-900">Clear Guidance</p>
+                    <p class="mt-2 text-sm text-slate-600">Simple explanation + right treatment plan.</p>
+                  </div>
+                </div>
+
+                <div class="group overflow-hidden rounded-3xl border border-slate-200 glass-soft sm:col-span-2 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+                  <div class="relative overflow-hidden">
+                    <img src="./images/saa9.jpg" alt="Team"
+                         class="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]" />
+                    <div class="pointer-events-none absolute inset-0 bg-black/5"></div>
+                  </div>
+                  <div class="p-5">
+                    <p class="text-sm font-extrabold text-slate-900">Trusted Team</p>
+                    <p class="mt-2 text-sm text-slate-600">Experienced doctors + supportive staff.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+      <!-- Mission / Vision / Values -->
+      <section class="py-8 sm:py-10 reveal reveal-4">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-3">
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">MISSION</p>
+              <h3 class="mt-2 text-lg font-extrabold text-slate-900">Patient-centered healthcare</h3>
+              <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                Har patient ko compassion aur respect ke saath best possible care.
+              </p>
+            </div>
 
-  </main>
-  <!-- ============================== ABOUT PAGE END ============================== -->
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">VISION</p>
+              <h3 class="mt-2 text-lg font-extrabold text-slate-900">Modern clinic experience</h3>
+              <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                Technology + human touch se healthcare ko easy aur reliable banana.
+              </p>
+            </div>
 
-  <!--==============================footer  start========================================-->
-  <div id="footer-container" class="relative z-10"></div>
-  <script>
-    fetch("./footer.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("footer-container").innerHTML = data;
-      });
-  </script>
-  <!--=======================footer  end=======================================-->
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">VALUES</p>
+              <h3 class="mt-2 text-lg font-extrabold text-slate-900">Respect, clarity, trust</h3>
+              <ul class="mt-3 space-y-2 text-sm text-slate-600">
+                <li>• Compassion in every interaction</li>
+                <li>• Transparent guidance</li>
+                <li>• Hygiene & safety first</li>
+                <li>• Continuous improvement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <script>
-    // Random heart rate variation engine (no UI)
-    const HR = (function(){
-      let bpm = 74;
-      let target = 74;
-      const min = 58, max = 92;
+      <!-- Doctors -->
+      <section id="doctors" class="py-8 sm:py-10 reveal reveal-5">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold text-slate-500">OUR DOCTORS</p>
+              <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Meet our specialists</h2>
+              <p class="mt-3 text-slate-600"> profiles — aap baad me real details fill kar sakte hain.</p>
+            </div>
 
-      function randTarget(){
-        target = Math.round(min + Math.random() * (max - min));
-      }
-      setInterval(randTarget, 4200);
+            <a href="#contact"
+               class="hidden sm:inline-flex hover-shine anim-base hover-lift hover-glow btn-press items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 active:scale-[0.98]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+              Book Consultation →
+            </a>
+          </div>
 
-      function tick(){
-        bpm += (target - bpm) * 0.035;
-        requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <div class="flex items-center gap-4">
+                <div class="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-extrabold anim-base hover-lift">PA</div>
+                <div>
+                  <p class="text-base font-extrabold text-slate-900">Dr. Prakhar Agarwal</p>
+                  <p class="text-sm text-slate-500">Senior Consultant</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-slate-600 leading-relaxed">
+                10+ years experience, patient-friendly consultation, evidence-based guidance.
+              </p>
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Consultation</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Wellness</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Care Plan</span>
+              </div>
+            </div>
 
-      function getBpm(){ return Math.max(min, Math.min(max, bpm)); }
-      return { getBpm };
-    })();
+            <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <div class="flex items-center gap-4">
+                <div class="h-12 w-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-extrabold anim-base hover-lift">KK</div>
+                <div>
+                  <p class="text-base font-extrabold text-slate-900">Dr. Kirti Kadian</p>
+                  <p class="text-sm text-slate-500">Consultant Specialist</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-slate-600 leading-relaxed">
+                Precision diagnosis, modern treatment options, respectful patient handling.
+              </p>
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Skin</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Hair</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Wellness</span>
+              </div>
+            </div>
 
-    // Heart pulse canvas (continuous, never stops) — HOME colors
-    (function () {
-      const canvas = document.getElementById('pulseCanvas');
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!canvas || prefersReduced) return;
+            <div class="group rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <div class="flex items-center gap-4">
+                <div class="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold anim-base hover-lift">SC</div>
+                <div>
+                  <p class="text-base font-extrabold text-slate-900">Saas Clinic Team</p>
+                  <p class="text-sm text-slate-500">Support & Care</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-slate-600 leading-relaxed">
+                Friendly staff, fast appointment handling, and clean clinic management.
+              </p>
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Help Desk</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Follow-ups</span>
+                <span class="rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 anim-base hover-lift hover-glow">Reminders</span>
+              </div>
+            </div>
+          </div>
 
-      const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
-      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+          <div class="mt-8 sm:hidden">
+            <a href="#contact"
+               class="hover-shine anim-base hover-lift hover-glow btn-press inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 active:scale-[0.98]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+              Book Consultation →
+            </a>
+          </div>
+        </div>
+      </section>
 
-      function resize() {
-        w = Math.floor(window.innerWidth);
-        h = Math.floor(window.innerHeight);
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(w * dpr);
-        canvas.height = Math.floor(h * dpr);
-        canvas.style.width = w + 'px';
-        canvas.style.height = h + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
+      <!-- Facilities -->
+      <section class="py-8 sm:py-10 reveal reveal-6">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p class="text-xs font-semibold text-slate-500">FACILITIES</p>
+          <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Modern setup, hygienic environment</h2>
 
-      function cssVar(name){
-        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-      }
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-sm font-extrabold text-slate-900">Clean & Safe Clinic</p>
+              <p class="mt-2 text-sm text-slate-600"> sanitized rooms, safety protocols, comfortable waiting area.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-sm font-extrabold text-slate-900">Modern Equipment</p>
+              <p class="mt-2 text-sm text-slate-600"> updated tools and accurate measurements for better diagnosis.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 glass-soft p-6 hover:bg-white/70 transition anim-base hover-lift hover-glow">
+              <p class="text-sm font-extrabold text-slate-900">Fast Appointments</p>
+              <p class="mt-2 text-sm text-slate-600"> quick booking, reminders, and organized scheduling.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      function ecgShape(x){
-        const p = Math.exp(-Math.pow((x-0.18)/0.05,2)) * 0.35;
-        const q = -Math.exp(-Math.pow((x-0.32)/0.018,2)) * 0.55;
-        const r =  Math.exp(-Math.pow((x-0.36)/0.012,2)) * 2.8;
-        const s = -Math.exp(-Math.pow((x-0.40)/0.016,2)) * 0.85;
-        const tw = Math.exp(-Math.pow((x-0.62)/0.085,2)) * 0.65;
-        return p + q + r + s + tw;
-      }
+      <!-- Gallery -->
+      <section class="py-8 sm:py-10 reveal reveal-7">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p class="text-xs font-semibold text-slate-500">GALLERY</p>
+          <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Clinic moments </h2>
 
-      function drawGrid(gridCol){
-        ctx.save();
-        ctx.strokeStyle = gridCol;
-        const gridSize = (w < 520) ? 34 : 36;
+          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <img src="./images/saa1.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g1" />
+            <img src="./images/saa2.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g2" />
+            <img src="./images/saa3.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g3" />
+            <img src="./images/saa4.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g4" />
+            <img src="./images/saa5.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g5" />
+            <img src="./images/saa6.jpg" class="h-56 w-full rounded-3xl object-cover border border-slate-200 hover:opacity-[0.98] transition hover:-translate-y-1 anim-base hover-lift hover-glow" alt="g6" />
+          </div>
+        </div>
+      </section>
 
-        ctx.globalAlpha = 1;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
-        for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
-        ctx.stroke();
+      <!-- Contact CTA -->
+      <section id="contact" class="py-8 sm:py-10 reveal reveal-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass p-6 sm:p-10 lg:p-12 anim-base hover-lift hover-glow">
+            <div class="pointer-events-none absolute inset-0">
+              <div class="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
+              <div class="absolute -bottom-24 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
+            </div>
 
-        ctx.globalAlpha = 0.72;
-        ctx.lineWidth = 1.12;
-        ctx.beginPath();
-        const major = gridSize * 5;
-        for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
-        for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
-        ctx.stroke();
+            <div class="relative grid gap-10 lg:grid-cols-12 lg:items-center">
+              <div class="lg:col-span-7">
+                <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 glass-soft anim-base hover-lift hover-glow">
+                  <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                  Call for Appointment
+                </p>
 
-        ctx.restore();
-      }
+                <h2 class="mt-4 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900">
+                  Need help? Book your appointment in minutes.
+                </h2>
+                <p class="mt-3 text-slate-600">
+                  hum aapko jaldi slot confirm kar denge — call/online dono available.
+                </p>
 
-      const period = 340;
-      const beats = 2;
-      const ampBase = 8.5;
-      const lineWidth = 2.0;
-      const glowBlur = 9;
-      const scanStrength = 0.030;
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <a href="tel:+917997732332"
+                     class="group hover-shine anim-base hover-lift hover-glow btn-press inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 active:scale-[0.98]
+                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                    Call Now →
+                  </a>
 
-      let xShift = 0;
-      let last = performance.now();
+                  <a href="contact.html"
+                     class="hover-shine anim-base hover-lift hover-glow btn-press inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 glass-soft active:scale-[0.98]
+                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                    Open Contact Page
+                  </a>
+                </div>
+              </div>
 
-      let beatTimer = 0;
-      let flash = 0;
+              <div class="lg:col-span-5">
+                <div class="grid gap-4">
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-5 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Clinic Hours</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">10:00 AM – 6:00 PM</p>
+                    <p class="mt-1 text-sm text-slate-600">Mon – Sat (Emergency 24×7)</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 glass-soft p-5 anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Address</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Your City, India</p>
+                    <p class="mt-1 text-sm text-slate-600"> Near Main Road</p>
+                  </div>
+                </div>
+              </div>
 
-      function frame(now){
-        const dt = Math.min(0.04, (now - last) / 1000);
-        last = now;
+            </div>
+          </div>
 
-        const bpm = HR.getBpm();
-        const beatInterval = 60 / bpm;
+        </div>
+      </section>
 
-        beatTimer += dt;
-        if (beatTimer >= beatInterval){
-          beatTimer -= beatInterval;
-          flash = 1;
+    </main>
+    <!-- ============================== ABOUT PAGE END ============================== -->
+
+    <!--==============================footer  start========================================-->
+    <div id="footer-container" class="relative z-10"></div>
+    <script>
+      fetch("./footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer-container").innerHTML = data;
+        });
+    </script>
+    <!--=======================footer  end=======================================-->
+
+    <script>
+      // Random heart rate variation engine (no UI)
+      const HR = (function(){
+        let bpm = 74;
+        let target = 74;
+        const min = 58, max = 92;
+
+        function randTarget(){
+          target = Math.round(min + Math.random() * (max - min));
         }
-        flash = Math.max(0, flash - dt * 3.6);
+        setInterval(randTarget, 4200);
 
-        const speedPxPerSec = 115 + (bpm - 60) * 1.8;
-        xShift = (xShift + speedPxPerSec * dt) % period;
+        function tick(){
+          bpm += (target - bpm) * 0.035;
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
 
-        const gridCol = cssVar('--pulse-grid') || 'rgba(2,132,199,0.045)';
-        const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
-        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
+        function getBpm(){ return Math.max(min, Math.min(max, bpm)); }
+        return { getBpm };
+      })();
 
-        ctx.clearRect(0,0,w,h);
+      // Heart pulse canvas (continuous, never stops) — HOME colors
+      (function () {
+        const canvas = document.getElementById('pulseCanvas');
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!canvas || prefersReduced) return;
 
-        ctx.save();
-        const g = ctx.createRadialGradient(w*0.5, h*0.45, 0, w*0.5, h*0.45, Math.max(w,h)*0.65);
-        g.addColorStop(0, 'rgba(255,255,255,0.34)');
-        g.addColorStop(1, 'rgba(15,23,42,0.03)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,w,h);
-        ctx.restore();
+        const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+        let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-        drawGrid(gridCol);
+        function resize() {
+          w = Math.floor(window.innerWidth);
+          h = Math.floor(window.innerHeight);
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.floor(w * dpr);
+          canvas.height = Math.floor(h * dpr);
+          canvas.style.width = w + 'px';
+          canvas.style.height = h + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
 
-        const lanes = 1;
-        const laneGap = h / (lanes + 1);
+        function cssVar(name){
+          return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
 
-        for (let i=1; i<=lanes; i++){
-          const midY = laneGap * i;
+        function ecgShape(x){
+          const p = Math.exp(-Math.pow((x-0.18)/0.05,2)) * 0.35;
+          const q = -Math.exp(-Math.pow((x-0.32)/0.018,2)) * 0.55;
+          const r =  Math.exp(-Math.pow((x-0.36)/0.012,2)) * 2.8;
+          const s = -Math.exp(-Math.pow((x-0.40)/0.016,2)) * 0.85;
+          const tw = Math.exp(-Math.pow((x-0.62)/0.085,2)) * 0.65;
+          return p + q + r + s + tw;
+        }
 
+        function drawGrid(gridCol){
           ctx.save();
-          ctx.lineJoin = 'round';
-          ctx.lineCap = 'round';
-          ctx.shadowBlur = glowBlur + flash * 6;
-          ctx.shadowColor = glowCol;
+          ctx.strokeStyle = gridCol;
+          const gridSize = (w < 520) ? 34 : 36;
 
-          ctx.strokeStyle = lineCol;
-          ctx.lineWidth = lineWidth + flash * 0.25;
-
+          ctx.globalAlpha = 1;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-
-          let x0 = -period + xShift;
-          let first = true;
-
-          while (x0 < w + period) {
-            for (let x = 0; x <= period; x += 3) {
-              const px = x0 + x;
-              const u = x / period;
-
-              const noise = Math.sin((px + now*0.01) * 0.008) * 0.20;
-
-              let spike = 0;
-              for (let b=0; b<beats; b++){
-                const uu = (u * beats) - b;
-                if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
-              }
-
-              const amp = ampBase + flash * 1.0;
-              const y = midY + (noise * 9) - (spike * amp * 6.0);
-
-              if (first) { ctx.moveTo(px, y); first = false; }
-              else { ctx.lineTo(px, y); }
-            }
-            x0 += period;
-          }
-
+          for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+          for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
           ctx.stroke();
 
-          ctx.shadowBlur = 0;
-          ctx.globalAlpha = 0.62 + flash * 0.08;
-          ctx.lineWidth = 1.1;
-          ctx.strokeStyle = 'rgba(15,23,42,0.10)';
+          ctx.globalAlpha = 0.72;
+          ctx.lineWidth = 1.12;
+          ctx.beginPath();
+          const major = gridSize * 5;
+          for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+          for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
           ctx.stroke();
 
           ctx.restore();
         }
 
-        ctx.save();
-        const scanX = (xShift * 1.35) % (w + 240) - 120;
-        const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
-        scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
-        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash*0.02})`);
-        scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
-        ctx.fillStyle = scanGrad;
-        ctx.fillRect(0, 0, w, h);
-        ctx.restore();
+        const period = 340;
+        const beats = 2;
+        const ampBase = 8.5;
+        const lineWidth = 2.0;
+        const glowBlur = 9;
+        const scanStrength = 0.030;
+
+        let xShift = 0;
+        let last = performance.now();
+
+        let beatTimer = 0;
+        let flash = 0;
+
+        function frame(now){
+          const dt = Math.min(0.04, (now - last) / 1000);
+          last = now;
+
+          const bpm = HR.getBpm();
+          const beatInterval = 60 / bpm;
+
+          beatTimer += dt;
+          if (beatTimer >= beatInterval){
+            beatTimer -= beatInterval;
+            flash = 1;
+          }
+          flash = Math.max(0, flash - dt * 3.6);
+
+          const speedPxPerSec = 115 + (bpm - 60) * 1.8;
+          xShift = (xShift + speedPxPerSec * dt) % period;
+
+          const gridCol = cssVar('--pulse-grid') || 'rgba(2,132,199,0.045)';
+          const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
+          const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
+
+          ctx.clearRect(0,0,w,h);
+
+          ctx.save();
+          const g = ctx.createRadialGradient(w*0.5, h*0.45, 0, w*0.5, h*0.45, Math.max(w,h)*0.65);
+          g.addColorStop(0, 'rgba(255,255,255,0.34)');
+          g.addColorStop(1, 'rgba(15,23,42,0.03)');
+          ctx.fillStyle = g;
+          ctx.fillRect(0,0,w,h);
+          ctx.restore();
+
+          drawGrid(gridCol);
+
+          const lanes = 1;
+          const laneGap = h / (lanes + 1);
+
+          for (let i=1; i<=lanes; i++){
+            const midY = laneGap * i;
+
+            ctx.save();
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = glowBlur + flash * 6;
+            ctx.shadowColor = glowCol;
+
+            ctx.strokeStyle = lineCol;
+            ctx.lineWidth = lineWidth + flash * 0.25;
+
+            ctx.beginPath();
+
+            let x0 = -period + xShift;
+            let first = true;
+
+            while (x0 < w + period) {
+              for (let x = 0; x <= period; x += 3) {
+                const px = x0 + x;
+                const u = x / period;
+
+                const noise = Math.sin((px + now*0.01) * 0.008) * 0.20;
+
+                let spike = 0;
+                for (let b=0; b<beats; b++){
+                  const uu = (u * beats) - b;
+                  if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
+                }
+
+                const amp = ampBase + flash * 1.0;
+                const y = midY + (noise * 9) - (spike * amp * 6.0);
+
+                if (first) { ctx.moveTo(px, y); first = false; }
+                else { ctx.lineTo(px, y); }
+              }
+              x0 += period;
+            }
+
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 0.62 + flash * 0.08;
+            ctx.lineWidth = 1.1;
+            ctx.strokeStyle = 'rgba(15,23,42,0.10)';
+            ctx.stroke();
+
+            ctx.restore();
+          }
+
+          ctx.save();
+          const scanX = (xShift * 1.35) % (w + 240) - 120;
+          const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
+          scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
+          scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash*0.02})`);
+          scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
+          ctx.fillStyle = scanGrad;
+          ctx.fillRect(0, 0, w, h);
+          ctx.restore();
+
+          requestAnimationFrame(frame);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) last = performance.now();
+        }, { passive: true });
 
         requestAnimationFrame(frame);
-      }
+      })();
+    </script>
 
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) last = performance.now();
-      }, { passive: true });
-
-      requestAnimationFrame(frame);
-    })();
-  </script>
+  </main>
 
 </body>
 </html>

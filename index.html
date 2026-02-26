@@ -61,7 +61,8 @@
 
     @media (prefers-reduced-motion: reduce){
       .reveal,.reveal-1,.reveal-2,.reveal-3,.reveal-4,.reveal-5,.reveal-6,.reveal-7,.reveal-8,
-      .hover-shine::after,.pill-shimmer::after,.heart-3d{ animation:none !important; transition:none !important; transform:none !important; }
+      .hover-shine::after,.pill-shimmer::after,.heart-3d,
+      .anim-base,.hover-lift,.hover-glow,.btn-press,.link-underline::after,.img-zoom{ animation:none !important; transition:none !important; transform:none !important; filter:none !important; }
       .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
     }
 
@@ -218,6 +219,106 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
+
+    /* =======================================================================
+       ✅ NO-REDESIGN Premium Animation System (added)
+       ======================================================================= */
+    .anim-base{
+      will-change: transform, opacity, filter;
+      transition-property: transform, opacity, filter;
+      transition-duration: 320ms;
+      transition-timing-function: cubic-bezier(.2,.8,.2,1);
+      transform: translateZ(0);
+    }
+
+    /* Hover lift + tiny scale (only when hover is supported) */
+    @media (hover:hover){
+      .hover-lift:hover{
+        transform: translate3d(0,-4px,0) scale(1.01);
+      }
+    }
+    /* Tap / active feedback for touch too */
+    .hover-lift:active{
+      transform: translate3d(0,-1px,0) scale(0.995);
+    }
+
+    /* Subtle glow ring using existing emerald/blue palette */
+    .hover-glow{
+      position: relative;
+    }
+    @media (hover:hover){
+      .hover-glow:hover{
+        filter: saturate(1.02);
+        box-shadow:
+          0 0 0 1px rgba(16,185,129,0.10),
+          0 0 0 6px rgba(16,185,129,0.06),
+          0 10px 28px -18px rgba(15,23,42,0.14);
+      }
+    }
+    .hover-glow:active{
+      box-shadow:
+        0 0 0 1px rgba(2,132,199,0.12),
+        0 0 0 5px rgba(2,132,199,0.06),
+        0 10px 28px -18px rgba(15,23,42,0.12);
+    }
+
+    /* Button press */
+    .btn-press:active{
+      transform: scale(0.98);
+    }
+
+    /* Focus-visible ring for links/buttons (no class changes to theme) */
+    a:focus-visible,
+    button:focus-visible{
+      outline: none;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.70),
+        0 0 0 6px rgba(16,185,129,0.16),
+        0 0 0 1px rgba(16,185,129,0.30);
+      border-radius: 1rem;
+    }
+
+    /* Link underline slide animation */
+    .link-underline{
+      position: relative;
+      text-decoration: none;
+    }
+    .link-underline::after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      bottom:-2px;
+      height:2px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      opacity:0.55;
+      transition: transform 280ms cubic-bezier(.2,.8,.2,1), opacity 280ms ease;
+    }
+    @media (hover:hover){
+      .link-underline:hover::after{
+        transform: scaleX(1);
+        opacity:0.75;
+      }
+    }
+    .link-underline:active::after{
+      transform: scaleX(1);
+      opacity:0.85;
+    }
+
+    /* Image zoom (use ONLY when parent already overflow-hidden) */
+    .img-zoom{
+      will-change: transform;
+      transition: transform 340ms cubic-bezier(.2,.8,.2,1), filter 340ms ease;
+      transform: translateZ(0);
+    }
+    @media (hover:hover){
+      .img-zoom:hover{
+        transform: scale(1.04);
+        filter: saturate(1.02);
+      }
+    }
+    .img-zoom:active{ transform: scale(1.02); }
   </style>
 </head>
 
@@ -238,43 +339,40 @@
 
 
   <!-- Left + Right background videos -->
-<!-- Left + Right background videos -->
-<div class="bg-video-layer relative">
+  <!-- Left + Right background videos -->
+  <div class="bg-video-layer relative">
 
-  <!-- RIGHT (FULL WIDTH) -->
-  <div class="fixed inset-0 w-full h-full overflow-hidden">
+    <!-- RIGHT (FULL WIDTH) -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden">
 
-    <img
-      src="./images/heartpump.webp"
-      alt="Heart Pump Animation"
-      class="absolute inset-0 h-full w-full object-cover object-center"
-    />
+      <img
+        src="./images/heartpump.webp"
+        alt="Heart Pump Animation"
+        class="absolute inset-0 h-full w-full object-cover object-center anim-base img-zoom"
+      />
 
-    <!-- Softer Light Gradient -->
+      <!-- Softer Light Gradient -->
+      <div class="absolute inset-0"
+        style="background: linear-gradient(to left,
+        rgba(247,248,251,0.97),
+        rgba(247,248,251,0.85),
+        rgba(247,248,251,0.65),
+        rgba(247,248,251,0.4));">
+      </div>
+
+    </div>
+
+    <!-- GLOBAL LIGHT OVERLAY -->
     <div class="absolute inset-0"
-      style="background: linear-gradient(to left,
-      rgba(247,248,251,0.97),
-      rgba(247,248,251,0.85),
-      rgba(247,248,251,0.65),
-      rgba(247,248,251,0.4));">
+      style="background: linear-gradient(to bottom,
+      rgba(255,255,255,0.65),
+      rgba(255,255,255,0.4));">
     </div>
 
   </div>
 
-  <!-- GLOBAL LIGHT OVERLAY -->
-  <div class="absolute inset-0"
-    style="background: linear-gradient(to bottom,
-    rgba(255,255,255,0.65),
-    rgba(255,255,255,0.4));">
-  </div>
-
-</div>
-
-
-
-
   <!--////////////////////////////////////// Navbar start ////////////////////////-->
-<!-- Navbar inject -->
+  <!-- Navbar inject -->
   <div id="navbar-container"></div>
 
   <script type="module">
@@ -291,843 +389,842 @@
   <main class="pt-20">
 
     <!-- Hero / Slider placeholder -->
- 
-  <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
 
-  <!--///////////////////////// Slider start  ///////////////////////////////////////// -->
-  <div id="slider-container" class="relative z-10 reveal reveal-2"></div>
+    <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
 
-  <script type="module">
-    // Slider
-    fetch("./slider.html")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("slider-container").innerHTML = html;
+    <!--///////////////////////// Slider start  ///////////////////////////////////////// -->
+    <div id="slider-container" class="relative z-10 reveal reveal-2"></div>
 
-        // ✅ slider inject hone ke baad slider init call karo
-        import("./slider.js").then(m => m.initImageSlider());
-      });
-  </script>
-  <!--///////////////////////// Slider End  ///////////////////////////////////////// -->
+    <script type="module">
+      // Slider
+      fetch("./slider.html")
+        .then(r => r.text())
+        .then(html => {
+          document.getElementById("slider-container").innerHTML = html;
 
-  <!--==================== Call for Appointment Section ====================-->
-  <section id="call-appointment" class="py-12 sm:py-16 relative z-10 reveal reveal-3">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass">
+          // ✅ slider inject hone ke baad slider init call karo
+          import("./slider.js").then(m => m.initImageSlider());
+        });
+    </script>
+    <!--///////////////////////// Slider End  ///////////////////////////////////////// -->
 
-        <!-- Glow background -->
-        <div class="pointer-events-none absolute inset-0">
-          <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
-          <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
-        </div>
+    <!--==================== Call for Appointment Section ====================-->
+    <section id="call-appointment" class="py-10 sm:py-14 relative z-10 reveal reveal-3">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
-        <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
-
-          <!-- Left -->
-          <div class="lg:col-span-7">
-            <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              24×7 Support • Fast Confirmation
-            </p>
-
-            <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-              Call for <span class="text-blue-600">Appointment</span>
-            </h2>
-
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-              Aap appointment book karna chahte hain? Bas call kijiye — hum aapko jaldi slot confirm kar denge.
-            </p>
-
-            <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="tel:+917997732332"
-                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 active:translate-y-0">
-                Call Now
-                <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
-              </a>
-
-              <a href="#book"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                Book Online
-              </a>
-
-              <div class="sm:ml-2">
-                <p class="text-xs font-semibold text-slate-500">Call us at</p>
-                <p class="text-lg font-extrabold text-slate-900">+91 7997732332</p>
-              </div>
-            </div>
+          <!-- Glow background -->
+          <div class="pointer-events-none absolute inset-0">
+            <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
+            <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
           </div>
 
-          <!-- Right (info cards) -->
-          <div class="lg:col-span-5">
-            <div class="grid gap-4">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Clinic Hours</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">10:00 AM – 6:00 PM</p>
-                <p class="mt-1 text-sm text-slate-600">Mon – Sat (Emergency 24×7)</p>
-              </div>
+          <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Quick Service</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Instant Slot Confirmation</p>
-                <p class="mt-1 text-sm text-slate-600">No waiting • Priority support</p>
-              </div>
+            <!-- Left -->
+            <div class="lg:col-span-7">
+              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                24×7 Support • Fast Confirmation
+              </p>
 
-              <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15">
-                <p class="text-xs font-semibold text-white/80">Need Help?</p>
-                <p class="mt-1 text-base font-extrabold">Chat + Call Support</p>
-                <p class="mt-1 text-sm text-white/85">We’re here to assist you anytime.</p>
+              <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                Call for <span class="text-blue-600">Appointment</span>
+              </h2>
+
+              <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+                Aap appointment book karna chahte hain? Bas call kijiye — hum aapko jaldi slot confirm kar denge.
+              </p>
+
+              <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="tel:+917997732332"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 active:translate-y-0 anim-base btn-press hover-lift hover-glow">
+                  Call Now
+                  <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+                </a>
+
+                <a href="#book"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Book Online
+                </a>
+
+                <div class="sm:ml-2 anim-base">
+                  <p class="text-xs font-semibold text-slate-500">Call us at</p>
+                  <p class="text-lg font-extrabold text-slate-900">+91 7997732332</p>
+                </div>
               </div>
             </div>
-          </div>
 
+            <!-- Right (info cards) -->
+            <div class="lg:col-span-5">
+              <div class="grid gap-4">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Clinic Hours</p>
+                  <p class="mt-1 text-base font-extrabold text-slate-900">10:00 AM – 6:00 PM</p>
+                  <p class="mt-1 text-sm text-slate-600">Mon – Sat (Emergency 24×7)</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Quick Service</p>
+                  <p class="mt-1 text-base font-extrabold text-slate-900">Instant Slot Confirmation</p>
+                  <p class="mt-1 text-sm text-slate-600">No waiting • Priority support</p>
+                </div>
+
+                <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-white/80">Need Help?</p>
+                  <p class="mt-1 text-base font-extrabold">Chat + Call Support</p>
+                  <p class="mt-1 text-sm text-white/85">We’re here to assist you anytime.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--==================== Call for Appointment Section end ====================-->
+    </section>
+    <!--==================== Call for Appointment Section end ====================-->
 
-  <!--==================== Patient-Centered Care Section ====================-->
-  <section class="py-12 sm:py-16 relative z-10 reveal reveal-4">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass">
+    <!--==================== Patient-Centered Care Section ====================-->
+    <section class="py-10 sm:py-14 relative z-10 reveal reveal-4">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
-        <!-- Soft background glow -->
-        <div class="pointer-events-none absolute inset-0">
-          <div class="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
-          <div class="absolute -bottom-28 left-0 h-80 w-80 rounded-full bg-emerald-500/7 blur-3xl"></div>
-        </div>
-
-        <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
-
-          <!-- Left: Content -->
-          <div class="lg:col-span-7">
-            <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              Patient-Centered Care
-            </p>
-
-            <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-              Caring for you with <span class="text-blue-600">compassion</span> and <span class="text-blue-600">respect</span>
-            </h2>
-
-            <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              Providing high-quality, patient-centered healthcare with compassion and respect for every individual.
-            </p>
-
-            <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="#services"
-                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-                Explore Services
-                <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
-              </a>
-
-              <a href="#contact"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                Contact Us
-              </a>
-            </div>
+          <!-- Soft background glow -->
+          <div class="pointer-events-none absolute inset-0">
+            <div class="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
+            <div class="absolute -bottom-28 left-0 h-80 w-80 rounded-full bg-emerald-500/7 blur-3xl"></div>
           </div>
 
-          <!-- Right: Feature Cards -->
-          <div class="lg:col-span-5">
-            <div class="grid gap-4">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Quality Care</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">High Standards</p>
-                <p class="mt-1 text-sm text-slate-600">Reliable diagnosis & modern care process.</p>
-              </div>
+          <div class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Patient First</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Comfort & Trust</p>
-                <p class="mt-1 text-sm text-slate-600">We listen, we care, we guide you.</p>
-              </div>
+            <!-- Left: Content -->
+            <div class="lg:col-span-7">
+              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                Patient-Centered Care
+              </p>
 
-              <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15">
-                <p class="text-xs font-semibold text-white/80">Compassion</p>
-                <p class="mt-1 text-base font-extrabold">Respect for Everyone</p>
-                <p class="mt-1 text-sm text-white/85">A supportive experience for every individual.</p>
+              <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                Caring for you with <span class="text-blue-600">compassion</span> and <span class="text-blue-600">respect</span>
+              </h2>
+
+              <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+                Providing high-quality, patient-centered healthcare with compassion and respect for every individual.
+              </p>
+
+              <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="#services"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+                  Explore Services
+                  <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+                </a>
+
+                <a href="#contact"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Contact Us
+                </a>
               </div>
             </div>
-          </div>
 
+            <!-- Right: Feature Cards -->
+            <div class="lg:col-span-5">
+              <div class="grid gap-4">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Quality Care</p>
+                  <p class="mt-1 text-base font-extrabold text-slate-900">High Standards</p>
+                  <p class="mt-1 text-sm text-slate-600">Reliable diagnosis & modern care process.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Patient First</p>
+                  <p class="mt-1 text-base font-extrabold text-slate-900">Comfort & Trust</p>
+                  <p class="mt-1 text-sm text-slate-600">We listen, we care, we guide you.</p>
+                </div>
+
+                <div class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-white/80">Compassion</p>
+                  <p class="mt-1 text-base font-extrabold">Respect for Everyone</p>
+                  <p class="mt-1 text-sm text-white/85">A supportive experience for every individual.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--======================================================================-->
+    </section>
+    <!--======================================================================-->
 
+    <!--==================== Big About Section (Home) ====================-->
+    <section id="home-about" class="py-10 sm:py-14 lg:py-16 relative z-10 reveal reveal-6">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
+        <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+          <div class="pointer-events-none absolute inset-0">
+            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"></div>
+            <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
+          </div>
 
-  <!--==================== Big About Section (Home) ====================-->
-  <section id="home-about" class="py-14 sm:py-18 lg:py-20 relative z-10 reveal reveal-6">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
 
-      <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass">
-        <div class="pointer-events-none absolute inset-0">
-          <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"></div>
-          <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
+            <div class="lg:col-span-7">
+              <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                About Saas Clinic
+              </p>
+
+              <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                Providing high-quality, patient-centered healthcare with
+                <span class="text-blue-600">compassion</span> and
+                <span class="text-blue-600">respect</span>.
+              </h2>
+
+              <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+                 Saas Clinic ka focus hai: har patient ko comfort, clarity aur trustworthy guidance dena —
+                hygiene-first environment aur modern clinic workflow ke saath.
+              </p>
+
+              <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Patient-First Approach</p>
+                  <p class="mt-2 text-sm text-slate-600">
+                     Consultation me aapko clear explanation + right plan milta hai.
+                  </p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Hygiene & Safety</p>
+                  <p class="mt-2 text-sm text-slate-600">
+                     Clean clinic, safe patient flow, and respectful care.
+                  </p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Modern Tools</p>
+                  <p class="mt-2 text-sm text-slate-600">
+                     Appointments, reminders, reports — organized experience.
+                  </p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Trusted Specialists</p>
+                  <p class="mt-2 text-sm text-slate-600">
+                    Dr. Prakhar Agarwal • Dr. Kirti Kadian ( profiles)
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Patients</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Rating</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Support</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Experience</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="about.html#our-story"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+                  Read Full About <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+                </a>
+
+                <a href="about.html#doctors"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Meet Doctors
+                </a>
+
+                <a href="#call-appointment"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Call for Appointment
+                </a>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5">
+              <div class="grid gap-4">
+                <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+                  <img src="./images/saa7.jpg" alt="Clinic" class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72 img-zoom" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-white/70">Our Promise</p>
+                    <p class="mt-1 text-base font-extrabold">Comfort • Clarity • Care</p>
+                    <p class="mt-1 text-sm text-white/80">Premium clinic experience on every visit.</p>
+                  </div>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
+                    <img src="./images/saa8.jpg" alt="Care" class="h-40 w-full object-cover img-zoom" />
+                    <div class="p-4">
+                      <p class="text-sm font-extrabold">Clean Environment</p>
+                      <p class="mt-1 text-xs text-slate-600"> hygiene-first protocols.</p>
+                    </div>
+                  </div>
+
+                  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
+                    <img src="./images/saa9.jpg" alt="Support" class="h-40 w-full object-cover img-zoom" />
+                    <div class="p-4">
+                      <p class="text-sm font-extrabold">Friendly Support</p>
+                      <p class="mt-1 text-xs text-slate-600"> quick help desk.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Quick Note</p>
+                  <p class="mt-2 text-sm text-slate-700 leading-relaxed">
+                     Aap “About” page me detailed story, doctors, facilities, testimonials aur FAQ bhi dekh sakte hain.
+                  </p>
+                  <a href="about.html" class="mt-4 inline-flex items-center font-bold text-blue-600 hover:text-blue-700 anim-base link-underline btn-press">
+                    Go to About Page →
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <div class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
+      </div>
+    </section>
+
+    <!--==================== Medium About Section (Home) ====================-->
+    <section class="py-10 sm:py-14 relative z-10 reveal reveal-7">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+
+          <div class="lg:col-span-5">
+            <div class="relative overflow-hidden rounded-3xl border border-slate-200 shadow-lg card-glass anim-base hover-lift hover-glow">
+              <img src="./images/saa6.jpg" alt="Clinic" class="h-72 w-full object-cover sm:h-80 lg:h-96 img-zoom">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 to-transparent"></div>
+              <div class="absolute bottom-5 left-5 right-5 text-white">
+                <p class="text-sm font-semibold text-white/85">Our Commitment</p>
+                <p class="mt-1 text-lg font-extrabold">Care with Compassion</p>
+              </div>
+            </div>
+          </div>
 
           <div class="lg:col-span-7">
-            <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              About Saas Clinic
-            </p>
 
             <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-              Providing high-quality, patient-centered healthcare with
-              <span class="text-blue-600">compassion</span> and
-              <span class="text-blue-600">respect</span>.
+              Patient-centered healthcare with
+              <span class="text-blue-600"> compassion & respect</span>
             </h2>
 
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-               Saas Clinic ka focus hai: har patient ko comfort, clarity aur trustworthy guidance dena —
-              hygiene-first environment aur modern clinic workflow ke saath.
+            <p class="mt-4 text-base leading-relaxed text-slate-600">
+              Saas Clinic ka focus hai high-quality healthcare provide karna —
+              jahan har patient ko clarity, comfort aur trusted guidance milti hai.
+              Modern processes aur hygienic environment ke saath hum smooth experience dete hain.
             </p>
 
-            <div class="mt-7 grid gap-4 sm:grid-cols-2">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-sm font-extrabold text-slate-900">Patient-First Approach</p>
-                <p class="mt-2 text-sm text-slate-600">
-                   Consultation me aapko clear explanation + right plan milta hai.
-                </p>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold">Quality Care</p>
+                <p class="mt-1 text-xs text-slate-600">Evidence-based consultation & accurate diagnosis.</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-sm font-extrabold text-slate-900">Hygiene & Safety</p>
-                <p class="mt-2 text-sm text-slate-600">
-                   Clean clinic, safe patient flow, and respectful care.
-                </p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-sm font-extrabold text-slate-900">Modern Tools</p>
-                <p class="mt-2 text-sm text-slate-600">
-                   Appointments, reminders, reports — organized experience.
-                </p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-sm font-extrabold text-slate-900">Trusted Specialists</p>
-                <p class="mt-2 text-sm text-slate-600">
-                  Dr. Prakhar Agarwal • Dr. Kirti Kadian ( profiles)
-                </p>
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold">Safe Environment</p>
+                <p class="mt-1 text-xs text-slate-600">Clean clinic & comfortable patient flow.</p>
               </div>
             </div>
 
-            <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Patients</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Rating</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Support</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
-              </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Experience</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
-              </div>
-            </div>
-
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="about.html#our-story"
-                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-                Read Full About <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
-              </a>
-
-              <a href="about.html#doctors"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                Meet Doctors
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="about.html"
+                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+                Read More
+                <span class="ml-2 transition group-hover:translate-x-1">→</span>
               </a>
 
               <a href="#call-appointment"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft">
-                Call for Appointment
+                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                Book Appointment
               </a>
             </div>
           </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!--==================== BIG SAAS SECTION (HOME) ====================-->
+    <section id="home-saas" class="py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              SAAS • Services Overview
+            </p>
+
+            <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              Superspeciality — <span class="text-emerald-600">Chest, Allergy & Sleep Centre</span>
+            </h2>
+
+            <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
+               Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
+              modern diagnostics + patient-friendly workflow ke saath manage karte hain.
+              Aapko clear guidance, clean environment aur fast support milega.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a href="saas.html"
+              class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+              View Full SAAS Page <span class="ml-2 transition group-hover:translate-x-1">→</span>
+            </a>
+
+            <a href="#call-appointment"
+              class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+              Call for Appointment
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-start">
 
           <div class="lg:col-span-5">
-            <div class="grid gap-4">
-              <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl">
-                <img src="./images/saa7.jpg" alt="Clinic" class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
-                <div class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
-                  <p class="text-xs font-semibold text-white/70">Our Promise</p>
-                  <p class="mt-1 text-base font-extrabold">Comfort • Clarity • Care</p>
-                  <p class="mt-1 text-sm text-white/80">Premium clinic experience on every visit.</p>
+            <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+              <img src="./images/saa10.jpg" alt="SaaS Clinic" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
+
+              <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-white/70">Premium Clinic Workflow</p>
+                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
+                <p class="mt-1 text-sm text-white/80"> Smooth experience on mobile, tablet, and desktop.</p>
+              </div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-2">
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Patients</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Rating</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Support</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Avg Time</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">WHAT WE COVER</p>
+              <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                One place for diagnosis, therapy & follow-ups
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                 Saas Clinic ka system patient journey ko simplify karta hai:
+                booking → consultation → diagnostics → reports → follow-up reminders.
+              </p>
+
+              <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                <a href="saas.html#speciality-tabs"
+                   class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                      P
+                    </div>
+                    <div>
+                      <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+                      <p class="mt-1 text-xs text-slate-600">Diagnostics & care</p>
+                    </div>
+                  </div>
+                  <p class="mt-3 text-sm text-slate-600">
+                     Lung function tests, reporting, guidance & care plans.
+                  </p>
+                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
+                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
+                  </p>
+                </a>
+
+                <a href="saas.html#speciality-tabs"
+                   class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                      S
+                    </div>
+                    <div>
+                      <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                      <p class="mt-1 text-xs text-slate-600">Sleep study & CPAP</p>
+                    </div>
+                  </div>
+                  <p class="mt-3 text-sm text-slate-600">
+                     PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
+                  </p>
+                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
+                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
+                  </p>
+                </a>
+              </div>
+
+              <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">Lung Function Testing</p>
+                  <p class="mt-1 text-xs text-slate-600"> Accurate diagnosis & report.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">CPAP / BiPAP</p>
+                  <p class="mt-1 text-xs text-slate-600"> Titration + comfort support.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">Allergy Testing</p>
+                  <p class="mt-1 text-xs text-slate-600"> Triggers + prevention plan.</p>
                 </div>
               </div>
 
-              <div class="grid gap-4 sm:grid-cols-2">
-                <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass">
-                  <img src="./images/saa8.jpg" alt="Care" class="h-40 w-full object-cover" />
-                  <div class="p-4">
-                    <p class="text-sm font-extrabold">Clean Environment</p>
-                    <p class="mt-1 text-xs text-slate-600"> hygiene-first protocols.</p>
-                  </div>
-                </div>
-
-                <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass">
-                  <img src="./images/saa9.jpg" alt="Support" class="h-40 w-full object-cover" />
-                  <div class="p-4">
-                    <p class="text-sm font-extrabold">Friendly Support</p>
-                    <p class="mt-1 text-xs text-slate-600"> quick help desk.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5 card-glass-soft">
-                <p class="text-xs font-semibold text-slate-500">Quick Note</p>
-                <p class="mt-2 text-sm text-slate-700 leading-relaxed">
-                   Aap “About” page me detailed story, doctors, facilities, testimonials aur FAQ bhi dekh sakte hain.
-                </p>
-                <a href="about.html" class="mt-4 inline-flex items-center font-bold text-blue-600 hover:text-blue-700">
-                  Go to About Page →
+              <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="saas.html#core-services"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                  View Core Services →
+                </a>
+                <a href="saas.html"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Open SAAS Page
                 </a>
               </div>
 
             </div>
           </div>
-
         </div>
-      </div>
+    </section>
 
-    </div>
-  </section>
+    <!--==================== HOME SAAS SECTION (FINAL GAP FREE) ====================-->
+    <section id="home-saas"
+      class="relative -mt-6 pt-10 pb-12 sm:pt-12 sm:pb-16 bg-slate-50 border-t border-slate-200 relative z-10 glass-section">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-  <!--==================== Medium About Section (Home) ====================-->
-  <section class="py-12 sm:py-16 relative z-10 reveal reveal-7">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
-
-        <div class="lg:col-span-5">
-          <div class="relative overflow-hidden rounded-3xl border border-slate-200 shadow-lg card-glass">
-            <img src="./images/saa6.jpg" alt="Clinic" class="h-72 w-full object-cover sm:h-80 lg:h-96">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/55 to-transparent"></div>
-            <div class="absolute bottom-5 left-5 right-5 text-white">
-              <p class="text-sm font-semibold text-white/85">Our Commitment</p>
-              <p class="mt-1 text-lg font-extrabold">Care with Compassion</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-7">
-        
-
-          <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-            Patient-centered healthcare with
-            <span class="text-blue-600"> compassion & respect</span>
-          </h2>
-
-          <p class="mt-4 text-base leading-relaxed text-slate-600">
-            Saas Clinic ka focus hai high-quality healthcare provide karna —
-            jahan har patient ko clarity, comfort aur trusted guidance milti hai.
-            Modern processes aur hygienic environment ke saath hum smooth experience dete hain.
-          </p>
-
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft">
-              <p class="text-sm font-extrabold">Quality Care</p>
-              <p class="mt-1 text-xs text-slate-600">Evidence-based consultation & accurate diagnosis.</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft">
-              <p class="text-sm font-extrabold">Safe Environment</p>
-              <p class="mt-1 text-xs text-slate-600">Clean clinic & comfortable patient flow.</p>
-            </div>
-          </div>
-
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="about.html"
-              class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800">
-              Read More
-              <span class="ml-2 transition group-hover:translate-x-1">→</span>
-            </a>
-
-            <a href="#call-appointment"
-              class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-              Book Appointment
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!--==================== BIG SAAS SECTION (HOME) ====================-->
-  <section id="home-saas" class="py-14 sm:py-18 lg:py-20 bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft">
+        <div class="text-center max-w-3xl mx-auto">
+          <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-            SAAS • Services Overview
+            SAAS • Chest, Allergy & Sleep Centre
           </p>
 
-          <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            Superspeciality — <span class="text-emerald-600">Chest, Allergy & Sleep Centre</span>
+          <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Smart, Patient-Focused <span class="text-emerald-600">Healthcare Workflow</span>
           </h2>
 
-          <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
-             Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
-            modern diagnostics + patient-friendly workflow ke saath manage karte hain.
-            Aapko clear guidance, clean environment aur fast support milega.
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
+            modern diagnostics ke saath combine karte hain. Clear reports, fast booking
+            aur smooth patient journey.
           </p>
         </div>
 
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href="saas.html"
-            class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800">
-            View Full SAAS Page <span class="ml-2 transition group-hover:translate-x-1">→</span>
-          </a>
+        <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start">
 
-          <a href="#call-appointment"
-            class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-            Call for Appointment
-          </a>
-        </div>
-      </div>
+          <div class="lg:col-span-5">
+            <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+              <img src="./images/saa10.jpg" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
 
-      <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-start">
-
-        <div class="lg:col-span-5">
-          <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl">
-            <img src="./images/saa10.jpg" alt="SaaS Clinic" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
-
-            <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/70">Premium Clinic Workflow</p>
-              <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
-              <p class="mt-1 text-sm text-white/80"> Smooth experience on mobile, tablet, and desktop.</p>
+              <div class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-white/70">Premium Workflow</p>
+                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
+                <p class="mt-1 text-sm text-white/80"> Smooth experience across every visit.</p>
+              </div>
             </div>
           </div>
 
-          <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-2">
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-              <p class="text-xs font-semibold text-slate-500">Patients</p>
-              <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-              <p class="text-xs font-semibold text-slate-500">Rating</p>
-              <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-              <p class="text-xs font-semibold text-slate-500">Support</p>
-              <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft">
-              <p class="text-xs font-semibold text-slate-500">Avg Time</p>
-              <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
-            </div>
-          </div>
-        </div>
+          <div class="lg:col-span-7">
+            <div class="grid gap-6 sm:grid-cols-2">
 
-        <div class="lg:col-span-7">
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass">
-            <p class="text-xs font-semibold text-slate-500">WHAT WE COVER</p>
-            <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-              One place for diagnosis, therapy & follow-ups
-            </h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-               Saas Clinic ka system patient journey ko simplify karta hai:
-              booking → consultation → diagnostics → reports → follow-up reminders.
-            </p>
-
-            <div class="mt-7 grid gap-4 sm:grid-cols-2">
-              <a href="saas.html#speciality-tabs"
-                 class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft">
-                <div class="flex items-start gap-4">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold">
-                    P
-                  </div>
-                  <div>
-                    <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
-                    <p class="mt-1 text-xs text-slate-600">Diagnostics & care</p>
-                  </div>
-                </div>
-                <p class="mt-3 text-sm text-slate-600">
-                   Lung function tests, reporting, guidance & care plans.
-                </p>
-                <p class="mt-4 text-sm font-bold text-emerald-700">
-                  Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
-                </p>
-              </a>
-
-              <a href="saas.html#speciality-tabs"
-                 class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft">
-                <div class="flex items-start gap-4">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold">
-                    S
-                  </div>
-                  <div>
-                    <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-                    <p class="mt-1 text-xs text-slate-600">Sleep study & CPAP</p>
-                  </div>
-                </div>
-                <p class="mt-3 text-sm text-slate-600">
-                   PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
-                </p>
-                <p class="mt-4 text-sm font-bold text-emerald-700">
-                  Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
-                </p>
-              </a>
-            </div>
-
-            <div class="mt-8 grid gap-4 sm:grid-cols-3">
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft">
-                <p class="text-sm font-extrabold">Lung Function Testing</p>
-                <p class="mt-1 text-xs text-slate-600"> Accurate diagnosis & report.</p>
+              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+                <p class="mt-2 text-sm text-slate-600">Lung function testing, diagnosis and structured care plans.</p>
+                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft">
-                <p class="text-sm font-extrabold">CPAP / BiPAP</p>
-                <p class="mt-1 text-xs text-slate-600"> Titration + comfort support.</p>
+
+              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.</p>
+                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft">
-                <p class="text-sm font-extrabold">Allergy Testing</p>
-                <p class="mt-1 text-xs text-slate-600"> Triggers + prevention plan.</p>
+
+              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
+                <p class="mt-2 text-sm text-slate-600">Testing, prevention strategies and immunotherapy guidance.</p>
+                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
               </div>
+
+              <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
+                <p class="mt-2 text-sm text-slate-600">Breathing exercises, recovery plans and endurance training.</p>
+                <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore →</a>
+              </div>
+
             </div>
 
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="saas.html#core-services"
-                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700">
-                View Core Services →
-              </a>
+            <div class="mt-10 flex flex-col gap-4 sm:flex-row">
               <a href="saas.html"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                Open SAAS Page
+                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                Visit Full SAAS Page →
+              </a>
+
+              <a href="#call-appointment"
+                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                Book Appointment
               </a>
             </div>
 
           </div>
         </div>
       </div>
-  </section>
+    </section>
 
-  <!--==================== HOME SAAS SECTION (FINAL GAP FREE) ====================-->
-  <section id="home-saas"
-    class="relative -mt-6 pt-12 pb-16 sm:pt-14 sm:pb-20 bg-slate-50 border-t border-slate-200 relative z-10 glass-section">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-      <div class="text-center max-w-3xl mx-auto">
-        <p class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          SAAS • Chest, Allergy & Sleep Centre
-        </p>
-
-        <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Smart, Patient-Focused <span class="text-emerald-600">Healthcare Workflow</span>
-        </h2>
-
-        <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Saas Clinic me hum respiratory care, allergy clinic aur sleep medicine ko
-          modern diagnostics ke saath combine karte hain. Clear reports, fast booking
-          aur smooth patient journey.
-        </p>
+    <!--==================== HOME: SPECIALIST DOCTORS SECTION ====================-->
+    <section id="doctors" class="relative py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 overflow-hidden relative z-10 glass-section">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-500/8 blur-3xl"></div>
+        <div class="absolute -right-28 -top-10 h-72 w-72 rounded-full bg-blue-500/8 blur-3xl"></div>
       </div>
 
-      <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start">
-
-        <div class="lg:col-span-5">
-          <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl">
-            <img src="./images/saa10.jpg" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
-
-            <div class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/70">Premium Workflow</p>
-              <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
-              <p class="mt-1 text-sm text-white/80"> Smooth experience across every visit.</p>
-            </div>
-          </div>
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Meet <span class="text-emerald-600">Our Specialist</span> Doctors
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 sm:text-base">
+            Highly qualified specialists providing comprehensive care with flexible timings
+          </p>
         </div>
 
-        <div class="lg:col-span-7">
-          <div class="grid gap-6 sm:grid-cols-2">
+        <div class="mt-12 grid gap-8 lg:grid-cols-2">
 
-            <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft">
-              <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
-              <p class="mt-2 text-sm text-slate-600">Lung function testing, diagnosis and structured care plans.</p>
-              <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600">Explore →</a>
+          <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+            <div class="grid lg:grid-cols-12">
+              <div class="relative lg:col-span-5 overflow-hidden">
+                <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal" class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
+              </div>
+
+              <div class="lg:col-span-7 p-6 sm:p-7">
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Prakhar Agarwal</h3>
+                <p class="mt-1 text-sm font-semibold text-slate-500">Designation</p>
+
+                <p class="mt-2 text-sm leading-relaxed text-emerald-700 font-semibold">
+                  DM Pulmonary Critical Care & Sleep Medicine, MD, DNB, MNAMS, DAA (CMC Vellore) – Allergy Specialist,
+                  Ex. Senior Resident – AIIMS Delhi
+                </p>
+
+                <div class="mt-5">
+                  <p class="text-sm font-semibold text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident – AIIMS Delhi</p>
+                </div>
+
+                <div class="mt-6 border-t border-slate-200 pt-5">
+                  <div class="flex items-center gap-2 text-slate-700">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
+                    <p class="text-sm font-semibold text-slate-500">Available Timings</p>
+                  </div>
+
+                  <div class="mt-3 grid gap-2">
+                    <div class="flex items-center justify-between text-sm anim-base">
+                      <p class="font-bold text-slate-900">Morning</p>
+                      <p class="text-slate-700">10:00 AM - 2:00 PM</p>
+                    </div>
+                    <div class="flex items-center justify-between text-sm anim-base">
+                      <p class="font-bold text-slate-900">Evening</p>
+                      <p class="text-slate-700">6:00 PM - 8:00 PM</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                  <a href="DrPrakharAgarwal.html"
+                    class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                    View Profile
+                  </a>
+                  <a href="#call-appointment"
+                    class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                    Book Now
+                  </a>
+                </div>
+              </div>
             </div>
-
-            <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft">
-              <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-              <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.</p>
-              <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600">Explore →</a>
-            </div>
-
-            <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft">
-              <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
-              <p class="mt-2 text-sm text-slate-600">Testing, prevention strategies and immunotherapy guidance.</p>
-              <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600">Explore →</a>
-            </div>
-
-            <div class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft">
-              <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
-              <p class="mt-2 text-sm text-slate-600">Breathing exercises, recovery plans and endurance training.</p>
-              <a href="saas.html" class="mt-4 inline-block text-sm font-bold text-emerald-600">Explore →</a>
-            </div>
-
           </div>
 
-          <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a href="saas.html"
-              class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700">
-              Visit Full SAAS Page →
-            </a>
+          <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+            <div class="grid lg:grid-cols-12">
+              <div class="relative lg:col-span-5 overflow-hidden">
+                <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian" class="h-72 w-full object-cover sm:h-80 lg:h-full img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
+              </div>
 
-            <a href="#call-appointment"
-              class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft">
-              Book Appointment
-            </a>
+              <div class="lg:col-span-7 p-6 sm:p-7">
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Kirti Kadian</h3>
+                <p class="mt-1 text-sm font-semibold text-slate-500">Designation</p>
+
+                <p class="mt-2 text-sm leading-relaxed text-emerald-700 font-semibold">
+                  MD, DM Pulmonary Critical Care & Sleep Medicine, Ex. Senior Resident – PGIMER Rohtak,
+                  Pulmonary Rehabilitation Expert
+                </p>
+
+                <div class="mt-5">
+                  <p class="text-sm font-semibold text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident – PGIMER Rohtak</p>
+                </div>
+
+                <div class="mt-6 border-t border-slate-200 pt-5">
+                  <div class="flex items-center gap-2 text-slate-700">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 anim-base hover-lift">🕒</span>
+                    <p class="text-sm font-semibold text-slate-500">Available Timings</p>
+                  </div>
+
+                  <div class="mt-3 grid gap-2">
+                    <div class="flex items-center justify-between text-sm anim-base">
+                      <p class="font-bold text-slate-900">Morning</p>
+                      <p class="text-slate-700">10:00 AM - 2:00 PM</p>
+                    </div>
+                    <div class="flex items-center justify-between text-sm anim-base">
+                      <p class="font-bold text-slate-900">Evening</p>
+                      <p class="text-slate-700">6:00 PM - 8:00 PM</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                  <a href="DrKirtiKadian.html"
+                    class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                    View Profile
+                  </a>
+                  <a href="#call-appointment"
+                    class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                    Book Now
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!--==================== HOME: SPECIALIST DOCTORS SECTION ====================-->
-  <section id="doctors" class="relative py-14 sm:py-18 lg:py-20 bg-slate-50 border-y border-slate-200 overflow-hidden relative z-10 glass-section">
-    <div class="pointer-events-none absolute inset-0">
-      <div class="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-500/8 blur-3xl"></div>
-      <div class="absolute -right-28 -top-10 h-72 w-72 rounded-full bg-blue-500/8 blur-3xl"></div>
-    </div>
-
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Meet <span class="text-emerald-600">Our Specialist</span> Doctors
-        </h2>
-        <p class="mt-3 text-sm text-slate-600 sm:text-base">
-          Highly qualified specialists providing comprehensive care with flexible timings
-        </p>
+    <!--==================== HOME CONTACT SECTION ====================-->
+    <section id="home-contact" class="relative py-10 sm:py-14 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
+        <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
       </div>
 
-      <div class="mt-12 grid gap-8 lg:grid-cols-2">
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass">
-          <div class="grid lg:grid-cols-12">
-            <div class="relative lg:col-span-5">
-              <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal" class="h-72 w-full object-cover sm:h-80 lg:h-full" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-extrabold sm:text-4xl text-slate-900">
+            Get in <span class="text-emerald-600">Touch</span>
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 sm:text-base">
+            Book appointments, ask queries, or contact our clinic team directly.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-10 lg:grid-cols-12">
+
+          <div class="lg:col-span-5 space-y-6">
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
+              <h3 class="text-lg font-extrabold text-slate-900">Clinic Details</h3>
+
+              <div class="mt-5 space-y-4 text-sm text-slate-700">
+                <div class="anim-base">
+                  <p class="font-semibold text-slate-500">Address</p>
+                  <p>Parul Hospital, Shivaji Nagar,</p>
+                  <p>Bhopal, Madhya Pradesh 462016</p>
+                </div>
+
+                <div class="anim-base">
+                  <p class="font-semibold text-slate-500">Phone</p>
+                  <a href="tel:+917997732332" class="text-emerald-600 font-semibold anim-base link-underline btn-press">
+                   +91 7997732332
+                  </a>
+                </div>
+
+                <div class="anim-base">
+                  <p class="font-semibold text-slate-500">Email</p>
+                  <p class="text-emerald-600 font-semibold">parulhospital123@gmail.com</p>
+                </div>
+
+                <div class="anim-base">
+                  <p class="font-semibold text-slate-500">Timings</p>
+                  <p>Morning: 10:00 AM – 2:00 PM</p>
+                  <p>Evening: 6:00 PM – 8:00 PM</p>
+                </div>
+              </div>
             </div>
 
-            <div class="lg:col-span-7 p-6 sm:p-7">
-              <h3 class="text-2xl font-extrabold text-slate-900">Dr. Prakhar Agarwal</h3>
-              <p class="mt-1 text-sm font-semibold text-slate-500">Designation</p>
-
-              <p class="mt-2 text-sm leading-relaxed text-emerald-700 font-semibold">
-                DM Pulmonary Critical Care & Sleep Medicine, MD, DNB, MNAMS, DAA (CMC Vellore) – Allergy Specialist,
-                Ex. Senior Resident – AIIMS Delhi
+            <div class="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow">
+              <h3 class="text-lg font-extrabold">Call for Appointment</h3>
+              <p class="mt-2 text-sm text-white/90">
+                Confirm your slot quickly by speaking with our team.
               </p>
-
-              <div class="mt-5">
-                <p class="text-sm font-semibold text-slate-500">Experience</p>
-                <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident – AIIMS Delhi</p>
-              </div>
-
-              <div class="mt-6 border-t border-slate-200 pt-5">
-                <div class="flex items-center gap-2 text-slate-700">
-                  <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
-                  <p class="text-sm font-semibold text-slate-500">Available Timings</p>
-                </div>
-
-                <div class="mt-3 grid gap-2">
-                  <div class="flex items-center justify-between text-sm">
-                    <p class="font-bold text-slate-900">Morning</p>
-                    <p class="text-slate-700">10:00 AM - 2:00 PM</p>
-                  </div>
-                  <div class="flex items-center justify-between text-sm">
-                    <p class="font-bold text-slate-900">Evening</p>
-                    <p class="text-slate-700">6:00 PM - 8:00 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-6 grid gap-3 sm:grid-cols-2">
-                <a href="DrPrakharAgarwal.html"
-                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                  View Profile
-                </a>
-                <a href="#call-appointment"
-                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700">
-                  Book Now
-                </a>
-              </div>
+              <a href="tel:+917997732332"
+                class="mt-5 hover-shine inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-emerald-700 shadow-md transition hover:-translate-y-0.5 anim-base btn-press hover-lift hover-glow">
+                Call Now →
+              </a>
             </div>
+
           </div>
-        </div>
 
-        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass">
-          <div class="grid lg:grid-cols-12">
-            <div class="relative lg:col-span-5">
-              <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian" class="h-72 w-full object-cover sm:h-80 lg:h-full" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/12 to-transparent"></div>
-            </div>
+          <div class="lg:col-span-7">
+            <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg card-glass anim-base hover-lift hover-glow">
+              <h3 class="text-xl font-extrabold text-slate-900">Quick Appointment Request</h3>
 
-            <div class="lg:col-span-7 p-6 sm:p-7">
-              <h3 class="text-2xl font-extrabold text-slate-900">Dr. Kirti Kadian</h3>
-              <p class="mt-1 text-sm font-semibold text-slate-500">Designation</p>
-
-              <p class="mt-2 text-sm leading-relaxed text-emerald-700 font-semibold">
-                MD, DM Pulmonary Critical Care & Sleep Medicine, Ex. Senior Resident – PGIMER Rohtak,
-                Pulmonary Rehabilitation Expert
-              </p>
-
-              <div class="mt-5">
-                <p class="text-sm font-semibold text-slate-500">Experience</p>
-                <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident – PGIMER Rohtak</p>
-              </div>
-
-              <div class="mt-6 border-t border-slate-200 pt-5">
-                <div class="flex items-center gap-2 text-slate-700">
-                  <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
-                  <p class="text-sm font-semibold text-slate-500">Available Timings</p>
+              <form class="mt-6 space-y-5">
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <input type="text" placeholder="Full Name"
+                    class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
+                  <input type="tel" placeholder="Phone Number"
+                    class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
                 </div>
 
-                <div class="mt-3 grid gap-2">
-                  <div class="flex items-center justify-between text-sm">
-                    <p class="font-bold text-slate-900">Morning</p>
-                    <p class="text-slate-700">10:00 AM - 2:00 PM</p>
-                  </div>
-                  <div class="flex items-center justify-between text-sm">
-                    <p class="font-bold text-slate-900">Evening</p>
-                    <p class="text-slate-700">6:00 PM - 8:00 PM</p>
-                  </div>
-                </div>
-              </div>
+                <input type="email" placeholder="Email Address"
+                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
 
-              <div class="mt-6 grid gap-3 sm:grid-cols-2">
-                <a href="DrKirtiKadian.html"
-                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft">
-                  View Profile
-                </a>
-                <a href="#call-appointment"
-                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700">
-                  Book Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+                <textarea rows="4" placeholder="Your Message"
+                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base"></textarea>
 
-      </div>
+                <button type="submit"
+                  class="w-full hover-shine inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                  Send Request →
+                </button>
+              </form>
 
-    </div>
-  </section>
-
-  <!--==================== HOME CONTACT SECTION ====================-->
-  <section id="home-contact" class="relative py-14 sm:py-18 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
-    <div class="pointer-events-none absolute inset-0">
-      <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
-      <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
-    </div>
-
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-      <div class="text-center max-w-3xl mx-auto">
-        <h2 class="text-3xl font-extrabold sm:text-4xl text-slate-900">
-          Get in <span class="text-emerald-600">Touch</span>
-        </h2>
-        <p class="mt-3 text-sm text-slate-600 sm:text-base">
-          Book appointments, ask queries, or contact our clinic team directly.
-        </p>
-      </div>
-
-      <div class="mt-12 grid gap-10 lg:grid-cols-12">
-
-        <div class="lg:col-span-5 space-y-6">
-          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass">
-            <h3 class="text-lg font-extrabold text-slate-900">Clinic Details</h3>
-
-            <div class="mt-5 space-y-4 text-sm text-slate-700">
-              <div>
-                <p class="font-semibold text-slate-500">Address</p>
-                <p>Parul Hospital, Shivaji Nagar,</p>
-                <p>Bhopal, Madhya Pradesh 462016</p>
-              </div>
-
-              <div>
-                <p class="font-semibold text-slate-500">Phone</p>
-                <a href="tel:+917997732332" class="text-emerald-600 font-semibold">
-                 +91 7997732332
-                </a>
-              </div>
-
-              <div>
-                <p class="font-semibold text-slate-500">Email</p>
-                <p class="text-emerald-600 font-semibold">parulhospital123@gmail.com</p>
-              </div>
-
-              <div>
-                <p class="font-semibold text-slate-500">Timings</p>
-                <p>Morning: 10:00 AM – 2:00 PM</p>
-                <p>Evening: 6:00 PM – 8:00 PM</p>
-              </div>
             </div>
           </div>
 
-          <div class="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-600/15">
-            <h3 class="text-lg font-extrabold">Call for Appointment</h3>
-            <p class="mt-2 text-sm text-white/90">
-              Confirm your slot quickly by speaking with our team.
-            </p>
-            <a href="tel:+917997732332"
-              class="mt-5 hover-shine inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-emerald-700 shadow-md transition hover:-translate-y-0.5">
-              Call Now →
-            </a>
-          </div>
-
-        </div>
-
-        <div class="lg:col-span-7">
-          <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg card-glass">
-            <h3 class="text-xl font-extrabold text-slate-900">Quick Appointment Request</h3>
-
-            <form class="mt-6 space-y-5">
-              <div class="grid gap-5 sm:grid-cols-2">
-                <input type="text" placeholder="Full Name"
-                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)]" />
-                <input type="tel" placeholder="Phone Number"
-                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)]" />
-              </div>
-
-              <input type="email" placeholder="Email Address"
-                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)]" />
-
-              <textarea rows="4" placeholder="Your Message"
-                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)]"></textarea>
-
-              <button type="submit"
-                class="w-full hover-shine inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-emerald-700">
-                Send Request →
-              </button>
-            </form>
-
-          </div>
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!--==============================footer  start========================================-->
+    <div id="footer-container"></div>
+    <script>
+      fetch("./footer.html")
+        .then(r => r.text())
+        .then(html => (document.getElementById("footer-container").innerHTML = html));
+    </script>
+    <!--=======================footer  end=======================================-->
 
-  <!--==============================footer  start========================================-->
- <div id="footer-container"></div>
-<script>
-  fetch("./footer.html")
-    .then(r => r.text())
-    .then(html => (document.getElementById("footer-container").innerHTML = html));
-</script>
-  <!--=======================footer  end=======================================-->
+  </main>
 
   <script>
     // Random heart rate variation engine (no UI)

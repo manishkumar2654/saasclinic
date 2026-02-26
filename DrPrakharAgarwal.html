@@ -164,6 +164,78 @@
     /* Text helpers */
     .t-soft{ color: var(--text-soft); }
     .t-main{ color: var(--text); }
+
+    /* =======================
+       ✅ NO-REDESIGN ANIMATION SYSTEM (global utility classes)
+       ======================= */
+    .anim-base{
+      transition-property: transform, opacity, filter;
+      transition-duration: 320ms;
+      transition-timing-function: cubic-bezier(.2,.8,.2,1);
+      will-change: transform, opacity, filter;
+      transform: translateZ(0);
+    }
+    .hover-lift:hover{
+      transform: translate3d(0,-4px,0) scale(1.01);
+    }
+    .btn-press:active{
+      transform: translate3d(0,0,0) scale(0.98);
+    }
+
+    /* Subtle glow using existing emerald/blue palette (no theme change) */
+    .hover-glow{
+      box-shadow: none;
+      outline: none;
+    }
+    .hover-glow:hover{
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.14),
+        0 14px 42px -30px rgba(2,132,199,0.28);
+    }
+    .hover-glow:focus-visible{
+      box-shadow:
+        0 0 0 2px rgba(16,185,129,0.20),
+        0 0 0 6px rgba(2,132,199,0.12);
+    }
+
+    /* Link underline slide */
+    .link-underline{
+      position: relative;
+      text-decoration: none;
+    }
+    .link-underline::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      height:2px;
+      width:100%;
+      background: currentColor;
+      opacity: .30;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 320ms cubic-bezier(.2,.8,.2,1), opacity 200ms ease;
+    }
+    .link-underline:hover::after{ transform: scaleX(1); opacity:.45; }
+    .link-underline:focus-visible::after{ transform: scaleX(1); opacity:.55; }
+
+    /* Image zoom (only if parent already overflow-hidden) */
+    .img-zoom{
+      transition-property: transform, opacity, filter;
+      transition-duration: 650ms;
+      transition-timing-function: cubic-bezier(.2,.8,.2,1);
+      will-change: transform;
+      transform: translateZ(0);
+    }
+    .img-zoom:hover{ transform: scale(1.04); }
+
+    /* Mobile tap feedback without breaking hover */
+    @media (hover: none){
+      .hover-lift:hover{ transform: none; }
+      .hover-glow:hover{ box-shadow:none; }
+      .link-underline:hover::after{ transform: none; opacity:.30; }
+      .img-zoom:hover{ transform:none; }
+    }
   </style>
 </head>
 
@@ -239,21 +311,22 @@
       <div class="absolute -bottom-36 right-0 h-[30rem] w-[30rem] rounded-full bg-blue-500/10 blur-3xl"></div>
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <!-- ✅ Gap reduced (wrapper only): py-10 sm:py-14 -> py-8 sm:py-12 -->
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
 
         <!-- Photo -->
         <div class="lg:col-span-5 fade-up delay-2">
-          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition-all duration-500 ease-out hover:-translate-y-1">
+          <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition-all duration-500 ease-out hover:-translate-y-1 anim-base hover-lift hover-glow btn-press">
             <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal"
-                 class="h-[360px] w-full object-cover opacity-95 sm:h-[420px] transition-transform duration-700 ease-out group-hover:scale-105" />
+                 class="h-[360px] w-full object-cover opacity-95 sm:h-[420px] transition-transform duration-700 ease-out group-hover:scale-105 img-zoom" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
           </div>
         </div>
 
         <!-- Info -->
         <div class="lg:col-span-7 fade-up delay-3">
-          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 shimmer motion-safe:shimmer glass-soft">
+          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 shimmer motion-safe:shimmer glass-soft anim-base hover-glow">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
             Doctor Profile
           </p>
@@ -273,25 +346,25 @@
 
           <!-- Quick details -->
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70 anim-base hover-lift hover-glow btn-press">
               <p class="text-xs font-semibold text-slate-500">Designation</p>
               <p class="mt-1 text-sm font-extrabold text-slate-900">Pulmonary, Critical Care & Sleep Specialist</p>
             </div>
-            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
+            <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70 anim-base hover-lift hover-glow btn-press">
               <p class="text-xs font-semibold text-slate-500">Experience</p>
               <p class="mt-1 text-sm font-extrabold text-slate-900">Ex. Senior Resident – AIIMS Delhi</p>
             </div>
           </div>
 
           <!-- Timings -->
-          <div class="mt-6 rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/70">
+          <div class="mt-6 rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/70 anim-base hover-glow btn-press">
             <p class="text-xs font-semibold text-slate-500">Available Timings</p>
             <div class="mt-3 grid gap-3 sm:grid-cols-2">
-              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80 anim-base hover-lift hover-glow btn-press">
                 <p class="text-sm font-extrabold text-slate-900">Morning</p>
                 <p class="mt-1 text-sm text-slate-700">10:00 AM – 2:00 PM</p>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
+              <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80 anim-base hover-lift hover-glow btn-press">
                 <p class="text-sm font-extrabold text-slate-900">Evening</p>
                 <p class="mt-1 text-sm text-slate-700">6:00 PM – 8:00 PM</p>
               </div>
@@ -301,11 +374,11 @@
           <!-- CTA -->
           <div class="mt-7 flex flex-col gap-3 sm:flex-row">
             <a href="#book"
-              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-slate-800 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15">
+              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-slate-800 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15 anim-base hover-lift btn-press hover-glow">
               Book Now →
             </a>
             <a href="tel:+910000000000"
-              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/15">
+              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/15 anim-base hover-lift btn-press hover-glow">
               Call for Appointment
             </a>
           </div>
@@ -316,7 +389,8 @@
   </section>
 
   <!--==================== ABOUT ====================-->
-  <section id="about" class="py-12 sm:py-16 fade-up delay-2">
+  <!-- ✅ Gap reduced (section wrapper only): py-12 sm:py-16 -> py-10 sm:py-14 -->
+  <section id="about" class="py-10 sm:py-14 fade-up delay-2">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-start">
         <div class="lg:col-span-7">
@@ -328,11 +402,11 @@
           </p>
 
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 anim-base hover-lift hover-glow btn-press">
               <p class="text-sm font-extrabold text-slate-900">Clear Explanation</p>
               <p class="mt-1 text-xs text-slate-600">Simple language me reports & plan.</p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 anim-base hover-lift hover-glow btn-press">
               <p class="text-sm font-extrabold text-slate-900">Evidence-based Care</p>
               <p class="mt-1 text-xs text-slate-600">Modern diagnostics & protocols.</p>
             </div>
@@ -340,13 +414,13 @@
         </div>
 
         <div class="lg:col-span-5">
-          <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:bg-white/70">
+          <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:bg-white/70 anim-base hover-glow btn-press">
             <p class="text-xs font-semibold text-slate-500">KEY HIGHLIGHTS</p>
             <ul class="mt-4 space-y-3 text-sm text-slate-700">
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Pulmonary Critical Care & Sleep Medicine</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Allergy Specialist (from card)</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Ex. Senior Resident – AIIMS Delhi</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow </li>
+              <li class="flex gap-3 anim-base hover-glow"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Pulmonary Critical Care & Sleep Medicine</li>
+              <li class="flex gap-3 anim-base hover-glow"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Allergy Specialist (from card)</li>
+              <li class="flex gap-3 anim-base hover-glow"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Ex. Senior Resident – AIIMS Delhi</li>
+              <li class="flex gap-3 anim-base hover-glow"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow </li>
             </ul>
           </div>
         </div>
@@ -355,25 +429,26 @@
   </section>
 
   <!--==================== SPECIALIZATIONS ====================-->
-  <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-3">
+  <!-- ✅ Gap reduced (section wrapper only): py-12 sm:py-16 -> py-10 sm:py-14 -->
+  <section class="py-10 sm:py-14 border-y border-slate-200/60 fade-up delay-3">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">SPECIALIZATIONS</p>
       <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Areas of Expertise</h2>
 
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
           <p class="mt-2 text-xs text-slate-600"> Lung disorders diagnosis & management.</p>
         </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Critical Care</p>
           <p class="mt-2 text-xs text-slate-600"> Advanced respiratory support planning.</p>
         </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
           <p class="mt-2 text-xs text-slate-600">PSG, CPAP guidance & follow-ups.</p>
         </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Allergy Care</p>
           <p class="mt-2 text-xs text-slate-600"> Allergy testing & prevention strategies.</p>
         </div>
@@ -382,33 +457,34 @@
   </section>
 
   <!--==================== SERVICES ====================-->
-  <section class="py-12 sm:py-16 fade-up delay-4">
+  <!-- ✅ Gap reduced (section wrapper only): py-12 sm:py-16 -> py-10 sm:py-14 -->
+  <section class="py-10 sm:py-14 fade-up delay-4">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">SERVICES</p>
       <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">What you can book</h2>
 
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Consultation</p>
           <p class="mt-2 text-xs text-slate-600"> Symptoms review + plan + follow-up schedule.</p>
         </div>
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Lung Function Test</p>
           <p class="mt-2 text-xs text-slate-600"> Complete evaluation with report explanation.</p>
         </div>
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Sleep Study Guidance</p>
           <p class="mt-2 text-xs text-slate-600"> PSG process + CPAP support.</p>
         </div>
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Allergy Evaluation</p>
           <p class="mt-2 text-xs text-slate-600"> Trigger identification + prevention plan.</p>
         </div>
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Rehab Plan</p>
           <p class="mt-2 text-xs text-slate-600"> Breathing exercises and recovery routine.</p>
         </div>
-        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-extrabold text-slate-900">Emergency Respiratory Care</p>
           <p class="mt-2 text-xs text-slate-600"> Urgent support & guidance.</p>
         </div>
@@ -417,23 +493,24 @@
   </section>
 
   <!--==================== REVIEWS ====================-->
-  <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-5">
+  <!-- ✅ Gap reduced (section wrapper only): py-12 sm:py-16 -> py-10 sm:py-14 -->
+  <section class="py-10 sm:py-14 border-y border-slate-200/60 fade-up delay-5">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">REVIEWS</p>
       <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Patient feedback </h2>
 
       <div class="mt-8 grid gap-5 lg:grid-cols-3">
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-bold text-slate-900">“Very clear explanation.”</p>
           <p class="mt-2 text-xs text-slate-600"> Reports ko simple language me samjhaya.</p>
           <p class="mt-4 text-xs font-semibold text-slate-500">— Patient A</p>
         </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-bold text-slate-900">“Great support & guidance.”</p>
           <p class="mt-2 text-xs text-slate-600"> Follow-up and care plan was smooth.</p>
           <p class="mt-4 text-xs font-semibold text-slate-500">— Patient B</p>
         </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75 anim-base hover-lift hover-glow btn-press">
           <p class="text-sm font-bold text-slate-900">“Professional and calm.”</p>
           <p class="mt-2 text-xs text-slate-600"> Timings + appointment experience was easy.</p>
           <p class="mt-4 text-xs font-semibold text-slate-500">— Patient C</p>
@@ -443,30 +520,31 @@
   </section>
 
   <!--==================== FAQ ====================-->
-  <section class="py-12 sm:py-16 fade-up delay-6">
+  <!-- ✅ Gap reduced (section wrapper only): py-12 sm:py-16 -> py-10 sm:py-14 -->
+  <section class="py-10 sm:py-14 fade-up delay-6">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">FAQ</p>
       <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Common questions</h2>
 
       <div class="mt-8 grid gap-4">
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75 anim-base hover-glow btn-press">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between anim-base hover-glow focus:outline-none">
             Appointment kaise book karein?
             <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
           </summary>
           <p class="mt-3 text-sm text-slate-700"> Call / online booking se slot confirm ho jayega.</p>
         </details>
 
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75 anim-base hover-glow btn-press">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between anim-base hover-glow focus:outline-none">
             Reports explain hote hain?
             <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
           </summary>
           <p class="mt-3 text-sm text-slate-700"> Yes, reports ko step-by-step samjhaya jata hai.</p>
         </details>
 
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
+        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75 anim-base hover-glow btn-press">
+          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between anim-base hover-glow focus:outline-none">
             Follow-ups ka system?
             <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
           </summary>
@@ -477,16 +555,17 @@
   </section>
 
   <!--==================== CTA ====================-->
-  <section id="book" class="pb-14 sm:pb-20 fade-up delay-7">
+  <!-- ✅ Gap reduced (section wrapper only): pb-14 sm:pb-20 -> pb-10 sm:pb-16 -->
+  <section id="book" class="pb-10 sm:pb-16 fade-up delay-7">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass-strong">
+      <div class="relative overflow-hidden rounded-3xl border border-slate-200 glass-strong anim-base hover-glow btn-press">
         <div class="pointer-events-none absolute inset-0">
           <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/12 blur-3xl"></div>
           <div class="absolute -bottom-24 right-0 h-96 w-96 rounded-full bg-blue-500/12 blur-3xl"></div>
         </div>
 
         <div class="relative px-6 py-10 sm:px-10 sm:py-12 lg:px-14">
-          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 backdrop-blur shimmer motion-safe:shimmer transition-all duration-300 ease-out">
+          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 backdrop-blur shimmer motion-safe:shimmer transition-all duration-300 ease-out anim-base hover-glow">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
             Book Appointment
           </p>
@@ -496,11 +575,11 @@
 
           <div class="mt-6 flex flex-col gap-3 sm:flex-row">
             <a href="tel:+910000000000"
-              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15">
+              class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15 anim-base hover-lift btn-press hover-glow">
               Call Now →
             </a>
             <a href="index.html"
-              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10">
+              class="btn-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-6 py-3 text-sm font-bold text-slate-900 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10 anim-base hover-lift btn-press hover-glow">
               Back to Home
             </a>
           </div>
