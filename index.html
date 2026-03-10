@@ -4,60 +4,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Premium Medical Home</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     :root {
-      /* Light base (warm-neutral, soft) */
-      --bg-0: #F7F8FB;
-      --bg-1: #F3F5FA;
-      --bg-2: #EEF2F8;
+      --bg-0: #f7fcfc;
+      --bg-1: #eef8f7;
+      --bg-2: #e7f3f2;
+      --bg-3: #fbfeff;
 
-      /* Light glass tokens */
-      --card: rgba(255, 255, 255, 0.66);
-      --card-strong: rgba(255, 255, 255, 0.78);
-      --card-soft: rgba(255, 255, 255, 0.52);
+      --card: rgba(255, 255, 255, 0.76);
+      --card-strong: rgba(255, 255, 255, 0.86);
+      --card-soft: rgba(255, 255, 255, 0.64);
 
-      --border: rgba(15, 23, 42, 0.10);
-      --border-soft: rgba(15, 23, 42, 0.07);
+      --border: rgba(15, 118, 110, 0.10);
+      --border-soft: rgba(15, 23, 42, 0.06);
 
-      /* Text (dark palette, high readability) */
-      --text: rgba(15, 23, 42, 0.94);
+      --text: #0f172a;
       --text-soft: rgba(15, 23, 42, 0.70);
 
-      /* Premium soft shadow */
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --accent: #14b8a6;
+      --accent-2: #0ea5e9;
+
       --shadow:
-        0 24px 70px -40px rgba(15, 23, 42, 0.28),
-        0 10px 28px -18px rgba(15, 23, 42, 0.16);
+        0 30px 80px -42px rgba(15, 23, 42, 0.18),
+        0 14px 34px -22px rgba(15, 23, 42, 0.08);
 
-      /* Light overlays */
-      --overlay: rgba(255, 255, 255, 0.62);
+      --pulse-opacity: 0.10;
+      --pulse-grid: rgba(15, 118, 110, 0.03);
+      --pulse-line: rgba(13, 148, 136, 0.28);
+      --pulse-glow: rgba(20, 184, 166, 0.10);
+    }
 
-      /* Videos */
-      --v-op: 0.90;
-      --v-blur: 0.3px;
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-      /* Pulse App (subtle) */
-      --pulse-opacity: 0.18;
-      --pulse-grid: rgba(2, 132, 199, 0.045);
-      --pulse-line: rgba(20, 184, 166, 0.55);
-      --pulse-glow: rgba(20, 184, 166, 0.16);
-
-      /* Heart SVG */
-      --heart-op: 0.08;
-      --heart-glow: rgba(20, 184, 166, 0.14);
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
+      min-height: 100vh;
       background:
-        radial-gradient(1100px 760px at 18% 14%, rgba(2, 132, 199, 0.10), transparent 58%),
-        radial-gradient(1000px 700px at 82% 18%, rgba(16, 185, 129, 0.08), transparent 60%),
-        radial-gradient(950px 650px at 55% 86%, rgba(99, 102, 241, 0.07), transparent 62%),
-        linear-gradient(180deg, var(--bg-2), var(--bg-0));
+        radial-gradient(900px 500px at 0% 0%, rgba(20, 184, 166, 0.12), transparent 62%),
+        radial-gradient(900px 520px at 100% 8%, rgba(14, 165, 233, 0.10), transparent 62%),
+        radial-gradient(800px 480px at 50% 100%, rgba(16, 185, 129, 0.08), transparent 60%),
+        linear-gradient(180deg, #fbfeff 0%, #f3fbfb 32%, #edf7f6 65%, #e8f3f2 100%);
       color: var(--text);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(255, 255, 255, 0.55), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.08));
+      z-index: -20;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -93,7 +105,6 @@
       }
     }
 
-    /* ==== Your original animation helpers (kept) ==== */
     @keyframes fadeUp {
       0% {
         opacity: 0;
@@ -176,7 +187,7 @@
       position: absolute;
       inset: -40% -60%;
       transform: translateX(-60%) rotate(12deg);
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.68), transparent);
       opacity: 0;
       transition: opacity .25s ease;
       pointer-events: none;
@@ -208,7 +219,7 @@
       position: absolute;
       inset: 0;
       transform: translateX(-120%);
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .70), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .78), transparent);
       opacity: 0;
       pointer-events: none;
     }
@@ -228,102 +239,29 @@
       }
     }
 
-    /* ==== Premium glass tokens ==== */
     .glass {
-      background: var(--card);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.72));
       border-color: var(--border);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
     .glass-strong {
-      background: var(--card-strong);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.82));
       border-color: var(--border);
       box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .glass-soft {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.64));
+      border-color: var(--border-soft);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
 
-    .glass-soft {
-      background: var(--card-soft);
-      border-color: var(--border-soft);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    /* ==== Floating glow particles ==== */
-    .particle-layer {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      z-index: -6;
-      overflow: hidden;
-    }
-
-    .floaty {
-      position: absolute;
-      width: 22rem;
-      height: 22rem;
-      border-radius: 9999px;
-      filter: blur(44px);
-      opacity: .14;
-      transform: translateZ(0);
-      animation: drift 14s ease-in-out infinite;
-      will-change: transform, opacity;
-      mix-blend-mode: multiply;
-    }
-
-    .floaty.small {
-      width: 14rem;
-      height: 14rem;
-      opacity: .12;
-      filter: blur(38px);
-      animation-duration: 16s;
-    }
-
-    .floaty.tiny {
-      width: 10rem;
-      height: 10rem;
-      opacity: .10;
-      filter: blur(32px);
-      animation-duration: 18s;
-    }
-
-    @keyframes drift {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1);
-        opacity: .10;
-      }
-
-      50% {
-        transform: translate3d(18px, -22px, 0) scale(1.04);
-        opacity: .16;
-      }
-
-      100% {
-        transform: translate3d(0, 0, 0) scale(1);
-        opacity: .10;
-      }
-    }
-
-    /* ==== Left/Right videos ==== */
-    .bg-video-layer {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      z-index: -10;
-      overflow: hidden;
-    }
-
-    .bg-video {
-      will-change: transform;
-      transform: translateZ(0);
-      opacity: var(--v-op);
-      filter: blur(var(--v-blur)) saturate(0.95) contrast(0.98);
-    }
-
-    /* ==== Pulse canvas ==== */
     #pulseCanvas {
       pointer-events: none;
       position: fixed;
@@ -332,92 +270,58 @@
       opacity: var(--pulse-opacity);
     }
 
-    /* ==== 3D rotating heart SVG ==== */
-    .heart-wrap {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      z-index: -7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .heart-3d {
-      width: min(520px, 70vw);
-      aspect-ratio: 1 / 1;
-      opacity: var(--heart-op);
-      transform-style: preserve-3d;
-      filter: drop-shadow(0 0 22px var(--heart-glow));
-      animation: heartSpin 12s linear infinite;
-      will-change: transform;
-    }
-
-    @keyframes heartSpin {
-      0% {
-        transform: rotateX(14deg) rotateY(0deg) scale(1);
-      }
-
-      50% {
-        transform: rotateX(14deg) rotateY(180deg) scale(1.02);
-      }
-
-      100% {
-        transform: rotateX(14deg) rotateY(360deg) scale(1);
-      }
-    }
-
-    /* ==== Make "bg-slate-50" sections premium glass but keep layout same ==== */
     .glass-section {
-      background: rgba(255, 255, 255, 0.52) !important;
-      border-color: rgba(15, 23, 42, 0.10) !important;
-      box-shadow: 0 18px 60px -45px rgba(15, 23, 42, 0.18);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.34)) !important;
+      border-color: rgba(15, 118, 110, 0.08) !important;
+      box-shadow: 0 18px 60px -45px rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
     }
 
-    /* ==== Make your white cards slightly glassy (light premium) ==== */
+    .glass-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(20, 184, 166, 0.03), rgba(14, 165, 233, 0.02), rgba(255, 255, 255, 0.08));
+    }
+
     .card-glass {
-      background: rgba(255, 255, 255, 0.72) !important;
-      border-color: rgba(15, 23, 42, 0.12) !important;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)) !important;
+      border-color: rgba(15, 118, 110, 0.10) !important;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
     .card-glass-soft {
-      background: rgba(255, 255, 255, 0.58) !important;
-      border-color: rgba(15, 23, 42, 0.09) !important;
-      box-shadow: 0 16px 46px -40px rgba(15, 23, 42, 0.18);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.66)) !important;
+      border-color: rgba(15, 118, 110, 0.08) !important;
+      box-shadow: 0 16px 46px -40px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
-    /* =======================================================================
-       ✅ NO-REDESIGN Premium Animation System (added)
-       ======================================================================= */
     .anim-base {
       will-change: transform, opacity, filter;
-      transition-property: transform, opacity, filter;
+      transition-property: transform, opacity, filter, box-shadow, background, border-color;
       transition-duration: 320ms;
       transition-timing-function: cubic-bezier(.2, .8, .2, 1);
       transform: translateZ(0);
     }
 
-    /* Hover lift + tiny scale (only when hover is supported) */
     @media (hover:hover) {
       .hover-lift:hover {
-        transform: translate3d(0, -4px, 0) scale(1.01);
+        transform: translate3d(0, -6px, 0) scale(1.01);
       }
     }
 
-    /* Tap / active feedback for touch too */
     .hover-lift:active {
       transform: translate3d(0, -1px, 0) scale(0.995);
     }
 
-    /* Subtle glow ring using existing emerald/blue palette */
     .hover-glow {
       position: relative;
     }
@@ -426,36 +330,35 @@
       .hover-glow:hover {
         filter: saturate(1.02);
         box-shadow:
-          0 0 0 1px rgba(16, 185, 129, 0.10),
-          0 0 0 6px rgba(16, 185, 129, 0.06),
-          0 10px 28px -18px rgba(15, 23, 42, 0.14);
+          0 0 0 1px rgba(20, 184, 166, 0.10),
+          0 0 0 7px rgba(20, 184, 166, 0.04),
+          0 20px 40px -24px rgba(15, 23, 42, 0.12);
       }
     }
 
     .hover-glow:active {
       box-shadow:
-        0 0 0 1px rgba(2, 132, 199, 0.12),
-        0 0 0 5px rgba(2, 132, 199, 0.06),
-        0 10px 28px -18px rgba(15, 23, 42, 0.12);
+        0 0 0 1px rgba(14, 165, 233, 0.10),
+        0 0 0 6px rgba(14, 165, 233, 0.05),
+        0 16px 34px -20px rgba(15, 23, 42, 0.12);
     }
 
-    /* Button press */
     .btn-press:active {
       transform: scale(0.98);
     }
 
-    /* Focus-visible ring for links/buttons (no class changes to theme) */
     a:focus-visible,
-    button:focus-visible {
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
       outline: none;
       box-shadow:
-        0 0 0 2px rgba(255, 255, 255, 0.70),
-        0 0 0 6px rgba(16, 185, 129, 0.16),
-        0 0 0 1px rgba(16, 185, 129, 0.30);
+        0 0 0 2px rgba(255, 255, 255, 0.75),
+        0 0 0 6px rgba(20, 184, 166, 0.16),
+        0 0 0 1px rgba(15, 118, 110, 0.28);
       border-radius: 1rem;
     }
 
-    /* Link underline slide animation */
     .link-underline {
       position: relative;
       text-decoration: none;
@@ -478,16 +381,15 @@
     @media (hover:hover) {
       .link-underline:hover::after {
         transform: scaleX(1);
-        opacity: 0.75;
+        opacity: 0.78;
       }
     }
 
     .link-underline:active::after {
       transform: scaleX(1);
-      opacity: 0.85;
+      opacity: 0.90;
     }
 
-    /* Image zoom (use ONLY when parent already overflow-hidden) */
     .img-zoom {
       will-change: transform;
       transition: transform 340ms cubic-bezier(.2, .8, .2, 1), filter 340ms ease;
@@ -496,66 +398,121 @@
 
     @media (hover:hover) {
       .img-zoom:hover {
-        transform: scale(1.04);
-        filter: saturate(1.02);
+        transform: scale(1.045);
+        filter: saturate(1.03) contrast(1.02);
       }
     }
 
     .img-zoom:active {
       transform: scale(1.02);
     }
+
+    .text-blue-600 {
+      color: #0f766e !important;
+    }
+
+    .text-emerald-600,
+    .text-emerald-700 {
+      color: #0d9488 !important;
+    }
+
+    .bg-emerald-600 {
+      background: linear-gradient(135deg, #0f766e, #14b8a6) !important;
+    }
+
+    .bg-emerald-700 {
+      background: #115e59 !important;
+    }
+
+    .bg-slate-900 {
+      background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+    }
+
+    .bg-slate-50 {
+      background-color: rgba(255, 255, 255, 0.52) !important;
+    }
+
+    .border-slate-200 {
+      border-color: rgba(15, 118, 110, 0.10) !important;
+    }
+
+    .shadow-sm,
+    .shadow-lg,
+    .shadow-2xl {
+      box-shadow: var(--shadow) !important;
+    }
+
+    .shadow-blue-600\/15,
+    .shadow-emerald-600\/15,
+    .shadow-slate-900\/15 {
+      box-shadow: 0 22px 40px -24px rgba(15, 23, 42, 0.14) !important;
+    }
+
+    input,
+    textarea {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(15, 118, 110, 0.12) !important;
+      color: #0f172a;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.80);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(15, 23, 42, 0.46);
+    }
+
+    .rounded-3xl {
+      border-radius: 30px !important;
+    }
+
+    .rounded-2xl {
+      border-radius: 22px !important;
+    }
+
+    .rounded-xl {
+      border-radius: 16px !important;
+    }
+
+    .medical-outline {
+      position: relative;
+    }
+
+    .medical-outline::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.16), rgba(14, 165, 233, 0.10), rgba(255, 255, 255, 0.34));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .luxury-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .luxury-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.22), transparent 28%, transparent 72%, rgba(255, 255, 255, 0.14));
+      mix-blend-mode: screen;
+    }
   </style>
 </head>
 
 <body class="overflow-x-hidden">
 
-  <!-- Floating glow particles -->
-  <div class="particle-layer">
-    <div class="floaty" style="left:-6rem; top:10%; background: rgba(2,132,199,0.22);"></div>
-    <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;">
-    </div>
-    <div class="floaty tiny" style="left:18%; bottom:-5rem; background: rgba(99,102,241,0.16); animation-delay:-7s;">
-    </div>
-    <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;">
-    </div>
-  </div>
-
-  <!-- Pulse App Background -->
   <canvas id="pulseCanvas"></canvas>
 
-  <!-- 3D Heart SVG Background -->
-
-
-  <!-- Left + Right background videos -->
-  <!-- Left + Right background videos -->
-  <div class="bg-video-layer relative">
-
-    <!-- RIGHT (FULL WIDTH) -->
-    <div class="fixed inset-0 w-full h-full overflow-hidden">
-
-      <img src="./images/heartpump.webp" alt="Heart Pump Animation"
-        class="absolute inset-0 h-full w-full object-cover object-center anim-base img-zoom" />
-
-      <!-- Softer Light Gradient -->
-      <div class="absolute inset-0" style="background: linear-gradient(to left,
-        rgba(247,248,251,0.97),
-        rgba(247,248,251,0.85),
-        rgba(247,248,251,0.65),
-        rgba(247,248,251,0.4));">
-      </div>
-
-    </div>
-
-    <!-- GLOBAL LIGHT OVERLAY -->
-    <div class="absolute inset-0" style="background: linear-gradient(to bottom,
-      rgba(255,255,255,0.65),
-      rgba(255,255,255,0.4));">
-    </div>
-
-  </div>
-
-  <!--////////////////////////////////////// Navbar start ////////////////////////-->
-  <!-- Navbar inject -->
   <div id="navbar-container"></div>
 
   <script type="module">
@@ -568,37 +525,25 @@
       });
   </script>
 
-  <!-- ✅ offset for fixed navbar -->
   <main class="pt-20">
 
-    <!-- Hero / Slider placeholder -->
-
-    <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
-
-    <!--///////////////////////// Slider start  ///////////////////////////////////////// -->
     <div id="slider-container" class="relative z-10 reveal reveal-2"></div>
 
     <script type="module">
-      // Slider
       fetch("./slider.html")
         .then(r => r.text())
         .then(async (html) => {
           const holder = document.getElementById("slider-container");
           holder.innerHTML = html;
 
-          // ✅ 1) Strong blocker (works even if slider.js uses capturing/bubbling events)
-          //    NOTE: mouseenter/pointerenter don't bubble, so we block listener-attachment too (below)
           const sliderEl = holder.querySelector("#imgSlider");
           if (sliderEl) {
             const block = (e) => e.stopImmediatePropagation();
-
-            // block bubbling ones
             ["mouseover", "mouseout", "pointerover", "pointerout"].forEach(ev => {
               sliderEl.addEventListener(ev, block, true);
             });
           }
 
-          // ✅ 2) The real fix: prevent slider.js from attaching hover-pause listeners on #imgSlider
           const hoverEvents = new Set([
             "mouseenter", "mouseleave",
             "mouseover", "mouseout",
@@ -611,7 +556,6 @@
 
           function isInsideImgSlider(target) {
             if (!target || !sliderEl) return false;
-            // target can be Window/Document too
             if (target === sliderEl) return true;
             if (target instanceof Element) {
               return target === sliderEl || target.closest("#imgSlider");
@@ -620,9 +564,8 @@
           }
 
           EventTarget.prototype.addEventListener = function (type, listener, options) {
-            // If slider.js tries to pause on hover by binding to #imgSlider (or inside it), ignore it.
             if (sliderEl && hoverEvents.has(type) && isInsideImgSlider(this)) {
-              return; // ✅ don't attach hover pause listeners
+              return;
             }
             return originalAdd.call(this, type, listener, options);
           };
@@ -631,29 +574,24 @@
             const m = await import("./slider.js");
             m.initImageSlider();
           } finally {
-            // ✅ restore default behavior for rest of site
             EventTarget.prototype.addEventListener = originalAdd;
           }
         });
     </script>
-    <!--///////////////////////// Slider End  ///////////////////////////////////////// -->
 
-    <!--==================== Call for Appointment Section ====================-->
     <section id="call-appointment" class="py-10 sm:py-14 relative z-10 reveal reveal-3">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
-          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
-          <!-- Glow background -->
           <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
-            <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-emerald-500/8 blur-3xl"></div>
+            <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl"></div>
+            <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-cyan-500/8 blur-3xl"></div>
           </div>
 
           <div
             class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
-            <!-- Left -->
             <div class="lg:col-span-7">
               <p
                 class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
@@ -688,7 +626,6 @@
               </div>
             </div>
 
-            <!-- Right (info cards) -->
             <div class="lg:col-span-5">
               <div class="grid gap-4">
                 <div
@@ -706,7 +643,8 @@
                 </div>
 
                 <div
-                  class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                  class="rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
+                  style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
                   <p class="text-xs font-semibold text-white/80">Need Help?</p>
                   <p class="mt-1 text-base font-extrabold">Chat + Call Support</p>
                   <p class="mt-1 text-sm text-white/85">We’re here to assist you anytime.</p>
@@ -718,24 +656,20 @@
         </div>
       </div>
     </section>
-    <!--==================== Call for Appointment Section end ====================-->
 
-    <!--==================== Patient-Centered Care Section ====================-->
     <section class="py-10 sm:py-14 relative z-10 reveal reveal-4">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
-          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
 
-          <!-- Soft background glow -->
           <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
+            <div class="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-cyan-500/8 blur-3xl"></div>
             <div class="absolute -bottom-28 left-0 h-80 w-80 rounded-full bg-emerald-500/7 blur-3xl"></div>
           </div>
 
           <div
             class="relative grid gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-14">
 
-            <!-- Left: Content -->
             <div class="lg:col-span-7">
               <p
                 class="pill-shimmer inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 card-glass-soft anim-base hover-lift hover-glow">
@@ -766,7 +700,6 @@
               </div>
             </div>
 
-            <!-- Right: Feature Cards -->
             <div class="lg:col-span-5">
               <div class="grid gap-4">
                 <div
@@ -784,7 +717,8 @@
                 </div>
 
                 <div
-                  class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow">
+                  class="rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
+                  style="background:linear-gradient(135deg,#0f172a,#0f766e,#14b8a6);">
                   <p class="text-xs font-semibold text-white/80">Compassion</p>
                   <p class="mt-1 text-base font-extrabold">Respect for Everyone</p>
                   <p class="mt-1 text-sm text-white/85">A supportive experience for every individual.</p>
@@ -796,16 +730,14 @@
         </div>
       </div>
     </section>
-    <!--======================================================================-->
 
-    <!--==================== Big About Section (Home) ====================-->
     <section id="home-about" class="py-10 sm:py-14 lg:py-16 relative z-10 reveal reveal-6">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         <div
-          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
           <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"></div>
+            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-cyan-500/8 blur-3xl"></div>
             <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
           </div>
 
@@ -959,7 +891,6 @@
       </div>
     </section>
 
-    <!--==================== Medium About Section (Home) ====================-->
     <section class="py-10 sm:py-14 relative z-10 reveal reveal-7">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
@@ -1020,7 +951,6 @@
       </div>
     </section>
 
-    <!--==================== BIG SAAS SECTION (HOME) ====================-->
     <section id="home-saas"
       class="py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1186,7 +1116,6 @@
         </div>
     </section>
 
-    <!--==================== HOME SAAS SECTION (FINAL GAP FREE) ====================-->
     <section id="home-saas"
       class="relative -mt-6 pt-10 pb-12 sm:pt-12 sm:pb-16 bg-slate-50 border-t border-slate-200 relative z-10 glass-section">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1285,7 +1214,6 @@
       </div>
     </section>
 
-    <!--==================== HOME: SPECIALIST DOCTORS SECTION ====================-->
     <section id="doctors"
       class="relative py-10 sm:py-14 lg:py-16 bg-slate-50 border-y border-slate-200 overflow-hidden relative z-10 glass-section">
       <div class="pointer-events-none absolute inset-0">
@@ -1422,7 +1350,6 @@
       </div>
     </section>
 
-    <!--==================== HOME CONTACT SECTION ====================-->
     <section id="home-contact"
       class="relative py-10 sm:py-14 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
       <div class="pointer-events-none absolute inset-0">
@@ -1476,7 +1403,8 @@
             </div>
 
             <div
-              class="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow">
+              class="rounded-3xl p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow"
+              style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
               <h3 class="text-lg font-extrabold">Call for Appointment</h3>
               <p class="mt-2 text-sm text-white/90">
                 Confirm your slot quickly by speaking with our team.
@@ -1522,19 +1450,16 @@
       </div>
     </section>
 
-    <!--==============================footer  start========================================-->
     <div id="footer-container"></div>
     <script>
       fetch("./footer.html")
         .then(r => r.text())
         .then(html => (document.getElementById("footer-container").innerHTML = html));
     </script>
-    <!--=======================footer  end=======================================-->
 
   </main>
 
   <script>
-    // Random heart rate variation engine (no UI)
     const HR = (function () {
       let bpm = 74;
       let target = 74;
@@ -1555,7 +1480,6 @@
       return { getBpm };
     })();
 
-    // Heart pulse canvas (continuous, never stops)
     (function () {
       const canvas = document.getElementById('pulseCanvas');
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1618,7 +1542,7 @@
       const ampBase = 8.5;
       const lineWidth = 2.0;
       const glowBlur = 9;
-      const scanStrength = 0.030;
+      const scanStrength = 0.018;
 
       let xShift = 0;
       let last = performance.now();
@@ -1643,23 +1567,15 @@
         const speedPxPerSec = 115 + (bpm - 60) * 1.8;
         xShift = (xShift + speedPxPerSec * dt) % period;
 
-        const gridCol = cssVar('--pulse-grid') || 'rgba(2,132,199,0.045)';
-        const lineCol = cssVar('--pulse-line') || 'rgba(20,184,166,0.55)';
-        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.16)';
+        const gridCol = cssVar('--pulse-grid') || 'rgba(15,118,110,0.03)';
+        const lineCol = cssVar('--pulse-line') || 'rgba(13,148,136,0.28)';
+        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.10)';
 
         ctx.clearRect(0, 0, w, h);
 
-        ctx.save();
-        const g = ctx.createRadialGradient(w * 0.5, h * 0.45, 0, w * 0.5, h * 0.45, Math.max(w, h) * 0.65);
-        g.addColorStop(0, 'rgba(255,255,255,0.34)');
-        g.addColorStop(1, 'rgba(15,23,42,0.03)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, w, h);
-        ctx.restore();
-
         drawGrid(gridCol);
 
-        const lanes = 1; /* ✅ always single ECG line (fixed) */
+        const lanes = 1;
         const laneGap = h / (lanes + 1);
 
         for (let i = 1; i <= lanes; i++) {
@@ -1668,11 +1584,11 @@
           ctx.save();
           ctx.lineJoin = 'round';
           ctx.lineCap = 'round';
-          ctx.shadowBlur = glowBlur + flash * 6;
+          ctx.shadowBlur = glowBlur + flash * 4;
           ctx.shadowColor = glowCol;
 
           ctx.strokeStyle = lineCol;
-          ctx.lineWidth = lineWidth + flash * 0.25;
+          ctx.lineWidth = lineWidth + flash * 0.20;
 
           ctx.beginPath();
 
@@ -1702,13 +1618,6 @@
           }
 
           ctx.stroke();
-
-          ctx.shadowBlur = 0;
-          ctx.globalAlpha = 0.62 + flash * 0.08;
-          ctx.lineWidth = 1.1;
-          ctx.strokeStyle = 'rgba(15,23,42,0.10)';
-          ctx.stroke();
-
           ctx.restore();
         }
 
@@ -1716,7 +1625,7 @@
         const scanX = (xShift * 1.35) % (w + 240) - 120;
         const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
         scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
-        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash * 0.02})`);
+        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash * 0.01})`);
         scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
         ctx.fillStyle = scanGrad;
         ctx.fillRect(0, 0, w, h);
