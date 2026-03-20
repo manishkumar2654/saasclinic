@@ -33,7 +33,7 @@ const TABS = {
       { title: 'COPD / Asthma Care', sub: 'Long-term management.' },
       { title: 'Respiratory Support', sub: 'Emergency guidance.' }
     ],
-    image: './images/saa2.jpg',
+    image: './images/Pulmonology.png',
     badge: 'Pulmonology',
     mini: 'Diagnostics • Care',
     miniDesc: 'Patient-friendly workflow.',
@@ -55,7 +55,7 @@ const TABS = {
       { title: 'Sleep Hygiene Plan', sub: 'Better routine & habits.' },
       { title: 'Follow-up Tracking', sub: 'Progress monitoring.' }
     ],
-    image: './images/saa3.jpg',
+    image: './images/SleepMedicine.png',
     badge: 'Sleep Medicine',
     mini: 'Study • CPAP',
     miniDesc: 'Comfort-first support.',
@@ -77,7 +77,7 @@ const TABS = {
       { title: 'Diet & Lifestyle', sub: 'Practical changes.' },
       { title: 'Seasonal Care', sub: 'Prevention plan.' }
     ],
-    image: './images/saa4.jpg',
+    image: './images/AllergyClinic.png',
     badge: 'Allergy Clinic',
     mini: 'Testing • Therapy',
     miniDesc: 'Personalized plan.',
@@ -99,7 +99,7 @@ const TABS = {
       { title: 'Recovery Routine', sub: 'Step-by-step progress.' },
       { title: 'Education & Support', sub: 'Safe technique guidance.' }
     ],
-    image: './images/saa5.jpg',
+    image: './images/PulmonaryRehab.png',
     badge: 'Pulmonary Rehab',
     mini: 'Exercise • Recovery',
     miniDesc: 'Improved daily capacity.',

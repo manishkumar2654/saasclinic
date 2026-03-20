@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facilities & Services • Saas Clinic</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg-0: #f7fcfc;
+      --bg-1: #eef8f7;
+      --bg-2: #e7f3f2;
+      --bg-3: #fbfeff;
+
+      --card: rgba(255, 255, 255, 0.78);
+      --card-strong: rgba(255, 255, 255, 0.88);
+      --card-soft: rgba(255, 255, 255, 0.68);
+
+      --border: rgba(15, 118, 110, 0.10);
+      --border-soft: rgba(15, 23, 42, 0.06);
+
+      --text: #0f172a;
+      --text-soft: rgba(15, 23, 42, 0.72);
+
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --accent: #14b8a6;
+      --accent-2: #0ea5e9;
+
+      --shadow:
+        0 30px 80px -42px rgba(15, 23, 42, 0.18),
+        0 14px 34px -22px rgba(15, 23, 42, 0.08);
+
+      --pulse-opacity: 0.10;
+      --pulse-grid: rgba(15, 118, 110, 0.03);
+      --pulse-line: rgba(13, 148, 136, 0.28);
+      --pulse-glow: rgba(20, 184, 166, 0.10);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 500px at 0% 0%, rgba(20, 184, 166, 0.12), transparent 62%),
+        radial-gradient(900px 520px at 100% 8%, rgba(14, 165, 233, 0.10), transparent 62%),
+        radial-gradient(800px 480px at 50% 100%, rgba(16, 185, 129, 0.08), transparent 60%),
+        linear-gradient(180deg, #fbfeff 0%, #f3fbfb 32%, #edf7f6 65%, #e8f3f2 100%);
+      color: var(--text);
+      position: relative;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(255, 255, 255, 0.55), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.08));
+      z-index: -20;
+    }
+
+    #pulseCanvas {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -8;
+      opacity: var(--pulse-opacity);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal,
+      .reveal-1,
+      .reveal-2,
+      .reveal-3,
+      .reveal-4,
+      .reveal-5,
+      .reveal-6,
+      .hover-shine::after,
+      .anim-base,
+      .hover-lift,
+      .hover-glow,
+      .btn-press {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+      }
+
+      #pulseCanvas {
+        display: none !important;
+      }
+    }
+
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 14px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      animation: fadeUp .72s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .reveal-1 { animation-delay: .06s; }
+    .reveal-2 { animation-delay: .12s; }
+    .reveal-3 { animation-delay: .18s; }
+    .reveal-4 { animation-delay: .24s; }
+    .reveal-5 { animation-delay: .30s; }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.72));
+      border-color: var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .glass-strong {
+      background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.82));
+      border-color: var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .glass-soft {
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.66));
+      border-color: var(--border-soft);
+      box-shadow: 0 16px 46px -40px rgba(15,23,42,0.14);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .medical-outline {
+      position: relative;
+    }
+
+    .medical-outline::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(20,184,166,0.16), rgba(14,165,233,0.10), rgba(255,255,255,0.34));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .luxury-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .luxury-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.22), transparent 28%, transparent 72%, rgba(255,255,255,0.14));
+      mix-blend-mode: screen;
+    }
+
+    .anim-base {
+      transition:
+        transform 320ms cubic-bezier(.2,.8,.2,1),
+        opacity 320ms cubic-bezier(.2,.8,.2,1),
+        filter 320ms cubic-bezier(.2,.8,.2,1),
+        box-shadow 320ms cubic-bezier(.2,.8,.2,1),
+        background 320ms cubic-bezier(.2,.8,.2,1),
+        border-color 320ms cubic-bezier(.2,.8,.2,1);
+      will-change: transform, opacity, filter;
+      transform: translateZ(0);
+    }
+
+    @media (hover:hover) {
+      .hover-lift:hover {
+        transform: translate3d(0, -6px, 0) scale(1.01);
+      }
+
+      .hover-glow:hover {
+        box-shadow:
+          0 0 0 1px rgba(20,184,166,0.10),
+          0 0 0 7px rgba(20,184,166,0.04),
+          0 20px 40px -24px rgba(15,23,42,0.12);
+      }
+
+      .hover-shine:hover::after {
+        opacity: 1;
+        animation: shineMove .8s cubic-bezier(.2, .8, .2, 1) forwards;
+      }
+    }
+
+    .btn-press:active {
+      transform: scale(0.98);
+    }
+
+    .hover-shine {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hover-shine::after {
+      content: "";
+      position: absolute;
+      inset: -40% -60%;
+      transform: translateX(-60%) rotate(12deg);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.68), transparent);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+
+    @keyframes shineMove {
+      0% { transform: translateX(-60%) rotate(12deg); }
+      100% { transform: translateX(60%) rotate(12deg); }
+    }
+
+    .hero-shape {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(20, 184, 166, 0.14);
+      pointer-events: none;
+    }
+
+    .heading-line {
+      width: 110px;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+      margin: 12px auto 0;
+    }
+
+    .tab-shell {
+      display: inline-flex;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(15, 118, 110, 0.10);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px -30px rgba(15, 23, 42, 0.16);
+    }
+
+    .tab-btn {
+      min-width: 145px;
+      border: none;
+      background: transparent;
+      color: #334155;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 16px 28px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: #fff;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(15, 118, 110, 0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
+      padding: 16px 18px;
+      min-height: 82px;
+      box-shadow: 0 14px 30px -28px rgba(15, 23, 42, 0.15);
+      transition: all .28s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 36px -24px rgba(15, 23, 42, 0.16);
+      border-color: rgba(20, 184, 166, 0.22);
+    }
+
+    .service-icon {
+      flex: 0 0 auto;
+      color: #0d9488;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 900;
+      margin-top: -1px;
+    }
+
+    .service-text {
+      font-size: 17px;
+      line-height: 1.5;
+      color: #253b5c;
+      font-weight: 500;
+    }
+
+    @media (max-width: 1200px) {
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tab-btn {
+        min-width: 120px;
+        font-size: 16px;
+        padding: 14px 22px;
+      }
+
+      .service-text {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+ 
+
+  <!-- Navbar inject -->
+  <div id="navbar-container"></div>
+  <script type="module">
+    import { initNavbar } from "./nav.js";
+    fetch("./nav.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("navbar-container").innerHTML = html;
+        initNavbar();
+      });
+  </script>
+
+  <main class="pt-28 relative z-10">
+
+    <section class="relative overflow-hidden py-12 sm:py-16 reveal reveal-1">
+      <div class="hero-shape h-44 w-44 -left-10 top-10"></div>
+      <div class="hero-shape h-56 w-56 -right-14 top-0"></div>
+
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+            Our <span style="color:#0d9488;">Facilities &</span> Services
+          </h1>
+          <div class="heading-line"></div>
+
+          <p class="mt-6 max-w-4xl mx-auto text-lg sm:text-xl leading-relaxed text-slate-600">
+            We provide comprehensive healthcare services with modern facilities and expert care.
+          </p>
+
+          <div class="mt-8">
+            <div class="tab-shell">
+              <button class="tab-btn active" data-tab="services">Services</button>
+              <button class="tab-btn" data-tab="facilities">Facilities</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-14 sm:pb-16 reveal reveal-2">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="luxury-panel medical-outline rounded-3xl border border-slate-200 glass-strong p-5 sm:p-7 lg:p-8">
+
+          <div id="services" class="tab-panel active">
+            <div class="service-grid">
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">OPD Services</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">IPD Services</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Modular Operation Theatre</div></div>
+
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Fully Equipped ICU &amp; Modern Ventilator Support (Multipara Monitor)</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Pathology Lab - Fully Automated &amp; 24x7 Emergency Services</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Pharmacy (On Premises)</div></div>
+
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Insurance Cashless Facility from All Major Insurance Providers</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Dietician and in house Canteen</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Pulmonary rehabilitation and Physiotherapy</div></div>
+            </div>
+          </div>
+
+          <div id="facilities" class="tab-panel">
+            <div class="service-grid">
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Central Oxygen &amp; Suction Facility</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Ultrasonography (USG)</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">X-Ray (Digital Facility)</div></div>
+
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">ECG, Echocardiography &amp; TMT</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Level 1 sleep Study</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">FOT &amp; Spirometry</div></div>
+
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Bronchoscopy &amp; Pleuroscopy</div></div>
+              <div class="service-card"><span class="service-icon">➜</span><div class="service-text">Allergy Testing</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-16 reveal reveal-3">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="overflow-hidden rounded-3xl border border-slate-200 glass-strong shadow-2xl">
+          <div class="grid lg:grid-cols-2">
+            <div class="p-8 sm:p-10 text-white" style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
+              <h2 class="text-3xl font-extrabold">Need an Appointment?</h2>
+              <p class="mt-4 max-w-lg text-sm sm:text-base text-white/90 leading-relaxed">
+                We offer multiple convenient ways to schedule your visit with our specialists and services team.
+              </p>
+
+              <div class="mt-8 space-y-6">
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">🗓️</div>
+                  <div>
+                    <p class="text-base font-bold">Online Booking</p>
+                    <p class="mt-1 text-sm text-white/85">24/7 appointment scheduling</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">📞</div>
+                  <div>
+                    <p class="text-base font-bold">Phone Call</p>
+                    <p class="mt-1 text-sm text-white/85">0755-2556620 , 2556669</p>
+                    <p class="text-sm text-white/85">7997972332</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">📍</div>
+                  <div>
+                    <p class="text-base font-bold">Walk-in Clinic</p>
+                    <p class="mt-1 text-sm text-white/85">
+                      Parul Hospital, Shivaji Nagar, Bhopal, Madhya Pradesh 462016
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-8 sm:p-10">
+              <h2 class="text-3xl font-extrabold text-slate-900">Clinic Hours</h2>
+              <p class="mt-4 text-sm text-slate-500">Hospital Open - 24x7</p>
+
+              <div class="mt-8 space-y-4 text-slate-700">
+                <div><p class="font-bold text-slate-900">Monday - Saturday</p></div>
+                <div><p class="font-semibold text-slate-900">Morning 10:00 AM - 2:00 PM</p></div>
+                <div><p class="font-semibold text-slate-900">Evening 6:00 PM to 8:00 PM</p></div>
+              </div>
+
+              <a href="contact.html"
+                class="mt-10 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                Get Directions to Clinic
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-container"></div>
+    <script>
+      fetch("./footer.html")
+        .then(r => r.text())
+        .then(html => (document.getElementById("footer-container").innerHTML = html));
+    </script>
+
+  </main>
+
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-tab");
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        tabPanels.forEach((panel) => panel.classList.remove("active"));
+        document.getElementById(target).classList.add("active");
+      });
+    });
+
+    const HR = (function () {
+      let bpm = 74;
+      let target = 74;
+      const min = 58, max = 92;
+
+      function randTarget() {
+        target = Math.round(min + Math.random() * (max - min));
+      }
+      setInterval(randTarget, 4200);
+
+      function tick() {
+        bpm += (target - bpm) * 0.035;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      function getBpm() { return Math.max(min, Math.min(max, bpm)); }
+      return { getBpm };
+    })();
+
+    (function () {
+      const canvas = document.getElementById('pulseCanvas');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!canvas || prefersReduced) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resize() {
+        w = Math.floor(window.innerWidth);
+        h = Math.floor(window.innerHeight);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      function cssVar(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      function ecgShape(x) {
+        const p = Math.exp(-Math.pow((x - 0.18) / 0.05, 2)) * 0.35;
+        const q = -Math.exp(-Math.pow((x - 0.32) / 0.018, 2)) * 0.55;
+        const r = Math.exp(-Math.pow((x - 0.36) / 0.012, 2)) * 2.8;
+        const s = -Math.exp(-Math.pow((x - 0.40) / 0.016, 2)) * 0.85;
+        const tw = Math.exp(-Math.pow((x - 0.62) / 0.085, 2)) * 0.65;
+        return p + q + r + s + tw;
+      }
+
+      function drawGrid(gridCol) {
+        ctx.save();
+        ctx.strokeStyle = gridCol;
+        const gridSize = (w < 520) ? 34 : 36;
+
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.72;
+        ctx.lineWidth = 1.12;
+        ctx.beginPath();
+        const major = gridSize * 5;
+        for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
+        for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      const period = 340;
+      const beats = 2;
+      const ampBase = 8.5;
+      const lineWidth = 2.0;
+      const glowBlur = 9;
+      const scanStrength = 0.018;
+
+      let xShift = 0;
+      let last = performance.now();
+      let beatTimer = 0;
+      let flash = 0;
+
+      function frame(now) {
+        const dt = Math.min(0.04, (now - last) / 1000);
+        last = now;
+
+        const bpm = HR.getBpm();
+        const beatInterval = 60 / bpm;
+
+        beatTimer += dt;
+        if (beatTimer >= beatInterval) {
+          beatTimer -= beatInterval;
+          flash = 1;
+        }
+        flash = Math.max(0, flash - dt * 3.6);
+
+        const speedPxPerSec = 115 + (bpm - 60) * 1.8;
+        xShift = (xShift + speedPxPerSec * dt) % period;
+
+        const gridCol = cssVar('--pulse-grid') || 'rgba(15,118,110,0.03)';
+        const lineCol = cssVar('--pulse-line') || 'rgba(13,148,136,0.28)';
+        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.10)';
+
+        ctx.clearRect(0, 0, w, h);
+        drawGrid(gridCol);
+
+        const lanes = 1;
+        const laneGap = h / (lanes + 1);
+
+        for (let i = 1; i <= lanes; i++) {
+          const midY = laneGap * i;
+
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
+          ctx.shadowBlur = glowBlur + flash * 4;
+          ctx.shadowColor = glowCol;
+          ctx.strokeStyle = lineCol;
+          ctx.lineWidth = lineWidth + flash * 0.20;
+          ctx.beginPath();
+
+          let x0 = -period + xShift;
+          let first = true;
+
+          while (x0 < w + period) {
+            for (let x = 0; x <= period; x += 3) {
+              const px = x0 + x;
+              const u = x / period;
+              const noise = Math.sin((px + now * 0.01) * 0.008) * 0.20;
+
+              let spike = 0;
+              for (let b = 0; b < beats; b++) {
+                const uu = (u * beats) - b;
+                if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
+              }
+
+              const amp = ampBase + flash * 1.0;
+              const y = midY + (noise * 9) - (spike * amp * 6.0);
+
+              if (first) { ctx.moveTo(px, y); first = false; }
+              else { ctx.lineTo(px, y); }
+            }
+            x0 += period;
+          }
+
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        ctx.save();
+        const scanX = (xShift * 1.35) % (w + 240) - 120;
+        const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
+        scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
+        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash * 0.01})`);
+        scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore();
+
+        requestAnimationFrame(frame);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) last = performance.now();
+      }, { passive: true });
+
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
