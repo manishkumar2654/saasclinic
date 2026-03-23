@@ -54,7 +54,6 @@
       .bg-video-layer, #pulseCanvas, .particle-layer{ display:none !important; }
     }
 
-    /* Page load */
     @keyframes fadeUp {
       0% { opacity: 0; transform: translateY(18px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -69,7 +68,6 @@
     .delay-7 { animation-delay: .56s; }
     .delay-8 { animation-delay: .64s; }
 
-    /* Button shine */
     .btn-shine { position: relative; overflow: hidden; isolation:isolate; }
     .btn-shine::after{
       content:"";
@@ -86,14 +84,12 @@
     }
     .btn-shine:hover::after{ left: 140%; opacity: 1; }
 
-    /* Soft glow */
     .glow-hover{
       transition: box-shadow .35s cubic-bezier(.2,.8,.2,1), transform .35s cubic-bezier(.2,.8,.2,1);
       will-change: transform;
     }
     .glow-hover:hover{ box-shadow: 0 20px 55px -35px rgba(15,23,42,.45); }
 
-    /* Badge shimmer */
     @keyframes shimmer {
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
@@ -104,7 +100,6 @@
     }
     .motion-safe\:shimmer:hover { animation: shimmer 1.15s ease-in-out; }
 
-    /* Glass */
     .glass{
       background:var(--card);
       border-color:var(--border);
@@ -126,7 +121,6 @@
       -webkit-backdrop-filter:blur(12px);
     }
 
-    /* Floating glow particles */
     .particle-layer{ pointer-events:none; position:fixed; inset:0; z-index:-6; overflow:hidden; }
     .floaty{
       position:absolute; width:22rem; height:22rem; border-radius:9999px;
@@ -142,7 +136,6 @@
       100%{ transform:translate3d(0,0,0) scale(1); opacity:.10; }
     }
 
-    /* Background layer (LEFT video + RIGHT image) */
     .bg-video-layer{ pointer-events:none; position:fixed; inset:0; z-index:-10; overflow:hidden; }
     .bg-video{
       will-change:transform;
@@ -151,7 +144,6 @@
       filter:blur(var(--v-blur)) saturate(0.95) contrast(0.98);
     }
 
-    /* Pulse canvas */
     #pulseCanvas{
       pointer-events:none;
       position:fixed;
@@ -164,7 +156,6 @@
 
 <body class="overflow-x-hidden">
 
-  <!-- Floating glow particles -->
   <div class="particle-layer">
     <div class="floaty" style="left:-6rem; top:10%; background: rgba(2,132,199,0.22);"></div>
     <div class="floaty small" style="right:-7rem; top:14%; background: rgba(16,185,129,0.18); animation-delay:-4s;"></div>
@@ -172,39 +163,7 @@
     <div class="floaty small" style="right:16%; bottom:-7rem; background: rgba(20,184,166,0.16); animation-delay:-10s;"></div>
   </div>
 
- 
-
-  <!-- Left + Right background (LEFT video + RIGHT heartpump.webp image) -->
-<!-- <div class="bg-video-layer">
-  <div class="fixed inset-y-0 left-0 w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden hidden sm:block">
-    <video autoplay muted loop playsinline preload="metadata"
-      class="bg-video absolute inset-0 h-full w-full object-cover">
-      <source src="./images/heartbeat.mp4" type="video/mp4" />
-    </video>
-    <div class="absolute inset-0"
-      style="background: linear-gradient(to right, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
-    </div>
-  </div>
-
-  <div class="fixed inset-0 sm:inset-y-0 sm:right-0 sm:left-auto w-full sm:w-[34vw] sm:w-[30vw] lg:w-[26vw] overflow-hidden">
-    <img
-      src="./images/heartpump.webp"
-      alt="Heart Pump"
-      class="bg-video absolute inset-0 h-full w-full object-cover"
-    />
-
-    <div class="absolute inset-0"
-      style="background: linear-gradient(to left, rgba(247,248,251,0.92), rgba(247,248,251,0.58), transparent);">
-    </div>
-  </div>
-
-  <div class="absolute inset-0"
-    style="background: linear-gradient(to bottom, rgba(255,255,255,0.42), var(--overlay));">
-  </div>
-</div> -->
-
- <!--////////////////////////////////////// Navbar start ////////////////////////-->
-<!-- Navbar inject -->
+  <!-- Navbar inject -->
   <div id="navbar-container"></div>
 
   <script type="module">
@@ -217,12 +176,7 @@
       });
   </script>
 
-  <!-- ✅ offset for fixed navbar -->
   <main class="pt-20">
-
-    <!-- Hero / Slider placeholder -->
- 
-  <!--///////////////////////// Navbar End  ///////////////////////////////////////// -->
 
   <!--==================== HERO ====================-->
   <section class="relative overflow-hidden fade-up delay-1">
@@ -238,7 +192,7 @@
         <div class="lg:col-span-5 fade-up delay-2">
           <div class="group relative overflow-hidden rounded-3xl border border-slate-200 glass-strong transition-all duration-500 ease-out hover:-translate-y-1">
             <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian"
-                 class="h-[360px] w-full object-cover opacity-95 sm:h-[420px] transition-transform duration-700 ease-out group-hover:scale-105" />
+                 class="h-[360px] w-full object-cover object-top opacity-95 sm:h-[420px] transition-transform duration-700 ease-out group-hover:scale-105" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
           </div>
         </div>
@@ -255,46 +209,46 @@
           </h1>
 
           <p class="mt-2 text-sm font-semibold text-emerald-700">
-            MD, DM Pulmonary Critical Care & Sleep Medicine
+            MBBS, MD, DM Pulmonary Critical Care and Sleep Medicine
           </p>
 
           <p class="mt-3 text-sm font-semibold text-slate-700">
-             Ex. Senior Resident – PGIMER Rohtak • Pulmonary Rehabilitation Expert
+            Consultant SAAS Chest Allergy &amp; Sleep Centre, Parul Hospital, Bhopal
           </p>
 
           <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base max-w-2xl">
-             Dr. Kirti Kadian focuses on pulmonary rehabilitation, sleep-related issues, and compassionate care.
-            Patient education, recovery plans and consistent follow-ups are part of the workflow.
+            6 years of clinical experience with training in Sleep Medicine, Pulmonary Rehabilitation,
+            Bronchoscopy, Thoracoscopy, Rigid Bronchoscopy, ILD, EBUS, Lung USG, Critical Care,
+            TB and Respiratory Infections.
           </p>
 
-          <!-- Quick details -->
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
               <p class="text-xs font-semibold text-slate-500">Designation</p>
-              <p class="mt-1 text-sm font-extrabold text-slate-900">Pulmonary Critical Care & Sleep Specialist</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">
+                Consultant SAAS Chest Allergy &amp; Sleep Centre, Parul Hospital, Bhopal
+              </p>
             </div>
             <div class="rounded-2xl border border-slate-200 glass-soft p-5 glow-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/70">
               <p class="text-xs font-semibold text-slate-500">Experience</p>
-              <p class="mt-1 text-sm font-extrabold text-slate-900">Ex. Senior Resident – PGIMER Rohtak</p>
+              <p class="mt-1 text-sm font-extrabold text-slate-900">6 Years of Clinical Experience</p>
             </div>
           </div>
 
-          <!-- Timings -->
           <div class="mt-6 rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/70">
-            <p class="text-xs font-semibold text-slate-500">Available Timings</p>
+            <p class="text-xs font-semibold text-slate-500">Key Expertise</p>
             <div class="mt-3 grid gap-3 sm:grid-cols-2">
               <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
-                <p class="text-sm font-extrabold text-slate-900">Morning</p>
-                <p class="mt-1 text-sm text-slate-700">10:00 AM – 2:00 PM</p>
+                <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                <p class="mt-1 text-sm text-slate-700">Evaluation, guidance and follow-up care</p>
               </div>
               <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/80">
-                <p class="text-sm font-extrabold text-slate-900">Evening</p>
-                <p class="mt-1 text-sm text-slate-700">6:00 PM – 8:00 PM</p>
+                <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehabilitation</p>
+                <p class="mt-1 text-sm text-slate-700">Recovery-focused respiratory care planning</p>
               </div>
             </div>
           </div>
 
-          <!-- CTA -->
           <div class="mt-7 flex flex-col gap-3 sm:flex-row">
             <a href="#book"
               class="btn-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-slate-800 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/15">
@@ -318,20 +272,26 @@
 
         <div class="lg:col-span-7">
           <p class="text-xs font-semibold text-slate-500">ABOUT</p>
-          <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Care & Rehabilitation Focus</h2>
+          <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Clinical Expertise &amp; Patient Care</h2>
           <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-             Dr. Kirti Kadian emphasizes pulmonary rehabilitation & recovery-based planning.
-            Sleep concerns and chronic respiratory conditions are managed with step-by-step guidance and consistent follow-ups.
+            Dr. Kirti Kadian is a Pulmonary Critical Care and Sleep Medicine specialist with broad
+            experience in bronchoscopy, thoracoscopy, ILD, EBUS, lung ultrasound, critical care,
+            tuberculosis and respiratory infections. Her approach focuses on precise diagnosis,
+            evidence-based treatment and patient-friendly guidance.
           </p>
 
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
-              <p class="text-sm font-extrabold text-slate-900">Rehab Expertise</p>
-              <p class="mt-1 text-xs text-slate-600"> Exercises + endurance building plans.</p>
+              <p class="text-sm font-extrabold text-slate-900">Publication Record</p>
+              <p class="mt-1 text-xs text-slate-600">
+                10+ peer-reviewed national and international research articles and book chapter.
+              </p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 backdrop-blur transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/85">
-              <p class="text-sm font-extrabold text-slate-900">Compassionate Care</p>
-              <p class="mt-1 text-xs text-slate-600"> Patient comfort & clarity first.</p>
+              <p class="text-sm font-extrabold text-slate-900">Professional Membership</p>
+              <p class="mt-1 text-xs text-slate-600">
+                Indian Chest Society, European Respiratory Society, MPAP.
+              </p>
             </div>
           </div>
         </div>
@@ -340,10 +300,10 @@
           <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:bg-white/70">
             <p class="text-xs font-semibold text-slate-500">KEY HIGHLIGHTS</p>
             <ul class="mt-4 space-y-3 text-sm text-slate-700">
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> MD, DM Pulmonary Critical Care & Sleep Medicine</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Ex. Senior Resident – PGIMER Rohtak</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Pulmonary Rehabilitation Expert</li>
-              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Patient-first workflow </li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> MBBS, MD, DM Pulmonary Critical Care and Sleep Medicine</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> 6 Years of clinical experience</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> 10+ peer-reviewed publications</li>
+              <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span> Young Scientist Award – NAPCON, Kochi</li>
             </ul>
           </div>
         </div>
@@ -353,8 +313,6 @@
   </section>
 
   <!--==================== SPECIALIZATIONS ====================-->
-
-  
   <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-3">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">SPECIALIZATIONS</p>
@@ -362,20 +320,20 @@
 
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
-          <p class="mt-2 text-xs text-slate-600"> Recovery plans & endurance improvement.</p>
-        </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
           <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-          <p class="mt-2 text-xs text-slate-600"> PSG guidance + CPAP support.</p>
+          <p class="mt-2 text-xs text-slate-600">Specialized care for sleep-related respiratory conditions.</p>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Critical Care</p>
-          <p class="mt-2 text-xs text-slate-600"> Advanced respiratory care planning.</p>
+          <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehabilitation</p>
+          <p class="mt-2 text-xs text-slate-600">Structured support for recovery and lung capacity improvement.</p>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Patient Education</p>
-          <p class="mt-2 text-xs text-slate-600"> Clear steps, routine and follow-ups.</p>
+          <p class="text-sm font-extrabold text-slate-900">Bronchoscopy &amp; Thoracoscopy</p>
+          <p class="mt-2 text-xs text-slate-600">Advanced diagnostic and interventional respiratory procedures.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
+          <p class="text-sm font-extrabold text-slate-900">Critical Care &amp; ILD</p>
+          <p class="mt-2 text-xs text-slate-600">Management of complex respiratory and intensive care cases.</p>
         </div>
       </div>
     </div>
@@ -385,96 +343,583 @@
   <section class="py-12 sm:py-16 fade-up delay-4">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p class="text-xs font-semibold text-slate-500">SERVICES</p>
-      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">What you can book</h2>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">What you can consult for</h2>
 
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Consultation</p>
-          <p class="mt-2 text-xs text-slate-600"> Symptoms review + plan.</p>
+          <p class="text-sm font-extrabold text-slate-900">Respiratory Consultation</p>
+          <p class="mt-2 text-xs text-slate-600">Detailed evaluation and treatment plan for chest and breathing concerns.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Rehab Session Plan</p>
-          <p class="mt-2 text-xs text-slate-600"> Breathing exercises & recovery routine.</p>
+          <p class="text-sm font-extrabold text-slate-900">Sleep Medicine Guidance</p>
+          <p class="mt-2 text-xs text-slate-600">Assessment and management for sleep-related pulmonary issues.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Sleep Care Support</p>
-          <p class="mt-2 text-xs text-slate-600"> CPAP comfort & follow-up guidance.</p>
+          <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehabilitation</p>
+          <p class="mt-2 text-xs text-slate-600">Recovery planning with structured rehabilitation support.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Lifestyle Guidance</p>
-          <p class="mt-2 text-xs text-slate-600"> Routine + recovery plan suggestions.</p>
+          <p class="text-sm font-extrabold text-slate-900">Bronchoscopy Services</p>
+          <p class="mt-2 text-xs text-slate-600">Specialized airway procedures and diagnostic evaluation.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Report Explanation</p>
-          <p class="mt-2 text-xs text-slate-600"> Step-by-step guidance on results.</p>
+          <p class="text-sm font-extrabold text-slate-900">Critical Care Opinion</p>
+          <p class="mt-2 text-xs text-slate-600">Expert guidance for severe and complex pulmonary conditions.</p>
         </div>
         <div class="rounded-3xl border border-emerald-300/30 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-extrabold text-slate-900">Follow-up Scheduling</p>
-          <p class="mt-2 text-xs text-slate-600"> Reminders & progress tracking.</p>
+          <p class="text-sm font-extrabold text-slate-900">TB &amp; Respiratory Infection Care</p>
+          <p class="mt-2 text-xs text-slate-600">Diagnosis, monitoring and long-term respiratory infection management.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!--==================== REVIEWS ====================-->
+  <!--==================== ACHIEVEMENTS ====================-->
   <section class="py-12 sm:py-16 border-y border-slate-200/60 fade-up delay-5">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <p class="text-xs font-semibold text-slate-500">REVIEWS</p>
-      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Patient feedback </h2>
+      <p class="text-xs font-semibold text-slate-500">ACHIEVEMENTS</p>
+      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Awards &amp; Recognition</h2>
 
-      <div class="mt-8 grid gap-5 lg:grid-cols-3">
+      <div class="mt-8 grid gap-5 lg:grid-cols-2">
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-bold text-slate-900">“Very supportive care.”</p>
-          <p class="mt-2 text-xs text-slate-600"> Rehab plan was easy to follow.</p>
-          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient X</p>
+          <p class="text-sm font-bold text-slate-900">Academic &amp; Presentation Awards</p>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li>🏅 1st Prize – Oral Presentation, SEAASM</li>
+            <li>🏅 1st Prize – Oral Presentation, PACS</li>
+            <li>🏆 Best Thesis Award, DM – 2024</li>
+          </ul>
         </div>
         <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-bold text-slate-900">“Comfortable consultation.”</p>
-          <p class="mt-2 text-xs text-slate-600"> Clear explanation and guidance.</p>
-          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient Y</p>
-        </div>
-        <div class="rounded-3xl border border-slate-200 glass-soft p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-white/75">
-          <p class="text-sm font-bold text-slate-900">“Great follow-up system.”</p>
-          <p class="mt-2 text-xs text-slate-600"> Reminders and tracking helped.</p>
-          <p class="mt-4 text-xs font-semibold text-slate-500">— Patient Z</p>
+          <p class="text-sm font-bold text-slate-900">Professional Recognition</p>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li>🏆 Star India Reality Award, 2026</li>
+            <li>🎓 Young Scientist Award, NAPCON, Kochi</li>
+            <li>📘 10+ peer-reviewed national and international research articles and book chapter</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!--==================== FAQ ====================-->
-  <section class="py-12 sm:py-16 fade-up delay-6">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <p class="text-xs font-semibold text-slate-500">FAQ</p>
-      <h2 class="mt-2 text-2xl font-extrabold sm:text-3xl text-slate-900">Common questions</h2>
 
-      <div class="mt-8 grid gap-4">
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
-            Rehab plan kaise start hota hai?
-            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
-          </summary>
-          <p class="mt-3 text-sm text-slate-700"> Consultation ke baad personalized exercises schedule hota hai.</p>
-        </details>
 
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
-            Follow-ups available?
-            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
-          </summary>
-          <p class="mt-3 text-sm text-slate-700"> Yes, progress tracking + reminders available.</p>
-        </details>
 
-        <details class="group rounded-2xl border border-slate-200 glass-soft p-5 transition-all duration-300 ease-out hover:bg-white/75">
-          <summary class="cursor-pointer list-none font-bold text-slate-900 flex items-center justify-between">
-            CPAP support milta hai?
-            <span class="text-slate-500 group-open:rotate-180 transition-transform duration-300">⌄</span>
-          </summary>
-          <p class="mt-3 text-sm text-slate-700"> Comfort settings aur guidance provide ki jati hai.</p>
-        </details>
+    <!-- FEATURED DOCTORS -->
+    <section id="doctors" class="pb-6 sm:pb-8 reveal reveal-2">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Dr Prakhar -->
+          <div class="rounded-3xl border border-slate-200 glass-strong p-4 sm:p-5 anim-base hover-lift hover-glow">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-[160px_1fr]">
+              <div class="doc-image overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                <img src="./images/dr-prakhar.jpg" alt="Dr. Prakhar Agarwal" class="h-full w-full object-cover img-zoom" />
+              </div>
+
+              <div>
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Prakhar Agarwal</h3>
+
+                <div class="mt-3">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Designation</p>
+                  <p class="mt-1 text-sm font-semibold text-emerald-700 leading-relaxed">
+                    DM Pulmonary Critical Care & Sleep Medicine, MD, DNB, MNAMS, DAA (CMC Vellore) – Allergy Specialist, Ex. Senior Resident – AIIMS Delhi
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident – AIIMS Delhi</p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
+                    Available Timings
+                  </p>
+
+                  <div class="mt-3 space-y-2 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Morning</span>
+                      <span class="text-slate-700">10:00 AM - 2:00 PM</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Evening</span>
+                      <span class="text-slate-700">6:00 PM - 8:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+                  <a href="DrPrakharAgarwal.html"
+                    class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                    View Profile
+                  </a>
+                <a href="#appointment"
+                  class="doc-btn mt-5 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                  🗓️ Book Now
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dr Kirti -->
+          <div class="rounded-3xl border border-slate-200 glass-strong p-4 sm:p-5 anim-base hover-lift hover-glow">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-[160px_1fr]">
+              <div class="doc-image overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                <img src="./images/dr-kirti.jpg" alt="Dr. Kirti Kadian" class="h-full w-full object-cover img-zoom" />
+              </div>
+
+              <div>
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Kirti Kadian</h3>
+
+                <div class="mt-3">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Designation</p>
+                  <p class="mt-1 text-sm font-semibold text-emerald-700 leading-relaxed">
+                    MD, DM Pulmonary Critical Care & Sleep Medicine, Ex. Senior Resident PGIMER Rohtak, Pulmonary Rehabilitation Expert
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">Ex. Senior Resident-PGIMER Rohtak</p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
+                    Available Timings
+                  </p>
+
+                  <div class="mt-3 space-y-2 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Morning</span>
+                      <span class="text-slate-700">10:00 AM - 2:00 PM</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Evening</span>
+                      <span class="text-slate-700">6:00 PM - 8:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+                 <a href="DrKirtiKadian.html"
+                    class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                    View Profile
+                  </a>
+                <a href="#appointment"
+                  class="doc-btn mt-5 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                  🗓️ Book Now
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dr Meeta -->
+          <div class="rounded-3xl border border-slate-200 glass-strong p-4 sm:p-5 anim-base hover-lift hover-glow">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-[160px_1fr]">
+              <div class="doc-image overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                <img src="./images/dr-meeta.webp" alt="Dr. Meeta Agarwal" class="h-full w-full object-cover img-zoom" />
+              </div>
+
+              <div>
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Meeta Agarwal</h3>
+
+                <div class="mt-3">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Designation</p>
+                  <p class="mt-1 text-sm font-semibold text-emerald-700 leading-relaxed">
+                    MD Obs. & Gynae.
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">45+ years of expertise</p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
+                    Available Timings
+                  </p>
+
+                  <div class="mt-3 space-y-2 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Morning</span>
+                      <span class="text-slate-700">11:00 AM - 1:00 PM</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Evening</span>
+                      <span class="text-slate-700">7:00 PM - 8:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="#appointment"
+                  class="doc-btn mt-5 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                  🗓️ Book Now
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dr Pankaj -->
+          <div class="rounded-3xl border border-slate-200 glass-strong p-4 sm:p-5 anim-base hover-lift hover-glow">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-[160px_1fr]">
+              <div class="doc-image overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                <img src="./images/dr-pankaj.webp" alt="Dr. Pankaj Agarwal" class="h-full w-full object-cover img-zoom" />
+              </div>
+
+              <div>
+                <h3 class="text-2xl font-extrabold text-slate-900">Dr. Pankaj Agarwal</h3>
+
+                <div class="mt-3">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Designation</p>
+                  <p class="mt-1 text-sm font-semibold text-emerald-700 leading-relaxed">
+                    MD Medicine
+                  </p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Experience</p>
+                  <p class="mt-1 text-sm text-slate-700">45+ years of expertise</p>
+                </div>
+
+                <div class="mt-4">
+                  <p class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">🕒</span>
+                    Available Timings
+                  </p>
+
+                  <div class="mt-3 space-y-2 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Morning</span>
+                      <span class="text-slate-700">11:00 AM - 1:00 PM</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-bold text-slate-900">Evening</span>
+                      <span class="text-slate-700">6:30 PM - 8:30 PM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="#appointment"
+                  class="doc-btn mt-5 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                  🗓️ Book Now
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ALL DOCTORS GRID -->
+    <section class="py-8 sm:py-10 reveal reveal-3">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. H.H Trivedi</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD (Medicine)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Medicine</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. C.C Chaubal</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD, DM (Gastroenterology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Gastroenterology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Vikrant Shrivastava</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD, DM (Neurology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Neurology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Himanshu Sharma</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD, DM (Nephrology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Nephrology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Yogesh Varma</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD, DM (Cardiology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Cardiology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Sumit Bhatnagar</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD, DM (Cardiology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Cardiology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Madhuri Chandra</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">FICOG, MS (Obs & Gynaecology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Obstetrics & Gynaecology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Meenakshi Patel</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS (Obs & Gynaecology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Obstetrics & Gynaecology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Kirti Narayan</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">DCH (Paediatrics)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Paediatrics</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Lalish Jhavar</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">DNB (Paediatrics)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Paediatrics</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Vasant Trivedi</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">D.Orth</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Orthopaedics & Trauma Surgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Anurag Tiwari</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS (Orthopedics)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Orthopaedics</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Arvind Joshi</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS, DNB (Urology)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Urology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Hari Shankar</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS, MCH (Plastic Surgery)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Plastic Surgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Mridul Shahi</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS, MCH (Neurosurgery)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Neurosurgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Devendra Choudhary</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS (Surgery)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">General Surgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. S.K Saxena</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS (Surgery)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">General Surgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Bhuvneshwar Garg</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MS (Surgery)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">General Surgery</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. S.K Tandon</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD (Psychiatry)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Psychiatry & Mental Health</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Farooq Ahmad</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">BPT</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Physiotherapy</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Om Prakash</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MSc (Dietetics)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Dietetics</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Rajesh Chawla</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">DMRE</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Radiology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Pankaj Goyal</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">DNB (Radiologist)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Radiology</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. S.C Badal</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD (Anaesthesia)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Anaesthesia</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. C.S Mishra</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD (Anaesthesia)</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Anaesthesia</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Manish Kedia</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MBBS, PGDCC, PGDMLS</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Physician</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. Dilip Kolekar</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MBBS, DLO</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Physician</p>
+          </div>
+
+          <div class="doc-mini-card rounded-3xl border border-slate-200 glass-soft p-6 anim-base hover-lift hover-glow">
+            <h3 class="text-2xl font-extrabold text-slate-900">Dr. P. Tripathi</h3>
+            <p class="mt-3 text-[11px] uppercase font-semibold text-slate-500">Designation</p>
+            <p class="mt-1 text-sm font-semibold text-emerald-700">MD</p>
+            <p class="mt-4 text-[11px] uppercase font-semibold text-slate-500">Specialization</p>
+            <p class="mt-1 text-sm text-slate-700">Pathology</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- APPOINTMENT + HOURS -->
+    <section id="appointment" class="py-10 sm:py-14 reveal reveal-4">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="overflow-hidden rounded-3xl border border-slate-200 glass-strong shadow-2xl">
+          <div class="grid lg:grid-cols-2">
+
+            <div class="p-8 sm:p-10 text-white" style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
+              <h2 class="text-3xl font-extrabold">Need an Appointment?</h2>
+              <p class="mt-4 max-w-lg text-sm sm:text-base text-white/90 leading-relaxed">
+                We offer multiple convenient ways to schedule your visit with our specialists.
+              </p>
+
+              <div class="mt-8 space-y-6">
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">🗓️</div>
+                  <div>
+                    <p class="text-base font-bold">Online Booking</p>
+                    <p class="mt-1 text-sm text-white/85">24/7 appointment scheduling</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">📞</div>
+                  <div>
+                    <p class="text-base font-bold">Phone Call</p>
+                    <p class="mt-1 text-sm text-white/85">0755-2556620 , 2556669</p>
+                    <p class="text-sm text-white/85">7997972332</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15">📍</div>
+                  <div>
+                    <p class="text-base font-bold">Walk-in Clinic</p>
+                    <p class="mt-1 text-sm text-white/85">
+                      Parul Hospital, Shivaji Nagar, Bhopal, Madhya Pradesh 462016
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-8 sm:p-10">
+              <h2 class="text-3xl font-extrabold text-slate-900">Clinic Hours</h2>
+              <p class="mt-4 text-sm text-slate-500">Hospital Open - 24x7</p>
+
+              <div class="mt-8 space-y-4 text-slate-700">
+                <div>
+                  <p class="font-bold text-slate-900">Monday - Saturday</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-slate-900">Morning 10:00 AM - 2:00 PM</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-slate-900">Evening 6:00 PM to 8:00 PM</p>
+                </div>
+              </div>
+
+              <a href="contact.html"
+                class="doc-btn mt-10 hover-shine inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 anim-base btn-press">
+                Get Directions to Clinic
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+ 
+
+
+
+
+
 
   <!--==================== CTA ====================-->
   <section id="book" class="pb-14 sm:pb-20 fade-up delay-7">
@@ -491,8 +936,8 @@
             Book Appointment
           </p>
 
-          <h3 class="mt-4 text-2xl font-extrabold sm:text-3xl text-slate-900">Call for Appointment</h3>
-          <p class="mt-3 text-slate-700"> Morning 10:00 AM – 2:00 PM • Evening 6:00 PM – 8:00 PM</p>
+          <h3 class="mt-4 text-2xl font-extrabold sm:text-3xl text-slate-900">Consult at SAAS Chest Allergy &amp; Sleep Centre</h3>
+          <p class="mt-3 text-slate-700">Parul Hospital, Bhopal</p>
 
           <div class="mt-6 flex flex-col gap-3 sm:flex-row">
             <a href="tel:+910000000000"
@@ -509,6 +954,8 @@
     </div>
   </section>
 
+  </main>
+
   <!--==============================footer  start========================================-->
   <div id="footer-container" class="relative z-10"></div>
   <script>
@@ -520,7 +967,6 @@
   </script>
   <!--=======================footer  end=======================================-->
 
-  <!-- ✅ Pulse Engine (Light) -->
   <script>
     const HR = (function(){
       let bpm = 73;
@@ -711,5 +1157,6 @@
     })();
   </script>
 
+  <canvas id="pulseCanvas"></canvas>
 </body>
 </html>
