@@ -13,182 +13,67 @@
 <body>
 
   <!-- slider.html -->
-  <section class="relative w-full overflow-hidden">
-    <div class="mx-auto max-w-[92rem] px-4 sm:px-6 lg:px-8">
-      <div
-        class="relative mt-6 overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white/55 shadow-[0_35px_110px_-55px_rgba(2,6,23,0.35)] backdrop-blur-xl">
+<section class="relative w-full overflow-hidden reveal reveal-2">
+  <div class="mx-auto max-w-[92rem] px-4 sm:px-6 lg:px-8">
+    
+    <div class="relative mt-2 overflow-hidden rounded-[2rem] border border-slate-200/70 shadow-[0_20px_60px_-40px_rgba(2,6,23,0.35)]">
 
-        <!-- soft glow behind -->
-        <div class="pointer-events-none absolute inset-0">
-          <div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl"></div>
-          <div class="absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
-        </div>
+      <!-- Background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#e6f7f5] via-[#f0fbff] to-[#eaf3ff]"></div>
+      <div class="absolute inset-0 bg-white/25 backdrop-blur-lg"></div>
 
-        <!-- Slides -->
-        <div id="imgSlider" class="relative overflow-hidden h-[220px] sm:h-[360px] lg:h-[460px]">
-
-          <!-- Slide 1 -->
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-out">
-            <img src="./images/pa.png" alt="Saas clinic"
-              class="slider-img h-full w-full object-cover object-center" />
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent"></div>
-
-            <!-- ✅ Mobile: bottom-left, Desktop: same center -->
-            <div class="slider-content absolute left-4 right-4 bottom-4 pb-2 pl-12 text-left
-            sm:left-10 sm:right-auto sm:top-1/2 sm:-translate-y-1/2 sm:pb-0 sm:pl-16 sm:max-w-xl">
-              <p
-                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold leading-none text-white/90 backdrop-blur sm:px-3 sm:text-xs">
-                <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Premium Clinic Experience
-              </p>
-
-              <h2 class="mt-2 text-[16px] font-extrabold leading-[1.15] tracking-tight text-white
-                         sm:mt-3 sm:text-4xl sm:leading-[1.1] lg:text-5xl lg:leading-[1.05]">
-                Saas Clinic
-              </h2>
-
-              <!-- ✅ hide paragraph in mobile -->
-              <p
-                class="mt-2 hidden sm:block max-w-[42ch] text-[13px] leading-relaxed text-white/80 sm:max-w-none sm:text-base">
-                Modern healthcare — clean, fast, and trustworthy.
-              </p>
-
-              <div class="mt-3 flex flex-wrap items-center justify-start gap-2 sm:mt-4 sm:flex-row sm:gap-3">
-                <a href="#book" class="inline-flex items-center justify-center rounded-2xl bg-white px-3.5 py-2 text-[12px] font-bold leading-none text-slate-900 shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-white/90 active:translate-y-0
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  Book Appointment →
-                </a>
-                <a href="#services" class="inline-flex items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-3.5 py-2 text-[12px] font-bold leading-none text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15 active:translate-y-0
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  View Services
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Slide 2 -->
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-out">
-            <img src="./images/pa.png" alt="Doctors" class="slider-img h-full w-full object-cover object-center" />
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent"></div>
-
-            <div class="slider-content absolute left-4 right-4 bottom-4 pb-2 pl-12 text-left
-            sm:left-10 sm:right-auto sm:top-1/2 sm:-translate-y-1/2 sm:pb-0 sm:pl-16 sm:max-w-xl">
-              <p
-                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold leading-none text-white/90 backdrop-blur sm:px-3 sm:text-xs">
-                <span class="h-2 w-2 rounded-full bg-blue-400"></span> Expert Doctors
-              </p>
-
-              <h2 class="mt-2 text-[16px] font-extrabold leading-[1.15] tracking-tight text-white
-                         sm:mt-3 sm:text-4xl sm:leading-[1.1] lg:text-5xl lg:leading-[1.05]">
-                Trusted Specialists
-              </h2>
-
-              <p
-                class="mt-2 hidden sm:block max-w-[48ch] text-[13px] leading-relaxed text-white/80 sm:max-w-none sm:text-base">
-                Dr. Prakhar Agarwal • Dr. Kirti Kadian
-              </p>
-
-              <div class="mt-3 flex flex-wrap items-center justify-start gap-2 sm:mt-4 sm:flex-row sm:gap-3">
-                <a href="#doctors" class="inline-flex items-center justify-center rounded-2xl bg-white px-3.5 py-2 text-[12px] font-bold leading-none text-slate-900 shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-white/90
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  Meet Doctors →
-                </a>
-                <a href="#contact" class="inline-flex items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-3.5 py-2 text-[12px] font-bold leading-none text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  Contact Now
-                </a>
-              </div>
-            </div>
-          </div>
-
-         
-
-          <!-- Slide 4 -->
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-out">
-            <img src="./images/pa.png" alt="Saas clinic"
-              class="slider-img h-full w-full object-cover object-center" />
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent"></div>
-            <div class="slider-content absolute left-4 right-4 bottom-4 pb-2 pl-12 text-left
-            sm:left-10 sm:right-auto sm:top-1/2 sm:-translate-y-1/2 sm:pb-0 sm:pl-16 sm:max-w-xl">
-              <p
-                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold leading-none text-white/90 backdrop-blur sm:px-3 sm:text-xs">
-                <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Premium Clinic Experience
-              </p>
-
-              <h2 class="mt-2 text-[16px] font-extrabold leading-[1.15] tracking-tight text-white
-                         sm:mt-3 sm:text-4xl sm:leading-[1.1] lg:text-5xl lg:leading-[1.05]">
-                Saas Clinic
-              </h2>
-
-              <p
-                class="mt-2 hidden sm:block max-w-[42ch] text-[13px] leading-relaxed text-white/80 sm:max-w-none sm:text-base">
-                Modern healthcare — clean, fast, and trustworthy.
-              </p>
-
-              <div class="mt-3 flex flex-wrap items-center justify-start gap-2 sm:mt-4 sm:flex-row sm:gap-3">
-                <a href="#book" class="inline-flex items-center justify-center rounded-2xl bg-white px-3.5 py-2 text-[12px] font-bold leading-none text-slate-900 shadow-lg shadow-white/10 transition hover:-translate-y-0.5 hover:bg-white/90 active:translate-y-0
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  Book Appointment →
-                </a>
-                <a href="#services" class="inline-flex items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-3.5 py-2 text-[12px] font-bold leading-none text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15 active:translate-y-0
-                         sm:px-5 sm:py-3 sm:text-sm">
-                  View Services
-                </a>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-
-        <!-- ✅ Premium progress bar -->
-        <div class="absolute left-0 right-0 top-0 z-20 h-[3px] bg-white/10">
-          <div id="imgProgress" class="h-full w-0 bg-emerald-400/90"></div>
-        </div>
-
-        <!-- ✅ Arrows -->
-        <button id="imgPrev"
-          class="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-2xl border border-white/20 bg-white/10 p-2.5 text-white backdrop-blur
-                 shadow-[0_18px_50px_-25px_rgba(2,6,23,0.55)] transition hover:bg-white/15 active:scale-95 sm:left-5 sm:p-3"
-          aria-label="Previous" type="button">
-          <span class="text-xl font-black sm:text-2xl">‹</span>
-        </button>
-
-        <button id="imgNext"
-          class="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-2xl border border-white/20 bg-white/10 p-2.5 text-white backdrop-blur
-                 shadow-[0_18px_50px_-25px_rgba(2,6,23,0.55)] transition hover:bg-white/15 active:scale-95 sm:right-5 sm:p-3"
-          aria-label="Next" type="button">
-          <span class="text-xl font-black sm:text-2xl">›</span>
-        </button>
-
-        <!-- ✅ Dots (hidden on mobile) -->
-        <div class="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 hidden sm:block">
-          <div id="imgDots"
-            class="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 backdrop-blur">
-          </div>
-        </div>
-
-        <!-- ✅ subtle inner border -->
-        <div class="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-white/10"></div>
+      <!-- Glow -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-emerald-400/10 blur-3xl"></div>
+        <div class="absolute -right-12 -bottom-12 h-44 w-44 rounded-full bg-blue-400/10 blur-3xl"></div>
       </div>
+
+      <!-- MAIN GRID -->
+      <div class="relative grid lg:grid-cols-2 items-center gap-3 px-5 py-4 sm:px-6 sm:py-5">
+
+        <!-- LEFT IMAGE -->
+        <div class="flex justify-center lg:justify-start">
+          <div class="w-[260px] sm:w-[300px] lg:w-[340px] aspect-square rounded-full 
+                      bg-white/40 backdrop-blur-xl 
+                      flex items-center justify-center
+                      shadow-[0_20px_50px_-30px_rgba(2,6,23,0.25)]">
+
+            <img src="./images/logo2.png"
+              class="w-[95%] object-contain scale-105 drop-shadow-[0_20px_40px_rgba(2,6,23,0.3)]">
+          </div>
+        </div>
+
+        <!-- RIGHT TEXT -->
+        <div class="text-center lg:text-left max-w-xl">
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900">
+            SAAS
+          </h1>
+
+          <h2 class="mt-1 text-lg sm:text-xl lg:text-2xl font-bold text-emerald-600">
+            CHEST, ALLERGY & SLEEP CENTER
+          </h2>
+
+          <p class="mt-2 text-sm sm:text-base text-slate-700 font-semibold">
+            SAAS - SuperSpeciality Allergy Asthma & Sleep
+          </p>
+
+          <p class="mt-1 text-sm italic text-slate-500">
+            Breathe Better, Sleep Better, Live Better
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- Border -->
+      <div class="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-white/30"></div>
+
     </div>
-  </section>
+  </div>
+</section>
 
-  <script type="module">
-    import { initImageSlider } from "./slider.js";
-    initImageSlider();
 
-    const slider = document.getElementById("imgSlider");
-    const blockEvents = ["mouseenter", "mouseover", "pointerenter", "pointerover", "focusin"];
-
-    blockEvents.forEach((ev) => {
-      slider.addEventListener(ev, (e) => {
-        e.stopImmediatePropagation();
-      }, true);
-    });
-  </script>
 
 </body>
 

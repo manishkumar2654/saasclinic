@@ -527,70 +527,131 @@
 
   <main class="pt-20">
 
-    <div id="slider-container" class="relative z-10 reveal reveal-2"></div>
-
-    <script type="module">
-      fetch("./slider.html")
-        .then(r => r.text())
-        .then(async (html) => {
-          const holder = document.getElementById("slider-container");
-          holder.innerHTML = html;
-
-          const sliderEl = holder.querySelector("#imgSlider");
-          if (sliderEl) {
-            const block = (e) => e.stopImmediatePropagation();
-            ["mouseover", "mouseout", "pointerover", "pointerout"].forEach(ev => {
-              sliderEl.addEventListener(ev, block, true);
-            });
-          }
-
-          const hoverEvents = new Set([
-            "mouseenter", "mouseleave",
-            "mouseover", "mouseout",
-            "pointerenter", "pointerleave",
-            "pointerover", "pointerout",
-            "focusin", "focusout"
-          ]);
-
-          const originalAdd = EventTarget.prototype.addEventListener;
-
-          function isInsideImgSlider(target) {
-            if (!target || !sliderEl) return false;
-            if (target === sliderEl) return true;
-            if (target instanceof Element) {
-              return target === sliderEl || target.closest("#imgSlider");
-            }
-            return false;
-          }
-
-          EventTarget.prototype.addEventListener = function (type, listener, options) {
-            if (sliderEl && hoverEvents.has(type) && isInsideImgSlider(this)) {
-              return;
-            }
-            return originalAdd.call(this, type, listener, options);
-          };
-
-          try {
-            const m = await import("./slider.js");
-            m.initImageSlider();
-          } finally {
-            EventTarget.prototype.addEventListener = originalAdd;
-          }
-        });
-    </script>
 
 
 
+   <section class="relative w-full overflow-hidden py-6 reveal reveal-2">
+  <div class="mx-auto max-w-[92rem] px-4 sm:px-6 lg:px-8">
 
+    <div
+      class="relative overflow-hidden rounded-[2.2rem] border border-emerald-100/80 bg-white/90 shadow-[0_30px_90px_-40px_rgba(16,185,129,0.22)]">
 
+      <!-- Premium Theme Background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#ecfdf5] via-[#f7fffd] to-[#eef7ff]"></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.10),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.10),transparent_30%)]">
+      </div>
+      <div class="absolute inset-0 backdrop-blur-[2px]"></div>
 
+      <!-- Soft Decorative Glow -->
+      <div class="pointer-events-none absolute -left-10 top-10 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl">
+      </div>
+      <div class="pointer-events-none absolute right-0 top-0 h-52 w-52 rounded-full bg-sky-300/20 blur-3xl"></div>
+      <div
+        class="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-emerald-200/20 blur-3xl">
+      </div>
 
+      <div class="relative px-5 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
 
+        <!-- FIXED LAYOUT -->
+        <div class="grid items-center gap-4 lg:grid-cols-[360px_minmax(0,1fr)] xl:grid-cols-[390px_minmax(0,1fr)]">
 
-<section style="margin:0; padding-top:10px; padding-bottom:15px;" class="w-full flex items-center justify-center">
-  <h2 style="margin:0;" class="text-center text-base sm:text-lg lg:text-xl font-bold text-emerald-600">
-    Only center in Bhopal managed by 2 DM CHEST SPECIALISTS
-  </h2>
+          <!-- Left Image -->
+          <div class="flex justify-center lg:justify-start">
+            <div
+              class="relative flex h-[470px] w-[470px] items-center justify-center rounded-full border border-white/70 bg-white/60 shadow-[0_25px_60px_-25px_rgba(16,185,129,0.28)] backdrop-blur-xl sm:h-[320px] sm:w-[320px] lg:h-[360px] lg:w-[360px]">
+
+              <div class="absolute inset-3 rounded-full border border-emerald-100/80"></div>
+              <div
+                class="absolute -inset-2 rounded-full bg-gradient-to-br from-white/40 via-transparent to-emerald-100/30 blur-2xl">
+              </div>
+
+              <img src="./images/logo2.png" alt="SAAS Clinic Lungs Illustration"
+                class="relative z-10 h-full w-full object-cover scale-125 drop-shadow-[0_24px_40px_rgba(59,130,246,0.18)]" />
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div class="min-w-0 text-center lg:-ml-2 lg:text-left">
+
+            <h1
+              class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-[4rem] lg:leading-[1.02] xl:text-[4.4rem]">
+              Parul Hospital
+            </h1>
+
+            <h2 class="mt-2 text-xl font-extrabold leading-tight text-emerald-600 sm:text-2xl lg:text-[2.2rem]">
+              SAAS Chest, Allergy &amp; Sleep Center
+            </h2>
+
+          
+
+            <p
+              class="mt-4 max-w-3xl text-base font-semibold leading-relaxed text-slate-700 sm:text-lg lg:text-[1.15rem]">
+              SAAS - SuperSpeciality Allergy Asthma &amp; Sleep
+            </p>
+
+            <p class="mt-2 text-base font-semibold italic text-slate-500 sm:text-lg lg:text-[1.05rem]">
+              Breathe Better, Sleep Better, Live Better
+            </p>
+
+            <!-- Service Cards -->
+          <!-- Service Cards -->
+<div class="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+
+  <!-- Card 1 -->
+  <div
+    class="group rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 
+           shadow-[0_15px_35px_-25px_rgba(16,185,129,0.35)] backdrop-blur 
+           transition duration-300 hover:bg-emerald-100 hover:shadow-lg hover:-translate-y-1">
+
+    <p class="text-sm leading-6">
+      <span class="font-bold text-emerald-900">
+        Level - 1 Sleep Lab most advance
+      </span>
+      <span class="text-xs font-medium text-emerald-600 ml-1 italic">
+        sleep lab of bhopal
+      </span>
+    </p>
+  </div>
+
+  <!-- Card 2 -->
+  <div
+    class="group rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 
+           shadow-[0_15px_35px_-25px_rgba(16,185,129,0.35)] backdrop-blur 
+           transition duration-300 hover:bg-emerald-100 hover:shadow-lg hover:-translate-y-1">
+
+    <p class="text-sm font-bold leading-6 text-emerald-900 group-hover:text-emerald-950">
+      Allergy Testing &amp; Immunotherapy
+    </p>
+  </div> 
+
+  <!-- Card 3 -->
+  <div
+    class="group rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 
+           shadow-[0_15px_35px_-25px_rgba(16,185,129,0.35)] backdrop-blur 
+           transition duration-300 hover:bg-emerald-100 hover:shadow-lg hover:-translate-y-1 sm:col-span-2 xl:col-span-1">
+
+    <p class="text-sm font-bold leading-6 text-emerald-900 group-hover:text-emerald-950">
+     Critical Care ICU & Rehab
+    </p>
+  </div>
+
+</div>
+
+            <!-- Added line in requested position -->
+            <p class="mt-6 text-center lg:text-left text-sm sm:text-base lg:text-lg font-extrabold text-emerald-600 tracking-wide">
+              Only center in Bhopal managed by 2 DM CHEST SPECIALISTS
+            </p>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium Inner Border -->
+      <div class="pointer-events-none absolute inset-[10px] rounded-[1.7rem] border border-white/70"></div>
+    </div>
+
+  </div>
 </section>
 
 <section id="call-appointment" class="py-0 my-0 relative z-10 reveal reveal-3">
@@ -598,19 +659,20 @@
     <div
       class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass">
 
+      <!-- Glow -->
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl"></div>
         <div class="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-cyan-500/8 blur-3xl"></div>
       </div>
 
-      <div
-        class="relative grid gap-4 px-4 py-4 sm:px-6 sm:py-4 lg:grid-cols-12 lg:items-center lg:gap-6 lg:px-10">
+      <div class="relative grid gap-4 px-4 py-4 sm:px-6 sm:py-4 lg:grid-cols-12 lg:items-center lg:gap-6 lg:px-10">
 
         <!-- LEFT -->
         <div class="lg:col-span-7">
-          <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
+          <p
+            class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-            24×7 Support
+            24/7 emergency Service Available
           </p>
 
           <h2 class="mt-2 text-lg sm:text-xl lg:text-2xl font-extrabold text-slate-900">
@@ -619,13 +681,13 @@
 
           <div class="mt-3 flex flex-wrap gap-2 items-center">
             <a href="tel:+917880020788"
-              class="rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white">
+              class="rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 transition">
               Call Now →
             </a>
 
             <a href="#book"
-              class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-900">
-              Book Online
+              class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition">
+              📞 +91 7999732232
             </a>
 
             <div class="text-sm font-bold text-slate-900">
@@ -634,589 +696,36 @@
           </div>
         </div>
 
-        <!-- RIGHT -->
+        <!-- RIGHT (PREMIUM ADDRESS CARD) -->
         <div class="lg:col-span-5">
           <div
-            class="rounded-2xl p-4 text-white"
+            class="rounded-2xl px-5 py-5 text-white shadow-[0_20px_40px_-20px_rgba(16,185,129,0.6)] backdrop-blur"
             style="background:linear-gradient(135deg,#0f766e,#14b8a6);">
-            <p class="text-xs">Need Help?</p>
-            <p class="text-sm font-bold">Chat + Call Support</p>
-          </div>
-        </div>
 
-      </div>
-    </div>
-  </div>
-</section>
+          
 
-
-
-
-
-
-
-<section class="py-10 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-
-    <!-- 1 LEFT -->
-    <div class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
-      
-      <div class="flex-1 p-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
-          Level -1 Sleep Lab & CPAP Titration
-        </h3>
-        <p class="text-base italic text-gray-600 text-center mt-2">
-          “Good Sleep Is Not A Luxury, it’s a Necessity”
-        </p>
-        <ul class="mt-3 text-base font-semibold space-y-1">
-          <li>• Most advanced Sleep Lab of Bhopal</li>
-          <li>• Treatment for Snoring, Excessive Sleepiness, Insomnia Etc.</li>
-        </ul>
-      </div>
-
-      <div class="p-2">
-        <img src="./images/s1.png"
-          class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
-      </div>
-    </div>
-
-    <!-- 2 RIGHT -->
-    <div class="w-full md:w-[88%] ml-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
-      
-      <div class="p-2">
-        <img src="./images/s2.png"
-          class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
-      </div>
-
-      <div class="flex-1 p-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
-          Allergy Testing & Immunotherapy
-        </h3>
-        <p class="text-base italic text-gray-600 text-center mt-2">
-          “Treat The Cause, Not Just Symptoms”
-        </p>
-        <ul class="mt-3 text-base font-semibold space-y-1">
-          <li>• Identify & Treat The Root Cause – Not Just Temporary Relief</li>
-          <li>• Aim To Reduce Lifelong Allergy Medicines</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 3 LEFT -->
-    <div class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
-      
-      <div class="flex-1 p-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
-          Complete Lung Health Checkup
-        </h3>
-        <p class="text-base italic text-gray-600 text-center mt-2">
-          “Technology Not Available Elsewhere”
-        </p>
-        <ul class="mt-3 text-base font-semibold space-y-1">
-          <li>• Antlia FOT ( First in Bhopal ) detects Early Asthma & Lung Problems</li>
-          <li>• Accurate Painless, Easy For Children & Elderly</li>
-        </ul>
-      </div>
-
-      <div class="p-2">
-        <img src="./images/s3.png"
-          class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
-      </div>
-    </div>
-
-    <!-- 4 RIGHT -->
-    <div class="w-full md:w-[88%] ml-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
-      
-      <div class="p-2">
-        <img src="./images/s4.png"
-          class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
-      </div>
-
-      <div class="flex-1 p-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
-          Advanced Pulmonary Procedures
-        </h3>
-        <p class="text-base italic text-gray-600 text-center mt-2">
-          “When Lungs Are Critical, Experience Matters”
-        </p>
-        <ul class="mt-3 text-base font-semibold space-y-1">
-          <li>• Bronchoscopy & Thoracoscopy by DM Specialists</li>
-          <li>• Expertise In Serious Lung Infections & Foreign Body Removal</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 5 LEFT -->
-    <div class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
-      
-      <div class="flex-1 p-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
-          Critical Care ICU & Rehab
-        </h3>
-        <p class="text-base italic text-gray-600 text-center mt-2">
-          “From Life Support, To Life Recovery”
-        </p>
-        <ul class="mt-3 text-base font-semibold space-y-1">
-          <li>• Modern ICU With Dialysis Facility</li>
-          <li>• Expert Management Of Respiratory Failure & Ventilator Patients</li>
-        </ul>
-      </div>
-
-      <div class="p-2">
-        <img src="./images/s5.png"
-          class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-<section class="py-[10px] bg-white">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    
-    <div class="text-center py-5 px-4 sm:px-6 rounded-2xl border-2 border-emerald-300 bg-emerald-50 shadow-sm">
-
-      <!-- Heading -->
-      <h2 class="text-[22px] sm:text-[36px] lg:text-[48px] font-extrabold uppercase tracking-wide text-emerald-600 leading-tight">
-        Comprehensive Care Under 1 Roof
-      </h2>
-
-      <!-- Line 1 -->
-      <p class="mt-3 text-[18px] sm:text-[28px] lg:text-[36px] font-bold text-slate-900 leading-tight">
-        OPD, Allergy testing, Sleep Lab,
-      </p>
-
-      <!-- Line 2 -->
-      <p class="mt-2 text-[18px] sm:text-[28px] lg:text-[36px] font-bold text-slate-900 leading-tight">
-        Bronchoscopy, Thoracoscopy, Lung Ultrasound, ICU
-      </p>
-
-    </div>
-
-  </div>
-</section>
-
-
-
-
-<section id="home-about" class="py-[10px] relative z-10 reveal reveal-6">
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        <div
-          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
-          <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-cyan-500/8 blur-3xl"></div>
-            <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
-          </div>
-
-          <div
-            class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
-
-            <div class="lg:col-span-7">
-            
-
-              <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-                Dr. Prakhar Agarwal & Dr. Kirti Kadian,
-                <span class="text-blue-600">SAAS clinic</span>  has grown from a modest clinic to a 
-                <span class="text-blue-600"> NABH-accredited healthcare institution.</span>.
-              </h2>
-
-              <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-                We combine cutting-edge medical technology with compassionate care to serve our community with affordable, high-quality healthcare services.
-              </p>
-
-              <div class="mt-7 grid gap-4 sm:grid-cols-2">
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold text-slate-900">Patient-First Approach</p>
-                  <p class="mt-2 text-sm text-slate-600">
-                    Consultation gives you a clear explanation + the right plan.
-                  </p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold text-slate-900">Hygiene & Safety</p>
-                  <p class="mt-2 text-sm text-slate-600">
-                    Clean clinic, safe patient flow, and respectful care.
-                  </p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold text-slate-900">Modern Tools</p>
-                  <p class="mt-2 text-sm text-slate-600">
-                    Appointments, reminders, reports — organized experience.
-                  </p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold text-slate-900">Trusted Specialists</p>
-                  <p class="mt-2 text-sm text-slate-600">
-                    Dr. Prakhar Agarwal • Dr. Kirti Kadian ( profiles)
-                  </p>
-                </div>
-              </div>
-
-              <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                <div
-                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-xs font-semibold text-slate-500">Patients</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-xs font-semibold text-slate-500">Rating</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-xs font-semibold text-slate-500">Support</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-xs font-semibold text-slate-500">Experience</p>
-                  <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
-                </div>
-              </div>
-
-              <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="about.html#our-story"
-                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
-                  Read Full About <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
-                </a>
-
-                <a href="about.html#doctors"
-                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
-                  Meet Doctors
-                </a>
-
-                <a href="#call-appointment"
-                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
-                  Call for Appointment
-                </a>
-              </div> -->
-            </div>
-
-            <div class="lg:col-span-5">
-              <div class="grid gap-4">
-                <div
-                  class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
-                  <img src="./images/one.jpg" alt="Clinic"
-                    class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72 img-zoom" />
-                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent">
-                  </div>
-                  <div
-                    class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur anim-base hover-lift hover-glow">
-                    <p class="text-xs font-semibold text-white/70">Our Promise</p>
-                    <p class="mt-1 text-base font-extrabold">Comfort • Clarity • Care</p>
-                    <p class="mt-1 text-sm text-white/80">Premium clinic experience on every visit.</p>
-                  </div>
-                </div>
-
-                <div class="grid gap-4 sm:grid-cols-2">
-                  <div
-                    class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
-                    <img src="./images/cleanroom.webp" alt="Care" class="h-40 w-full object-cover img-zoom" />
-                    <div class="p-4">
-                      <p class="text-sm font-extrabold">Clean Environment</p>
-                      <p class="mt-1 text-xs text-slate-600"> hygiene-first protocols.</p>
-                    </div>
-                  </div>
-
-                  <div
-                    class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm card-glass anim-base hover-lift hover-glow">
-                    <img src="./images/res.jpg" alt="Support" class="h-40 w-full object-cover img-zoom" />
-                    <div class="p-4">
-                      <p class="text-sm font-extrabold">Friendly Support</p>
-                      <p class="mt-1 text-xs text-slate-600"> Dr. Prakhar Agarwa</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="rounded-3xl border border-slate-200 bg-slate-50 p-5 card-glass-soft anim-base hover-lift hover-glow">
-                  <!-- <p class="text-xs font-semibold text-slate-500">Quick Note</p> -->
-                  <p class="mt-2 text-sm text-slate-700 leading-relaxed">
-                    Superspeciality Asthma, Allergy & Sleep Centre
-                  </p>
-                 
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-
-
-     <section id="home-saas"
-  class="relative mt-0 py-[10px] bg-slate-50 border-t border-slate-200 z-10 glass-section">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        <div class="text-center max-w-3xl mx-auto">
-        
-
-          <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            Smart, Patient-Focused <span class="text-emerald-600">Healthcare Workflow</span>
-          </h2>
-
-          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-            At Saas Clinic, we combine respiratory care, allergy clinic, and sleep medicine with modern diagnostics. Clear reports, fast booking, and a smooth patient journey.
-          </p>
-        </div>
-
-        <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start">
-
-          <div class="lg:col-span-5">
-            <div
-              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
-              <img src="./images/Smart.png" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
-
-              <!-- <div
-                class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-white/70">Premium Workflow</p>
-                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
-                <p class="mt-1 text-sm text-white/80"> Smooth experience across every visit.</p>
-              </div> -->
-            </div>
-          </div>
-
-          <div class="lg:col-span-7">
-            <div class="grid gap-6 sm:grid-cols-2">
-
-              <div
-                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
-                <p class="mt-2 text-sm text-slate-600">Lung function testing, diagnosis and structured care plans.</p>
-                <a href="saas.html"
-                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
-                  →</a>
-              </div>
-
-              <div
-                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-                <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.
-                </p>
-                <a href="saas.html"
-                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
-                  →</a>
-              </div>
-
-              <div
-                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
-                <p class="mt-2 text-sm text-slate-600">Testing, prevention strategies and immunotherapy guidance.</p>
-                <a href="saas.html"
-                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
-                  →</a>
-              </div>
-
-              <div
-                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
-                <p class="mt-2 text-sm text-slate-600">Breathing exercises, recovery plans and endurance training.</p>
-                <a href="saas.html"
-                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
-                  →</a>
-              </div>
-
-            </div>
-
-            <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a href="saas.html"
-                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
-                Visit SAAS 
-              </a>
-
-              <a href="#call-appointment"
-                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
-                Book Appointment
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-
-
-<section id="home-saas"
-  class="py-[10px] bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-         
-            <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Superspeciality — <span class="text-emerald-600">Chest, Allergy & Sleep Centre</span>
-            </h2>
-
-            <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
-              At Saas Clinic, we manage respiratory care, allergy clinic, and sleep medicine with modern diagnostics and a patient-friendly workflow. You will receive clear guidance, a clean environment, and fast support.
+            <!-- main address -->
+            <p class="mt-2 text-sm sm:text-base font-medium leading-relaxed text-white/95">
+              Parul Hospital, HIG 2 ANKUR Shivaji Nagar
             </p>
-          </div>
 
-        
-        </div>
+            <!-- highlight city -->
+            <p class="mt-1 text-base sm:text-lg font-semibold text-white">
+              Bhopal, Madhya Pradesh  462016
+            </p>
 
-        <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-start">
+          
 
-          <div class="lg:col-span-5">
-            <div
-              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
-              <img src="./images/Superspeciality1.png" alt="SaaS Clinic"
-                class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
-
-              <!-- <div
-                class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-white/70">Premium Clinic Workflow</p>
-                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
-                <p class="mt-1 text-sm text-white/80"> Smooth experience on mobile, tablet, and desktop.</p>
-              </div> -->
-            </div>
-
-            <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-2">
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Patients</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
-              </div>
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Rating</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
-              </div>
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Support</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
-              </div>
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Avg Time</p>
-                <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-7">
-            <div
-              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass anim-base hover-lift hover-glow">
-              <p class="text-xs font-semibold text-slate-500">WHAT WE COVER</p>
-              <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-                One place for diagnosis, therapy & follow-ups
-              </h3>
-              <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">The Saas Clinic system simplifies the patient journey: booking → consultation → diagnostics → reports → follow-up reminders.
-              </p>
-
-              <div class="mt-7 grid gap-4 sm:grid-cols-2">
-                <a href="saas.html#speciality-tabs"
-                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
-                  <div class="flex items-start gap-4">
-                    <div
-                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
-                      P
-                    </div>
-                    <div>
-                      <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
-                      <p class="mt-1 text-xs text-slate-600">Diagnostics & care</p>
-                    </div>
-                  </div>
-                  <p class="mt-3 text-sm text-slate-600">
-                    Lung function tests, reporting, guidance & care plans.
-                  </p>
-                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
-                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
-                  </p>
-                </a>
-
-                <a href="saas.html#speciality-tabs"
-                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
-                  <div class="flex items-start gap-4">
-                    <div
-                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
-                      S
-                    </div>
-                    <div>
-                      <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
-                      <p class="mt-1 text-xs text-slate-600">Sleep study & CPAP</p>
-                    </div>
-                  </div>
-                  <p class="mt-3 text-sm text-slate-600">
-                    PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
-                  </p>
-                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
-                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
-                  </p>
-                </a>
-              </div>
-
-              <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold">Lung Function Testing</p>
-                  <p class="mt-1 text-xs text-slate-600"> Accurate diagnosis & report.</p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold">CPAP / BiPAP</p>
-                  <p class="mt-1 text-xs text-slate-600"> Titration + comfort support.</p>
-                </div>
-                <div
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                  <p class="text-sm font-extrabold">Allergy Testing</p>
-                  <p class="mt-1 text-xs text-slate-600"> Triggers + prevention plan.</p>
-                </div>
-              </div>
-
-              <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="saas.html#core-services"
-                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
-                  View Core Services →
-                </a>
-                <a href="saas.html"
-                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
-                  SAAS
-                </a>
-              </div>
-
-            </div>
           </div>
         </div>
-    </section>
 
+      </div>
+    </div>
+  </div>
+</section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
- <section id="doctors"
-  class="relative py-[10px] bg-slate-50 border-y border-slate-200 overflow-hidden z-10 glass-section">
+    <section id="doctors"
+      class="relative py-[10px] bg-slate-50 border-y border-slate-200 overflow-hidden z-10 glass-section">
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-500/8 blur-3xl"></div>
         <div class="absolute -right-28 -top-10 h-72 w-72 rounded-full bg-blue-500/8 blur-3xl"></div>
@@ -1227,9 +736,7 @@
           <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Meet <span class="text-emerald-600">Our Specialist</span> Doctors
           </h2>
-          <p class="mt-3 text-sm text-slate-600 sm:text-base">
-            Highly qualified specialists providing comprehensive care with flexible timings
-          </p>
+
         </div>
 
         <!-- <div class="mt-12 grid gap-8 lg:grid-cols-2">
@@ -1351,144 +858,660 @@
       </div>
     </section>
 
-    
-<section class="py-[10px] bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <div class="grid gap-8 sm:grid-cols-2">
+    <section class="py-[10px] bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <!-- Doctor 1 -->
-      <a href="DrPrakharAgarwal.html"> 
-           <div class="text-center">
-        
-        <!-- Image -->
-        <div class="flex justify-center">
-          <img src="./images/sir.jpg"
-            class="h-60 sm:h-72 object-contain">
+        <div class="grid gap-8 sm:grid-cols-2">
+
+          <!-- Doctor 1 -->
+          <a href="DrPrakharAgarwal.html">
+            <div class="text-center">
+
+              <!-- Image -->
+              <div class="flex justify-center">
+                <img src="./images/sir.jpg" class="h-60 sm:h-72 object-contain">
+              </div>
+
+
+
+              <!-- Name -->
+              <h3 class="mt-3 text-xl sm:text-2xl font-extrabold text-emerald-600">
+                Dr Prakhar Agarwal
+              </h3>
+
+              <!-- Degree -->
+              <p class="mt-1 text-sm font-semibold text-slate-700">
+                DM (AIIMS), MD, DNB, MNAMS
+              </p>
+
+              <!-- Speciality -->
+              <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+                Pulmonary, Critical Care & Sleep Medicine<br>
+                DAA (CMC Vellore), FAAP (Allergy Specialist)<br>
+                Ex. Senior Resident AIIMS Delhi
+              </p>
+
+              <!-- Award -->
+              <p class="mt-2 text-sm font-bold text-emerald-500">
+                Recipient of Young Scientist award<br>
+                European Respiratory Society, 2025
+              </p>
+            </div>
+          </a>
+
+
+
+          <!-- Doctor 2 -->
+          <a href="DrKirtiKadian.html">
+            <div class="text-center">
+
+              <!-- Image -->
+              <div class="flex justify-center">
+                <img src="./images/mam.jpg" class="h-60 sm:h-72 object-contain">
+              </div>
+
+
+
+              <!-- Name -->
+              <h3 class="mt-3 text-xl sm:text-2xl font-extrabold text-emerald-600">
+                Dr Kirti Kadian
+              </h3>
+
+              <!-- Degree -->
+              <p class="mt-1 text-sm font-semibold text-slate-700">
+                DM (AIIMS), MD
+              </p>
+
+              <!-- Speciality -->
+              <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+                Pulmonary, Critical Care & Sleep Medicine<br>
+                Interventional Pulmonologist, Intensivist & Sleep Expert<br>
+                Ex. Senior Resident PGI Rohtak & AIIMS Bhopal
+              </p>
+
+              <!-- Award -->
+              <p class="mt-2 text-sm font-bold text-emerald-500">
+                Best Research Paper Award AIIMS, 2024<br>
+                Best abstract Award ERS Amsterdam, 2025
+              </p>
+            </div>
+          </a>
+
         </div>
 
-      
-
-        <!-- Name -->
-        <h3 class="mt-3 text-xl sm:text-2xl font-extrabold text-emerald-600">
-          Dr Prakhar Agarwal
-        </h3>
-
-        <!-- Degree -->
-        <p class="mt-1 text-sm font-semibold text-slate-700">
-          DM (AIIMS), MD, DNB, MNAMS
-        </p>
-
-        <!-- Speciality -->
-        <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-          Pulmonary, Critical Care & Sleep Medicine<br>
-          DAA (CMC Vellore), FAAP (Allergy Specialist)<br>
-          Ex. Senior Resident AIIMS Delhi
-        </p>
-
-        <!-- Award -->
-        <p class="mt-2 text-sm font-bold text-emerald-500">
-          Recipient of Young Scientist award<br>
-          European Respiratory Society, 2025
-        </p>
       </div>
-      </a>    
-     
+    </section>
 
 
-      <!-- Doctor 2 -->
-     <a href="DrKirtiKadian.html">
-       <div class="text-center">
-        
-        <!-- Image -->
-        <div class="flex justify-center">
-          <img src="./images/mam.jpg"
-            class="h-60 sm:h-72 object-contain">
-        </div>
 
-       
 
-        <!-- Name -->
-        <h3 class="mt-3 text-xl sm:text-2xl font-extrabold text-emerald-600">
-          Dr Kirti Kadian
-        </h3>
 
-        <!-- Degree -->
-        <p class="mt-1 text-sm font-semibold text-slate-700">
-          DM (AIIMS), MD
-        </p>
 
-        <!-- Speciality -->
-        <p class="mt-1 text-sm text-slate-600 leading-relaxed">
-          Pulmonary, Critical Care & Sleep Medicine<br>
-          Interventional Pulmonologist, Intensivist & Sleep Expert<br>
-          Ex. Senior Resident PGI Rohtak & AIIMS Bhopal
-        </p>
 
-        <!-- Award -->
-        <p class="mt-2 text-sm font-bold text-emerald-500">
-          Best Research Paper Award AIIMS, 2024<br>
-          Best abstract Award ERS Amsterdam, 2025
-        </p>
-      </div>
-     </a>
 
-    </div>
 
-  </div>
-</section>
 
-    
-<section id="event-highlights"
-  class="relative py-[10px] bg-slate-50 border-y border-slate-200 overflow-hidden z-10 glass-section reveal reveal-7">
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -left-20 top-10 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
-    <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-cyan-500/8 blur-3xl"></div>
-  </div>
 
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-    <!-- Heading -->
-    <div class="text-center max-w-3xl mx-auto">
-    
 
-      <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-        Event & <span class="text-emerald-600">Academic Highlights</span>
-      </h2>
 
-      <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-        A professional glimpse of conference presentations, workshop sessions, academic participation,
-        speaker moments and event recognition in pulmonary, sleep medicine and critical care.
-      </p>
-    </div>
 
-    <!-- Main top area -->
-    <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
 
-      <!-- Left details -->
-      <div class="lg:col-span-5">
+
+
+    <section class="py-10 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <!-- 1 LEFT -->
         <div
-          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow sm:p-8">
+          class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
 
-          <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl"></div>
-            <div class="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl"></div>
+          <div class="flex-1 p-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
+              Level -1 Sleep Lab & CPAP Titration
+            </h3>
+            <p class="text-base italic text-gray-600 text-center mt-2">
+              “Good Sleep Is Not A Luxury, it’s a Necessity”
+            </p>
+            <ul class="mt-3 text-base font-semibold space-y-1">
+              <li>• Most advanced Sleep Lab of Bhopal</li>
+              <li>• Treatment for Snoring, Excessive Sleepiness, Insomnia Etc.</li>
+            </ul>
           </div>
 
-          <div class="relative">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Event Details</p>
+          <div class="p-2">
+            <img src="./images/s1.png"
+              class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
+          </div>
+        </div>
 
-            <h3 class="mt-3 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-              IMSCON 2026 – Tulip Hall, Bhopal
+        <!-- 2 RIGHT -->
+        <div
+          class="w-full md:w-[88%] ml-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
+
+          <div class="p-2">
+            <img src="./images/s2.png"
+              class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
+          </div>
+
+          <div class="flex-1 p-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
+              Allergy Testing & Immunotherapy
             </h3>
-
-            <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-              Participation in <strong>IMSCON 2026</strong>, the <strong>31st National Conference of Indian Menopause Society</strong>,
-              held in <strong>Bhopal</strong> on <strong>27th, 28th February & 1st March 2026</strong>. The event included
-              expert talks, workshops, scientific sessions and academic discussions.
+            <p class="text-base italic text-gray-600 text-center mt-2">
+              “Treat The Cause, Not Just Symptoms”
             </p>
+            <ul class="mt-3 text-base font-semibold space-y-1">
+              <li>• Identify & Treat The Root Cause – Not Just Temporary Relief</li>
+              <li>• Aim To Reduce Lifelong Allergy Medicines</li>
+            </ul>
+          </div>
+        </div>
 
-            <!-- <div class="mt-7 grid gap-4 sm:grid-cols-2">
+        <!-- 3 LEFT -->
+        <div
+          class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
+
+          <div class="flex-1 p-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
+              Complete Lung Health Checkup
+            </h3>
+            <p class="text-base italic text-gray-600 text-center mt-2">
+              “Technology Not Available Elsewhere”
+            </p>
+            <ul class="mt-3 text-base font-semibold space-y-1">
+              <li>• Antlia FOT ( First in Bhopal ) detects Early Asthma & Lung Problems</li>
+              <li>• Accurate Painless, Easy For Children & Elderly</li>
+            </ul>
+          </div>
+
+          <div class="p-2">
+            <img src="./images/s3.png"
+              class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
+          </div>
+        </div>
+
+        <!-- 4 RIGHT -->
+        <div
+          class="w-full md:w-[88%] ml-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
+
+          <div class="p-2">
+            <img src="./images/s4.png"
+              class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
+          </div>
+
+          <div class="flex-1 p-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
+              Advanced Pulmonary Procedures
+            </h3>
+            <p class="text-base italic text-gray-600 text-center mt-2">
+              “When Lungs Are Critical, Experience Matters”
+            </p>
+            <ul class="mt-3 text-base font-semibold space-y-1">
+              <li>• Bronchoscopy & Thoracoscopy by DM Specialists</li>
+              <li>• Expertise In Serious Lung Infections & Foreign Body Removal</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 5 LEFT -->
+        <div
+          class="w-full md:w-[88%] mr-auto flex items-center border-2 border-emerald-300 rounded-2xl bg-[#f7fdfc] overflow-hidden shadow-md">
+
+          <div class="flex-1 p-6">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600">
+              Critical Care ICU & Rehab
+            </h3>
+            <p class="text-base italic text-gray-600 text-center mt-2">
+              “From Life Support, To Life Recovery”
+            </p>
+            <ul class="mt-3 text-base font-semibold space-y-1">
+              <li>• Modern ICU With Dialysis Facility</li>
+              <li>• Expert Management Of Respiratory Failure & Ventilator Patients</li>
+            </ul>
+          </div>
+
+          <div class="p-2">
+            <img src="./images/s5.png"
+              class="w-40 h-32 object-cover border-2 border-emerald-400 rounded-lg shadow-sm bg-white">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+
+
+
+
+   
+
+
+    <section style="margin:0; padding-top:10px; padding-bottom:15px;" class="w-full flex items-center justify-center">
+      <h2 style="margin:0;" class="text-center text-base sm:text-lg lg:text-xl font-bold text-emerald-600">
+        Only center in Bhopal managed by 2 DM CHEST SPECIALISTS
+      </h2>
+    </section>
+
+
+    <section id="home-about" class="py-[10px] relative z-10 reveal reveal-6">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div
+          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow">
+          <div class="pointer-events-none absolute inset-0">
+            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-cyan-500/8 blur-3xl"></div>
+            <div class="absolute -bottom-28 left-0 h-96 w-96 rounded-full bg-emerald-500/7 blur-3xl"></div>
+          </div>
+
+          <div
+            class="relative grid gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 lg:px-14 lg:py-14">
+
+            <div class="lg:col-span-7">
+
+
+              <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                Comprehensive Care Under 1 Roof
+                <span class="text-blue-600">OPD, Allergy testing, Sleep Lab,</span> Bronchoscopy,
+                <span class="text-blue-600"> Thoracoscopy, Lung Ultrasound, ICU</span>.
+              </h2>
+
+
+
+
+              <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Patients</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+                </div>
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Rating</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+                </div>
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Support</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+                </div>
+                <div
+                  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Experience</p>
+                  <p class="mt-1 text-xl font-extrabold text-slate-900">8+ yrs</p>
+                </div>
+              </div>
+
+              <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="about.html#our-story"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+                  Read Full About <span class="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+                </a>
+
+                <a href="about.html#doctors"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Meet Doctors
+                </a>
+
+                <a href="#call-appointment"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Call for Appointment
+                </a>
+              </div> -->
+            </div>
+
+            <div class="lg:col-span-5">
+              <div class="grid gap-4">
+                <div
+                  class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+                  <img src="./images/one.jpg" alt="Clinic"
+                    class="h-56 w-full object-cover opacity-90 sm:h-64 lg:h-72 img-zoom" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent">
+                  </div>
+                  <div
+                    class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-white/70">Our Promise</p>
+                    <p class="mt-1 text-base font-extrabold">Comfort • Clarity • Care</p>
+                    <p class="mt-1 text-sm text-white/80">Premium clinic experience on every visit.</p>
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <section id="home-saas" class="relative mt-0 py-[10px] bg-slate-50 border-t border-slate-200 z-10 glass-section">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto">
+
+
+          <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Smart, Patient-Focused <span class="text-emerald-600">Healthcare Workflow</span>
+          </h2>
+
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            At Saas Clinic, we combine respiratory care, allergy clinic, and sleep medicine with modern diagnostics.
+            Clear reports, fast booking, and a smooth patient journey.
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start">
+
+          <div class="lg:col-span-5">
+            <div
+              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+              <img src="./images/Smart.png" class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+
+              <!-- <div
+                class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-white/70">Premium Workflow</p>
+                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
+                <p class="mt-1 text-sm text-white/80"> Smooth experience across every visit.</p>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid gap-6 sm:grid-cols-2">
+
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+                <p class="mt-2 text-sm text-slate-600">Lung function testing, diagnosis and structured care plans.</p>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
+              </div>
+
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                <p class="mt-2 text-sm text-slate-600">Sleep studies (PSG), CPAP/BiPAP titration & follow-up support.
+                </p>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
+              </div>
+
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Allergy Clinic</p>
+                <p class="mt-2 text-sm text-slate-600">Testing, prevention strategies and immunotherapy guidance.</p>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
+              </div>
+
+              <div
+                class="hover-shine rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-sm font-extrabold text-slate-900">Pulmonary Rehab</p>
+                <p class="mt-2 text-sm text-slate-600">Breathing exercises, recovery plans and endurance training.</p>
+                <a href="saas.html"
+                  class="mt-4 inline-block text-sm font-bold text-emerald-600 anim-base link-underline btn-press">Explore
+                  →</a>
+              </div>
+
+            </div>
+
+            <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a href="saas.html"
+                class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                Visit SAAS
+              </a>
+
+              <a href="#call-appointment"
+                class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                Book Appointment
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section id="home-saas"
+      class="py-[10px] bg-slate-50 border-y border-slate-200 relative z-10 reveal reveal-8 glass-section">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+
+            <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              Superspeciality — <span class="text-emerald-600">Chest, Allergy & Sleep Centre</span>
+            </h2>
+
+            <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              At Saas Clinic, we manage respiratory care, allergy clinic, and sleep medicine with modern diagnostics and
+              a patient-friendly workflow. You will receive clear guidance, a clean environment, and fast support.
+            </p>
+          </div>
+
+
+        </div>
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-12 lg:items-start">
+
+          <div class="lg:col-span-5">
+            <div
+              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl anim-base hover-lift hover-glow">
+              <img src="./images/Superspeciality1.png" alt="SaaS Clinic"
+                class="h-[320px] w-full object-cover opacity-90 sm:h-[420px] img-zoom" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent"></div>
+
+              <!-- <div
+                class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-white/70">Premium Clinic Workflow</p>
+                <p class="mt-1 text-lg font-extrabold">Fast Reports • Clean Process • Trusted Care</p>
+                <p class="mt-1 text-sm text-white/80"> Smooth experience on mobile, tablet, and desktop.</p>
+              </div> -->
+            </div>
+
+            <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-2">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Patients</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">10k+</p>
+              </div>
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Rating</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">4.9★</p>
+              </div>
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Support</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">24×7</p>
+              </div>
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                <p class="text-xs font-semibold text-slate-500">Avg Time</p>
+                <p class="mt-1 text-xl font-extrabold text-slate-900">15 min</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div
+              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 card-glass anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">WHAT WE COVER</p>
+              <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                One place for diagnosis, therapy & follow-ups
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">The Saas Clinic system simplifies the
+                patient journey: booking → consultation → diagnostics → reports → follow-up reminders.
+              </p>
+
+              <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                <a href="saas.html#speciality-tabs"
+                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  <div class="flex items-start gap-4">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                      P
+                    </div>
+                    <div>
+                      <p class="text-sm font-extrabold text-slate-900">Pulmonology</p>
+                      <p class="mt-1 text-xs text-slate-600">Diagnostics & care</p>
+                    </div>
+                  </div>
+                  <p class="mt-3 text-sm text-slate-600">
+                    Lung function tests, reporting, guidance & care plans.
+                  </p>
+                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
+                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
+                  </p>
+                </a>
+
+                <a href="saas.html#speciality-tabs"
+                  class="group hover-shine rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md card-glass-soft anim-base hover-lift hover-glow btn-press">
+                  <div class="flex items-start gap-4">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 font-extrabold anim-base hover-lift">
+                      S
+                    </div>
+                    <div>
+                      <p class="text-sm font-extrabold text-slate-900">Sleep Medicine</p>
+                      <p class="mt-1 text-xs text-slate-600">Sleep study & CPAP</p>
+                    </div>
+                  </div>
+                  <p class="mt-3 text-sm text-slate-600">
+                    PSG, CPAP/BiPAP titration, comfort settings & follow-ups.
+                  </p>
+                  <p class="mt-4 text-sm font-bold text-emerald-700 link-underline anim-base">
+                    Explore → <span class="inline-block transition group-hover:translate-x-0.5">›</span>
+                  </p>
+                </a>
+              </div>
+
+              <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">Lung Function Testing</p>
+                  <p class="mt-1 text-xs text-slate-600"> Accurate diagnosis & report.</p>
+                </div>
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">CPAP / BiPAP</p>
+                  <p class="mt-1 text-xs text-slate-600"> Titration + comfort support.</p>
+                </div>
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold">Allergy Testing</p>
+                  <p class="mt-1 text-xs text-slate-600"> Triggers + prevention plan.</p>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href="saas.html#core-services"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
+                  View Core Services →
+                </a>
+                <a href="saas.html"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  SAAS
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section id="event-highlights"
+      class="relative py-[10px] bg-slate-50 border-y border-slate-200 overflow-hidden z-10 glass-section reveal reveal-7">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -left-20 top-10 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
+        <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-cyan-500/8 blur-3xl"></div>
+      </div>
+
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Heading -->
+        <div class="text-center max-w-3xl mx-auto">
+
+
+          <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Event & <span class="text-emerald-600">Academic Highlights</span>
+          </h2>
+
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            A professional glimpse of conference presentations, workshop sessions, academic participation,
+            speaker moments and event recognition in pulmonary, sleep medicine and critical care.
+          </p>
+        </div>
+
+        <!-- Main top area -->
+        <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
+
+          <!-- Left details -->
+          <div class="lg:col-span-5">
+            <div
+              class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow sm:p-8">
+
+              <div class="pointer-events-none absolute inset-0">
+                <div class="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl"></div>
+                <div class="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl"></div>
+              </div>
+
+              <div class="relative">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Event Details</p>
+
+                <h3 class="mt-3 text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                  IMSCON 2026 – Tulip Hall, Bhopal
+                </h3>
+
+                <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                  Participation in <strong>IMSCON 2026</strong>, the <strong>31st National Conference of Indian
+                    Menopause Society</strong>,
+                  held in <strong>Bhopal</strong> on <strong>27th, 28th February & 1st March 2026</strong>. The event
+                  included
+                  expert talks, workshops, scientific sessions and academic discussions.
+                </p>
+
+                <!-- <div class="mt-7 grid gap-4 sm:grid-cols-2">
               <div
                 class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Conference</p>
@@ -1518,227 +1541,227 @@
               </div>
             </div> -->
 
-            <div class="mt-8 rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
-              style="background:linear-gradient(135deg,#0f172a,#0f766e,#14b8a6);">
-              <p class="text-xs font-semibold text-white/80">Speaker Profile</p>
-              <p class="mt-1 text-lg font-extrabold">Dr. Prakhar Agarwal</p>
-              <p class="mt-2 text-sm text-white/85 leading-relaxed">
-                DM Pulmonary Critical Care & Sleep Medicine (AIIMS), MD, DNB, MNAMS, DAA (CMC Vellore),
-                Member of ERS, ACCP and Indian Chest Society.
-              </p>
+                <div
+                  class="mt-8 rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
+                  style="background:linear-gradient(135deg,#0f172a,#0f766e,#14b8a6);">
+                  <p class="text-xs font-semibold text-white/80">Speaker Profile</p>
+                  <p class="mt-1 text-lg font-extrabold">Dr. Prakhar Agarwal</p>
+                  <p class="mt-2 text-sm text-white/85 leading-relaxed">
+                    DM Pulmonary Critical Care & Sleep Medicine (AIIMS), MD, DNB, MNAMS, DAA (CMC Vellore),
+                    Member of ERS, ACCP and Indian Chest Society.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Right video -->
-      <div class="lg:col-span-7">
-        <div
-          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl card-glass anim-base hover-lift hover-glow">
-          
-          <!-- Landscape video -->
-          <video class="h-[240px] sm:h-[340px] lg:h-[420px] w-full object-cover"
-            autoplay muted loop playsinline controls poster="./images/v1.mp4">
-            <source src="./images/v1.mp4" type="video/mp4">
-          </video>
+          <!-- Right video -->
+         <div class="lg:col-span-7">
+  <div
+    class="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 shadow-2xl card-glass anim-base hover-lift hover-glow">
 
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/15 to-transparent pointer-events-none"></div>
+    <!-- Video -->
+    <video 
+      id="clinicVideo"
+      class="h-[240px] sm:h-[340px] lg:h-[420px] w-full object-cover"
+      autoplay 
+      muted 
+      loop 
+      playsinline
+      controls
+      controlsList="nofullscreen noremoteplayback"
+      disablePictureInPicture
+    >
+      <source src="./images/v1.mp4" type="video/mp4">
+    </video>
 
-          <!-- <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
-            <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/75">Live Conference Visual</p>
-              <p class="mt-1 text-lg font-extrabold">Speaker Session • Academic Presentation • Event Atmosphere</p>
-              <p class="mt-1 text-sm text-white/80">
-                Add your landscape event video here for a premium live conference look.
-              </p>
-            </div>
-          </div> -->
-        </div>
-      </div>
+    <!-- Overlay -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/15 to-transparent pointer-events-none">
     </div>
 
-    <!-- Topics / presentation details -->
-    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+  </div>
+</div>
 
-      <div
-        class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
-        <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
-        <h3 class="mt-2 text-xl font-extrabold text-slate-900">COMISA: Co-Morbid Insomnia & Sleep Apnea</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">
-          One of the visible presentation screens focused on <strong>COMISA</strong>, highlighting the
-          overlap between insomnia and sleep apnea with scientific and clinical perspective.
-        </p>
-      </div>
+<!-- JS for auto pause on scroll -->
+<script>
+  const video = document.getElementById("clinicVideo");
 
-      <div
-        class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
-        <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
-        <h3 class="mt-2 text-xl font-extrabold text-slate-900">Pathogenesis of Sleep Apnea</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">
-          Another screen showed detailed explanation of <strong>normal airway vs sleep apnea</strong>,
-          including visible labels like <strong>soft palate, uvula and blocked airway</strong>.
-        </p>
-      </div>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  }, {
+    threshold: 0.5 // 50% visible hoga tab play
+  });
 
-      <div
-        class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
-        <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
-        <h3 class="mt-2 text-xl font-extrabold text-slate-900">Lifestyle Modification</h3>
-        <p class="mt-3 text-sm leading-relaxed text-slate-600">
-          One slide highlighted <strong>lifestyle modification</strong> with health and fitness visuals,
-          emphasizing preventive care and patient counseling in sleep-related conditions.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Gallery -->
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
-      <div
-        class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-        <div class="relative overflow-hidden">
-          <img src="./images/e5.jpg" alt="Conference session"
-            class="h-64 w-full object-cover img-zoom" />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-          <!-- <div class="absolute bottom-4 left-4 right-4">
-            <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/75">Session 01</p>
-              <p class="mt-1 text-sm font-extrabold">Conference Introduction Screen</p>
-            </div>
-          </div> -->
+  observer.observe(video);
+</script>
         </div>
-      </div>
 
-      <div
-        class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-        <div class="relative overflow-hidden">
-          <img src="./images/e6.jpg" alt="Sleep apnea presentation"
-            class="h-64 w-full object-cover img-zoom" />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-          <!-- <div class="absolute bottom-4 left-4 right-4">
-            <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/75">Session 02</p>
-              <p class="mt-1 text-sm font-extrabold">Pathogenesis of Sleep Apnea</p>
-            </div>
-          </div> -->
-        </div>
-      </div>
+        <!-- Topics / presentation details -->
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
 
-      <div
-        class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-        <div class="relative overflow-hidden">
-          <img src="./images/e3.jpg" alt="Lifestyle modification presentation"
-            class="h-64 w-full object-cover img-zoom" />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-          <!-- <div class="absolute bottom-4 left-4 right-4">
-            <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/75">Session 03</p>
-              <p class="mt-1 text-sm font-extrabold">Lifestyle Modification</p>
-            </div>
-          </div> -->
-        </div>
-      </div>
-
-      <div
-        class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-        <div class="relative overflow-hidden">
-          <img src="./images/e4.jpg" alt="Speaker moment"
-            class="h-64 w-full object-cover img-zoom" />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-          <!-- <div class="absolute bottom-4 left-4 right-4">
-            <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
-              <p class="text-xs font-semibold text-white/75">Session 04</p>
-              <p class="mt-1 text-sm font-extrabold">Speaker at Podium</p>
-            </div>
-          </div> -->
-        </div>
-      </div>
-
-    </div>
-
-    <!-- bottom note -->
-    <div class="mt-10">
-      <div
-        class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm card-glass anim-base hover-lift hover-glow">
-        <div class="grid gap-6 lg:grid-cols-12 lg:items-center">
-          <div class="lg:col-span-8">
-            <p class="text-xs font-semibold text-slate-500">Academic Presence</p>
-            <h3 class="mt-2 text-2xl font-extrabold text-slate-900">
-              Scientific participation, speaker engagement & professional representation
-            </h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-              This event section reflects professional conference participation through lecture delivery,
-              visual presentations, workshop association and medical academic involvement. The atmosphere,
-              stage branding, session screens and speaker moments together create a strong academic identity.
+          <div
+            class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
+            <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
+            <h3 class="mt-2 text-xl font-extrabold text-slate-900">COMISA: Co-Morbid Insomnia & Sleep Apnea</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">
+              One of the visible presentation screens focused on <strong>COMISA</strong>, highlighting the
+              overlap between insomnia and sleep apnea with scientific and clinical perspective.
             </p>
           </div>
 
-          <div class="lg:col-span-4">
-            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div
-                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Location</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Bhopal</p>
+          <div
+            class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
+            <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
+            <h3 class="mt-2 text-xl font-extrabold text-slate-900">Pathogenesis of Sleep Apnea</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">
+              Another screen showed detailed explanation of <strong>normal airway vs sleep apnea</strong>,
+              including visible labels like <strong>soft palate, uvula and blocked airway</strong>.
+            </p>
+          </div>
+
+          <div
+            class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
+            <p class="text-xs font-semibold text-slate-500">Presentation Topic</p>
+            <h3 class="mt-2 text-xl font-extrabold text-slate-900">Lifestyle Modification</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">
+              One slide highlighted <strong>lifestyle modification</strong> with health and fitness visuals,
+              emphasizing preventive care and patient counseling in sleep-related conditions.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Gallery -->
+        <!-- ================= IMAGE GALLERY ================= -->
+        <!-- =================== GALLERY SECTION =================== -->
+       <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+  <img src="./images/e5.jpg" class="h-64 w-full object-cover" />
+
+  <img src="./images/e6.jpg" class="h-64 w-full object-cover" />
+
+  <img src="./images/e3.jpg" class="h-64 w-full object-cover" />
+
+  <img src="./images/e4.jpg" class="h-64 w-full object-cover" />
+
+</div>
+        <div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black z-50">
+
+          <!-- CLOSE -->
+          <span onclick="closeImage()" class="absolute top-5 right-6 text-white text-4xl cursor-pointer">&times;</span>
+
+          <!-- IMAGE -->
+          <img id="modalImg" class="max-h-full max-w-full object-contain" />
+
+        </div>
+        <script>
+          function openImage(src) {
+            const modal = document.getElementById("imageModal");
+            const img = document.getElementById("modalImg");
+
+            img.src = src;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+          }
+
+          function closeImage() {
+            const modal = document.getElementById("imageModal");
+
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+          }
+        </script>
+
+
+
+        <!-- bottom note -->
+        <div class="mt-10">
+          <div
+            class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm card-glass anim-base hover-lift hover-glow">
+            <div class="grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div class="lg:col-span-8">
+                <p class="text-xs font-semibold text-slate-500">Academic Presence</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-slate-900">
+                  Scientific participation, speaker engagement & professional representation
+                </h3>
+                <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                  This event section reflects professional conference participation through lecture delivery,
+                  visual presentations, workshop association and medical academic involvement. The atmosphere,
+                  stage branding, session screens and speaker moments together create a strong academic identity.
+                </p>
               </div>
-              <!-- <div
+
+              <div class="lg:col-span-4">
+                <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Location</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Bhopal</p>
+                  </div>
+                  <!-- <div
                 class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
                 <p class="text-xs font-semibold text-slate-500">Hall</p>
                 <p class="mt-1 text-base font-extrabold text-slate-900">Tulip Hall</p>
               </div> -->
-              <div
-                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Hosted By</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Bhopal Menopause Society</p>
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Hosted By</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Bhopal Menopause Society</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
-    </div>
-
-  </div>
-</section>
+    </section>
 
 
 
-<section id="community-outreach"
-  class="relative py-[10px] overflow-hidden z-10 reveal reveal-7">
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
-    <div class="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-sky-500/8 blur-3xl"></div>
-  </div>
+    <section id="community-outreach" class="relative py-[10px] overflow-hidden z-10 reveal reveal-7">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
+        <div class="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-sky-500/8 blur-3xl"></div>
+      </div>
 
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-    <!-- top heading -->
-    <div class="mx-auto max-w-3xl text-center">
-     
+        <!-- top heading -->
+        <div class="mx-auto max-w-3xl text-center">
 
-      <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-        Community <span class="text-emerald-600">Health Outreach</span> & Recognition
-      </h2>
 
-      <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-        A meaningful blend of senior citizen health interaction, clinical consultation, medical outreach,
-        recognition moments and academic participation — reflecting care beyond the clinic walls.
-      </p>
-    </div>
+          <h2 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Community <span class="text-emerald-600">Health Outreach</span> & Recognition
+          </h2>
 
-    <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
+          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            A meaningful blend of senior citizen health interaction, clinical consultation, medical outreach,
+            recognition moments and academic participation — reflecting care beyond the clinic walls.
+          </p>
+        </div>
 
-      <!-- left image story -->
-      <div class="lg:col-span-7">
-        <div class="grid gap-5 sm:grid-cols-2">
+        <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
 
-          <!-- big top image -->
-          <div
-            class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg sm:col-span-2 card-glass anim-base hover-lift hover-glow">
-            <img src="./images/four.jpg" alt="Senior Citizen Forum event"
-              class="h-[260px] w-full object-cover sm:h-[360px] img-zoom" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+          <!-- left image story -->
+          <div class="lg:col-span-7">
+            <div class="grid gap-5 sm:grid-cols-2">
 
-            <!-- <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+              <!-- big top image -->
+              <div
+                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg sm:col-span-2 card-glass anim-base hover-lift hover-glow">
+                <img src="./images/four.jpg" alt="Senior Citizen Forum event"
+                  class="h-[260px] w-full object-cover sm:h-[360px] img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+
+                <!-- <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
               <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
                 <p class="text-xs font-semibold text-white/75">Community Gathering</p>
                 <p class="mt-1 text-lg font-extrabold">Senior Citizen Forum • Bhopal</p>
@@ -1747,252 +1770,258 @@
                 </p>
               </div>
             </div> -->
-          </div>
+              </div>
 
-          <!-- small 1 -->
-          <div
-            class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-            <img src="./images/e10.jpg" alt="Blood pressure consultation"
-              class="h-60 w-full object-cover img-zoom" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-            <!-- <div class="absolute bottom-4 left-4 right-4">
+              <!-- small 1 -->
+              <div
+                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+                <img src="./images/e10.jpg" alt="Blood pressure consultation"
+                  class="h-60 w-full object-cover img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
+                <!-- <div class="absolute bottom-4 left-4 right-4">
               <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
                 <p class="text-xs font-semibold text-white/75">Clinical Support</p>
                 <p class="mt-1 text-sm font-extrabold">Vitals & Consultation</p>
               </div>
             </div> -->
-          </div>
-
-          <!-- small 2 -->
-          <div
-            class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
-            <img src="./images/six.jpg" alt="Senior patient consultation"
-              class="h-60 w-full object-cover img-zoom" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-            <div class="absolute bottom-4 left-4 right-4">
-              <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
-                <p class="text-xs font-semibold text-white/75">Elderly Care</p>
-                <p class="mt-1 text-sm font-extrabold">Personalized Doctor Interaction</p>
               </div>
-            </div>
-          </div>
 
-          <!-- wide bottom -->
-          <div
-            class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg sm:col-span-2 card-glass anim-base hover-lift hover-glow">
-            <img src="./images/seven.jpg" alt="Group recognition ceremony"
-              class="h-[240px] w-full object-cover sm:h-[300px] img-zoom" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
-            <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5">
-              <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
-                <p class="text-xs font-semibold text-white/75">Recognition Moment</p>
-                <p class="mt-1 text-base sm:text-lg font-extrabold">Community Appreciation • Trophy • Group Felicitation</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- right content -->
-      <div class="lg:col-span-5">
-        <div
-          class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow sm:p-8">
-          
-          <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -top-14 -right-14 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
-            <div class="absolute -bottom-14 -left-14 h-36 w-36 rounded-full bg-emerald-500/10 blur-3xl"></div>
-          </div>
-
-          <div class="relative">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Event Snapshot</p>
-
-            <h3 class="mt-3 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-              Senior citizen wellness, medical screening & public care activity
-            </h3>
-
-            <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-              These images highlight a community-focused healthcare activity where senior citizens were engaged
-              through consultation, health screening, direct doctor interaction and social recognition.
-              The event appears to be associated with <strong>Senior Citizen Forum</strong> and supported by
-              <strong>Parul Hospital</strong>.
-            </p>
-
-            <div class="mt-6 space-y-4">
+              <!-- small 2 -->
               <div
-                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                <!-- <p class="text-xs font-semibold text-slate-500">Venue / Organization Visible</p> -->
-                <p class="mt-1 text-sm font-extrabold text-slate-900">Senior Citizen Forum</p>
-                <!-- <p class="mt-1 text-xs text-slate-600">
+                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg card-glass anim-base hover-lift hover-glow">
+                <img src="./images/six.jpg" alt="Senior patient consultation"
+                  class="h-60 w-full object-cover img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                  <div class="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur">
+                    <p class="text-xs font-semibold text-white/75">Elderly Care</p>
+                    <p class="mt-1 text-sm font-extrabold">Personalized Doctor Interaction</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- wide bottom -->
+              <div
+                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg sm:col-span-2 card-glass anim-base hover-lift hover-glow">
+                <img src="./images/seven.jpg" alt="Group recognition ceremony"
+                  class="h-[240px] w-full object-cover sm:h-[300px] img-zoom" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5">
+                  <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
+                    <p class="text-xs font-semibold text-white/75">Recognition Moment</p>
+                    <p class="mt-1 text-base sm:text-lg font-extrabold">Community Appreciation • Trophy • Group
+                      Felicitation</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- right content -->
+          <div class="lg:col-span-5">
+            <div
+              class="luxury-panel medical-outline relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_70px_-35px_rgba(2,6,23,0.35)] card-glass anim-base hover-lift hover-glow sm:p-8">
+
+              <div class="pointer-events-none absolute inset-0">
+                <div class="absolute -top-14 -right-14 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
+                <div class="absolute -bottom-14 -left-14 h-36 w-36 rounded-full bg-emerald-500/10 blur-3xl"></div>
+              </div>
+
+              <div class="relative">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Event Snapshot</p>
+
+                <h3 class="mt-3 text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                  Senior citizen wellness, medical screening & public care activity
+                </h3>
+
+                <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                  These images highlight a community-focused healthcare activity where senior citizens were engaged
+                  through consultation, health screening, direct doctor interaction and social recognition.
+                  The event appears to be associated with <strong>Senior Citizen Forum</strong> and supported by
+                  <strong>Parul Hospital</strong>.
+                </p>
+
+                <div class="mt-6 space-y-4">
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                    <!-- <p class="text-xs font-semibold text-slate-500">Venue / Organization Visible</p> -->
+                    <p class="mt-1 text-sm font-extrabold text-slate-900">Senior Citizen Forum</p>
+                    <!-- <p class="mt-1 text-xs text-slate-600">
                   Near 10 No. Bus Stop, E-4 Arera Colony, Bhopal-462016
                 </p> -->
-              </div>
+                  </div>
 
-              <div
-                class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Hospital Branding Visible</p>
-                <p class="mt-1 text-sm font-extrabold text-slate-900">Parul Hospital</p>
-                <p class="mt-1 text-xs text-slate-600">
-                  Because We Respect Life • NABH Accredited
-                </p>
-              </div>
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Hospital Branding Visible</p>
+                    <p class="mt-1 text-sm font-extrabold text-slate-900">Parul Hospital</p>
+                    <p class="mt-1 text-xs text-slate-600">
+                      Because We Respect Life • NABH Accredited
+                    </p>
+                  </div>
 
-          
-            </div>
 
-            <div class="mt-7 grid gap-4 sm:grid-cols-2">
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Care Activity</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">BP / Basic Checkup</p>
-              </div>
+                </div>
 
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Focus Group</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Senior Citizens</p>
-              </div>
+                <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Care Activity</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">BP / Basic Checkup</p>
+                  </div>
 
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Event Tone</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Respect & Outreach</p>
-              </div>
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Focus Group</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Senior Citizens</p>
+                  </div>
 
-              <div
-                class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-                <p class="text-xs font-semibold text-slate-500">Moment</p>
-                <p class="mt-1 text-base font-extrabold text-slate-900">Recognition & Felicitation</p>
-              </div>
-            </div>
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Event Tone</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Respect & Outreach</p>
+                  </div>
 
-            <div class="mt-8 rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
-              style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
-              <p class="text-xs font-semibold text-white/80">Why It Matters</p>
-              <p class="mt-1 text-lg font-extrabold">Care that reaches the community</p>
-              <p class="mt-2 text-sm text-white/85 leading-relaxed">
-                This outreach reflects preventive health support, trust-building and compassionate care for elderly members
-                through accessible consultation and respectful engagement.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div
+                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                    <p class="text-xs font-semibold text-slate-500">Moment</p>
+                    <p class="mt-1 text-base font-extrabold text-slate-900">Recognition & Felicitation</p>
+                  </div>
+                </div>
 
-    </div>
-
-    <!-- second row / academic + outreach cards -->
-    <div class="mt-10 grid gap-6 lg:grid-cols-12 lg:items-stretch">
-
-      <!-- academic card -->
-      <div class="lg:col-span-5">
-        <div
-          class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg h-full card-glass anim-base hover-lift hover-glow">
-          <div class="grid h-full lg:grid-cols-1">
-            <div class="relative overflow-hidden">
-              <img src="./images/nine.jpg" alt="AIIMS Pulmocrit 2026"
-                class="h-[320px] w-full object-cover img-zoom" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent"></div>
-              <div class="absolute bottom-4 left-4 right-4">
-                <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
-                  <p class="text-xs font-semibold text-white/75">Academic Participation</p>
-                  <p class="mt-1 text-lg font-extrabold">AIIMS Pulmocrit-2026</p>
+                <div
+                  class="mt-8 rounded-2xl p-5 text-white shadow-lg shadow-blue-600/15 anim-base hover-lift hover-glow"
+                  style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
+                  <p class="text-xs font-semibold text-white/80">Why It Matters</p>
+                  <p class="mt-1 text-lg font-extrabold">Care that reaches the community</p>
+                  <p class="mt-2 text-sm text-white/85 leading-relaxed">
+                    This outreach reflects preventive health support, trust-building and compassionate care for elderly
+                    members
+                    through accessible consultation and respectful engagement.
+                  </p>
                 </div>
               </div>
             </div>
-
-            <div class="p-6">
-              <p class="text-xs font-semibold text-slate-500">Visible Event Details</p>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">
-                The backdrop shows <strong>AIIMS Pulmocrit-2026</strong> with
-                <strong>Update in Pulmonary, Critical Care & Sleep Medicine (14th-15th March 2026)</strong>
-                and <strong>AIIMS-ERS Workshop on Basics and Advances in Sleep Medicine (12th-13th March 2026)</strong>.
-              </p>
-              <p class="mt-3 text-sm leading-relaxed text-slate-600">
-                Venue visible: <strong>Jawaharlal Auditorium, AIIMS, New Delhi</strong>.
-              </p>
-            </div>
           </div>
+
         </div>
-      </div>
 
-      <!-- outreach info -->
-      <div class="lg:col-span-7">
-        <div
-          class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm h-full card-glass anim-base hover-lift hover-glow">
-          <p class="text-xs font-semibold text-slate-500">OUTREACH + PROFESSIONAL IDENTITY</p>
+        <!-- second row / academic + outreach cards -->
+        <div class="mt-10 grid gap-6 lg:grid-cols-12 lg:items-stretch">
 
-          <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-            From local senior care interaction to national medical participation
-          </h3>
-
-          <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-            Together, these images present a balanced professional journey — one side rooted in
-            <strong>community health outreach</strong> and <strong>elderly care support</strong>,
-            and the other side connected with <strong>academic forums, workshops and institutional presence</strong>.
-          </p>
-
-          <div class="mt-7 grid gap-4 sm:grid-cols-3">
+          <!-- academic card -->
+          <div class="lg:col-span-5">
             <div
-              class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-              <p class="text-sm font-extrabold text-slate-900">Community Camps</p>
-              <p class="mt-1 text-xs text-slate-600">Health interaction in real social settings.</p>
-            </div>
+              class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg h-full card-glass anim-base hover-lift hover-glow">
+              <div class="grid h-full lg:grid-cols-1">
+                <div class="relative overflow-hidden">
+                  <img src="./images/nine.jpg" alt="AIIMS Pulmocrit 2026"
+                    class="h-[320px] w-full object-cover img-zoom" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent">
+                  </div>
+                  <div class="absolute bottom-4 left-4 right-4">
+                    <div class="rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur">
+                      <p class="text-xs font-semibold text-white/75">Academic Participation</p>
+                      <p class="mt-1 text-lg font-extrabold">AIIMS Pulmocrit-2026</p>
+                    </div>
+                  </div>
+                </div>
 
-            <div
-              class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-              <p class="text-sm font-extrabold text-slate-900">Senior Wellness</p>
-              <p class="mt-1 text-xs text-slate-600">Focused care, checkups and personal attention.</p>
-            </div>
-
-            <div
-              class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
-              <p class="text-sm font-extrabold text-slate-900">Medical Presence</p>
-              <p class="mt-1 text-xs text-slate-600">Clinical credibility backed by academic involvement.</p>
-            </div>
-          </div>
-
-          <div class="mt-8 grid gap-4 sm:grid-cols-2">
-            <div
-              class="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-              
-              <p class="mt-1 text-base font-extrabold text-slate-900">+91 7880020788</p>
-              <p class="mt-1 text-xs text-slate-600">Hospital contact numbers </p>
-            </div>
-
-            <div
-              class="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
-              <p class="text-xs font-semibold text-slate-500">Brand Promise</p>
-              <p class="mt-1 text-base font-extrabold text-slate-900">Because We Respect Life</p>
-              <p class="mt-1 text-xs text-slate-600">A strong care message aligned with outreach and trust.</p>
+                <div class="p-6">
+                  <p class="text-xs font-semibold text-slate-500">Visible Event Details</p>
+                  <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                    The backdrop shows <strong>AIIMS Pulmocrit-2026</strong> with
+                    <strong>Update in Pulmonary, Critical Care & Sleep Medicine (14th-15th March 2026)</strong>
+                    and <strong>AIIMS-ERS Workshop on Basics and Advances in Sleep Medicine (12th-13th March
+                      2026)</strong>.
+                  </p>
+                  <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                    Venue visible: <strong>Jawaharlal Auditorium, AIIMS, New Delhi</strong>.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="contact.html"
-              class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
-              Contact For Community Programs
-              <span class="ml-2 transition group-hover:translate-x-1">→</span>
-            </a>
+          <!-- outreach info -->
+          <div class="lg:col-span-7">
+            <div
+              class="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm h-full card-glass anim-base hover-lift hover-glow">
+              <p class="text-xs font-semibold text-slate-500">OUTREACH + PROFESSIONAL IDENTITY</p>
 
-            <a href="about.html"
-              class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
-              Know More
-            </a>
+              <h3 class="mt-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
+                From local senior care interaction to national medical participation
+              </h3>
+
+              <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                Together, these images present a balanced professional journey — one side rooted in
+                <strong>community health outreach</strong> and <strong>elderly care support</strong>,
+                and the other side connected with <strong>academic forums, workshops and institutional
+                  presence</strong>.
+              </p>
+
+              <div class="mt-7 grid gap-4 sm:grid-cols-3">
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Community Camps</p>
+                  <p class="mt-1 text-xs text-slate-600">Health interaction in real social settings.</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Senior Wellness</p>
+                  <p class="mt-1 text-xs text-slate-600">Focused care, checkups and personal attention.</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border border-slate-200 bg-slate-50 p-4 card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-sm font-extrabold text-slate-900">Medical Presence</p>
+                  <p class="mt-1 text-xs text-slate-600">Clinical credibility backed by academic involvement.</p>
+                </div>
+              </div>
+
+              <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                <div
+                  class="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+
+                  <p class="mt-1 text-base font-extrabold text-slate-900">+91 7880020788</p>
+                  <p class="mt-1 text-xs text-slate-600">Hospital contact numbers </p>
+                </div>
+
+                <div
+                  class="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm card-glass-soft anim-base hover-lift hover-glow">
+                  <p class="text-xs font-semibold text-slate-500">Brand Promise</p>
+                  <p class="mt-1 text-base font-extrabold text-slate-900">Because We Respect Life</p>
+                  <p class="mt-1 text-xs text-slate-600">A strong care message aligned with outreach and trust.</p>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="contact.html"
+                  class="group hover-shine inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-800 anim-base btn-press hover-lift hover-glow">
+                  Contact For Community Programs
+                  <span class="ml-2 transition group-hover:translate-x-1">→</span>
+                </a>
+
+                <a href="about.html"
+                  class="hover-shine inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 card-glass-soft anim-base btn-press hover-lift hover-glow">
+                  Know More
+                </a>
+              </div>
+            </div>
           </div>
+
         </div>
+
       </div>
-
-    </div>
-
-  </div>
-</section>
+    </section>
 
 
 
 
-   
-<!-- 
+
+    <!-- 
     <section class="py-10 sm:py-14 relative z-10 reveal reveal-7">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
@@ -2053,24 +2082,20 @@
       </div>
     </section> -->
 
-  
-   
-<!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
-<!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
-<!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
- 
-<section class="relative py-0 fade-up delay-5 overflow-hidden">
-  
 
+
+    <!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
+    <!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
+    <!-- ====================== INSTAGRAM REELS SECTION START ====================== -->
+
+ <section class="relative py-0 fade-up delay-5 overflow-hidden">
   <div class="mx-auto max-w-7xl px-0 sm:px-0 lg:px-0">
 
-    <!-- horizontal scroll videos -->
     <div class="flex gap-4 overflow-x-auto px-4 py-4 scrollbar-hide">
 
-      <!-- video card -->
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i1.mp4" type="video/mp4" />
           </video>
         </div>
@@ -2078,7 +2103,7 @@
 
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i2.mp4" type="video/mp4" />
           </video>
         </div>
@@ -2086,7 +2111,7 @@
 
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i7.mp4" type="video/mp4" />
           </video>
         </div>
@@ -2094,7 +2119,7 @@
 
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i4.mp4" type="video/mp4" />
           </video>
         </div>
@@ -2102,152 +2127,91 @@
 
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i5.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
 
-      
       <div class="min-w-[160px] sm:min-w-[180px] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow">
         <div class="relative h-[220px] bg-black">
-          <video controls class="h-full w-full object-cover">
+          <video controls controlsList="nofullscreen noremoteplayback" disablePictureInPicture class="gallery-video h-full w-full object-cover">
             <source src="./images/i6.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
+
     </div>
 
   </div>
 </section>
-<!-- Instagram small link -->
-<div class="flex justify-end px-4 pt-2">
-  <a href="https://www.instagram.com/parul_hospital/" target="_blank"
-    class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition">
 
-    <!-- insta icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 1.5h8.5c2.347 0 4.25 1.903 4.25 4.25v8.5c0 2.347-1.903 4.25-4.25 4.25h-8.5C5.403 20.5 3.5 18.597 3.5 16.25v-8.5C3.5 5.403 5.403 3.5 7.75 3.5zm8.75 2.25a.75.75 0 100 1.5.75.75 0 000-1.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5A3.5 3.5 0 1112 16a3.5 3.5 0 010-7z"/>
-    </svg>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const videos = document.querySelectorAll(".gallery-video");
 
-    @parul_hospital
-  </a>
-</div>
+    if (!videos.length) return;
 
-<!-- scrollbar hide -->
-<style>
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-</style>
-<!-- ====================== INSTAGRAM REELS SECTION END ====================== -->
-  
+    videos.forEach((video) => {
+      video.addEventListener("play", function () {
+        videos.forEach((otherVideo) => {
+          if (otherVideo !== video) {
+            otherVideo.pause();
+          }
+        });
+      });
+    });
 
-    
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            entry.target.pause();
+          }
+        });
+      },
+      {
+        threshold: 0.4
+      }
+    );
 
-    <section id="home-contact"
-      class="relative py-10 sm:py-14 bg-slate-50 border-t border-slate-200 overflow-hidden relative z-10 glass-section">
-      <div class="pointer-events-none absolute inset-0">
-        <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-500/8 blur-3xl"></div>
-        <div class="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-blue-500/8 blur-3xl"></div>
-      </div>
+    videos.forEach((video) => {
+      observer.observe(video);
+    });
+  });
+</script>
 
-      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        <div class="text-center max-w-3xl mx-auto">
-          <h2 class="text-3xl font-extrabold sm:text-4xl text-slate-900">
-            Get in <span class="text-emerald-600">Touch</span>
-          </h2>
-          <p class="mt-3 text-sm text-slate-600 sm:text-base">
-            Book appointments, ask queries, or contact our clinic team directly.
-          </p>
-        </div>
+    <!-- Instagram small link -->
+    <div class="flex justify-end px-4 pt-2">
+      <a href="https://www.instagram.com/parul_hospital/" target="_blank"
+        class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition">
 
-        <div class="mt-12 grid gap-10 lg:grid-cols-12">
+        <!-- insta icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 1.5h8.5c2.347 0 4.25 1.903 4.25 4.25v8.5c0 2.347-1.903 4.25-4.25 4.25h-8.5C5.403 20.5 3.5 18.597 3.5 16.25v-8.5C3.5 5.403 5.403 3.5 7.75 3.5zm8.75 2.25a.75.75 0 100 1.5.75.75 0 000-1.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5A3.5 3.5 0 1112 16a3.5 3.5 0 010-7z" />
+        </svg>
 
-          <div class="lg:col-span-5 space-y-6">
-            <div
-              class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm card-glass anim-base hover-lift hover-glow">
-              <h3 class="text-lg font-extrabold text-slate-900">Clinic Details</h3>
+        @parul_hospital
+      </a>
+    </div>
 
-              <div class="mt-5 space-y-4 text-sm text-slate-700">
-                <div class="anim-base">
-                  <p class="font-semibold text-slate-500">Address</p>
-                  <p>Parul Hospital, HIG 2 ANKUR,</p>
-                  <p>Bhopal, Madhya Pradesh 462016</p>
-                </div>
+    <!-- scrollbar hide -->
+    <style>
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
 
-                <div class="anim-base">
-                  <p class="font-semibold text-slate-500">Phone</p>
-                  <a href="tel:+917880020788" class="text-emerald-600 font-semibold anim-base link-underline btn-press">
-                    +91 7880020788
-                  </a>
-                </div>
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+    <!-- ====================== INSTAGRAM REELS SECTION END ====================== -->
 
-                <div class="anim-base">
-                  <p class="font-semibold text-slate-500">Email</p>
-                  <p class="text-emerald-600 font-semibold">parulhospital123@gmail.com</p>
-                </div>
 
-                <div class="anim-base">
-                  <p class="font-semibold text-slate-500">Timings</p>
-                  <p>Morning: 10:00 AM – 2:00 PM</p>
-                  <p>Evening: 6:00 PM – 8:00 PM</p>
-                </div>
-              </div>
-            </div>
-<!-- 
-            <div
-              class="rounded-3xl p-6 text-white shadow-lg shadow-emerald-600/15 anim-base hover-lift hover-glow"
-              style="background:linear-gradient(135deg,#0f766e,#14b8a6,#0ea5e9);">
-              <h3 class="text-lg font-extrabold">Call for Appointment</h3>
-              <p class="mt-2 text-sm text-white/90">
-                Confirm your slot quickly by speaking with our team.
-              </p>
-              <a href="tel:+917880020788"
-                class="mt-5 hover-shine inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-emerald-700 shadow-md transition hover:-translate-y-0.5 anim-base btn-press hover-lift hover-glow">
-                Call Now →
-              </a>
-            </div> -->
 
-          </div>
-
-          <div class="lg:col-span-7">
-            <div
-              class="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg card-glass anim-base hover-lift hover-glow">
-              <h3 class="text-xl font-extrabold text-slate-900">Quick Appointment Request</h3>
-
-              <form class="mt-6 space-y-5">
-                <div class="grid gap-5 sm:grid-cols-2">
-                  <input type="text" placeholder="Full Name"
-                    class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
-                  <input type="tel" placeholder="Phone Number"
-                    class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
-                </div>
-
-                <input type="email" placeholder="Email Address"
-                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base" />
-
-                <textarea rows="4" placeholder="Your Message"
-                  class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm transition duration-300 ease-out focus:ring-2 focus:ring-emerald-500 focus:outline-none focus:border-emerald-300 motion-safe:focus:shadow-[0_0_0_6px_rgba(16,185,129,0.10)] anim-base"></textarea>
-
-                <button type="submit"
-                  class="w-full hover-shine inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-600/15 transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-emerald-700 anim-base btn-press hover-lift hover-glow">
-                  Send Request →
-                </button>
-              </form>
-
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
 
 
 
@@ -2272,188 +2236,51 @@
 
   </main>
 
+ 
+
+
+
   <script>
-    const HR = (function () {
-      let bpm = 74;
-      let target = 74;
-      const min = 58, max = 92;
+    const appointmentForm = document.getElementById("appointmentForm");
 
-      function randTarget() {
-        target = Math.round(min + Math.random() * (max - min));
-      }
-      setInterval(randTarget, 4200);
+    if (appointmentForm) {
+      appointmentForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      function tick() {
-        bpm += (target - bpm) * 0.035;
-        requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+        const formData = {
+          fullName: document.getElementById("fullName").value.trim(),
+          phoneNumber: document.getElementById("phoneNumber").value.trim(),
+          emailAddress: document.getElementById("emailAddress").value.trim(),
+          message: document.getElementById("message").value.trim(),
+        };
 
-      function getBpm() { return Math.max(min, Math.min(max, bpm)); }
-      return { getBpm };
-    })();
+        try {
+          const res = await fetch("http://localhost:5000/api/appointments/book-appointment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
 
-    (function () {
-      const canvas = document.getElementById('pulseCanvas');
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!canvas || prefersReduced) return;
+          const data = await res.json();
 
-      const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
-      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-      function resize() {
-        w = Math.floor(window.innerWidth);
-        h = Math.floor(window.innerHeight);
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(w * dpr);
-        canvas.height = Math.floor(h * dpr);
-        canvas.style.width = w + 'px';
-        canvas.style.height = h + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
-
-      function cssVar(name) {
-        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-      }
-
-      function ecgShape(x) {
-        const p = Math.exp(-Math.pow((x - 0.18) / 0.05, 2)) * 0.35;
-        const q = -Math.exp(-Math.pow((x - 0.32) / 0.018, 2)) * 0.55;
-        const r = Math.exp(-Math.pow((x - 0.36) / 0.012, 2)) * 2.8;
-        const s = -Math.exp(-Math.pow((x - 0.40) / 0.016, 2)) * 0.85;
-        const tw = Math.exp(-Math.pow((x - 0.62) / 0.085, 2)) * 0.65;
-        return p + q + r + s + tw;
-      }
-
-      function drawGrid(gridCol) {
-        ctx.save();
-        ctx.strokeStyle = gridCol;
-        const gridSize = (w < 520) ? 34 : 36;
-
-        ctx.globalAlpha = 1;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let x = 0; x <= w; x += gridSize) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
-        for (let y = 0; y <= h; y += gridSize) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
-        ctx.stroke();
-
-        ctx.globalAlpha = 0.72;
-        ctx.lineWidth = 1.12;
-        ctx.beginPath();
-        const major = gridSize * 5;
-        for (let x = 0; x <= w; x += major) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); }
-        for (let y = 0; y <= h; y += major) { ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); }
-        ctx.stroke();
-
-        ctx.restore();
-      }
-
-      const period = 340;
-      const beats = 2;
-      const ampBase = 8.5;
-      const lineWidth = 2.0;
-      const glowBlur = 9;
-      const scanStrength = 0.018;
-
-      let xShift = 0;
-      let last = performance.now();
-
-      let beatTimer = 0;
-      let flash = 0;
-
-      function frame(now) {
-        const dt = Math.min(0.04, (now - last) / 1000);
-        last = now;
-
-        const bpm = HR.getBpm();
-        const beatInterval = 60 / bpm;
-
-        beatTimer += dt;
-        if (beatTimer >= beatInterval) {
-          beatTimer -= beatInterval;
-          flash = 1;
-        }
-        flash = Math.max(0, flash - dt * 3.6);
-
-        const speedPxPerSec = 115 + (bpm - 60) * 1.8;
-        xShift = (xShift + speedPxPerSec * dt) % period;
-
-        const gridCol = cssVar('--pulse-grid') || 'rgba(15,118,110,0.03)';
-        const lineCol = cssVar('--pulse-line') || 'rgba(13,148,136,0.28)';
-        const glowCol = cssVar('--pulse-glow') || 'rgba(20,184,166,0.10)';
-
-        ctx.clearRect(0, 0, w, h);
-
-        drawGrid(gridCol);
-
-        const lanes = 1;
-        const laneGap = h / (lanes + 1);
-
-        for (let i = 1; i <= lanes; i++) {
-          const midY = laneGap * i;
-
-          ctx.save();
-          ctx.lineJoin = 'round';
-          ctx.lineCap = 'round';
-          ctx.shadowBlur = glowBlur + flash * 4;
-          ctx.shadowColor = glowCol;
-
-          ctx.strokeStyle = lineCol;
-          ctx.lineWidth = lineWidth + flash * 0.20;
-
-          ctx.beginPath();
-
-          let x0 = -period + xShift;
-          let first = true;
-
-          while (x0 < w + period) {
-            for (let x = 0; x <= period; x += 3) {
-              const px = x0 + x;
-              const u = x / period;
-
-              const noise = Math.sin((px + now * 0.01) * 0.008) * 0.20;
-
-              let spike = 0;
-              for (let b = 0; b < beats; b++) {
-                const uu = (u * beats) - b;
-                if (uu >= 0 && uu <= 1) spike += ecgShape(uu);
-              }
-
-              const amp = ampBase + flash * 1.0;
-              const y = midY + (noise * 9) - (spike * amp * 6.0);
-
-              if (first) { ctx.moveTo(px, y); first = false; }
-              else { ctx.lineTo(px, y); }
-            }
-            x0 += period;
+          if (data.success) {
+            alert("Appointment request sent successfully");
+            appointmentForm.reset();
+          } else {
+            alert(data.message);
           }
-
-          ctx.stroke();
-          ctx.restore();
+        } catch (error) {
+          alert("Something went wrong");
         }
-
-        ctx.save();
-        const scanX = (xShift * 1.35) % (w + 240) - 120;
-        const scanGrad = ctx.createLinearGradient(scanX - 90, 0, scanX + 90, 0);
-        scanGrad.addColorStop(0, 'rgba(15,23,42,0)');
-        scanGrad.addColorStop(0.5, `rgba(15,23,42,${scanStrength + flash * 0.01})`);
-        scanGrad.addColorStop(1, 'rgba(15,23,42,0)');
-        ctx.fillStyle = scanGrad;
-        ctx.fillRect(0, 0, w, h);
-        ctx.restore();
-
-        requestAnimationFrame(frame);
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) last = performance.now();
-      }, { passive: true });
-
-      requestAnimationFrame(frame);
-    })();
+      });
+    }
   </script>
+
+
+
+
 
 </body>
 
